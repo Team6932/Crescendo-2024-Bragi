@@ -19,7 +19,7 @@
     "drive": 0.047286787200699704
   },
   "encoder": {
-    "type": "canandcoder_can",
+    "type": "canandcoder",
     "id": 18,
     "canbus": 1
   },
