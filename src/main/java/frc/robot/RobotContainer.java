@@ -9,8 +9,6 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -32,10 +30,9 @@ public class RobotContainer {
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          "swerve/neo"));
 
-	// set controllers
-	PS4Controller driveController = new PS4Controller(0);
-	PS4Controller pieceController = new PS4Controller(1);
-
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  PS4Controller driveController = new PS4Controller(0);
+  PS4Controller pieceController = new PS4Controller(1);
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
@@ -47,13 +44,13 @@ public class RobotContainer {
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
       () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
       () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-      () -> -MathUtil.applyDeadband(driveController.getRightX(), OperatorConstants.RIGHT_X_DEADBAND),
+      () -> -MathUtil.applyDeadband(driveController.getRightX(),OperatorConstants.RIGHT_X_DEADBAND),
       () -> driveController.getSquareButtonPressed(),
       () -> driveController.getCrossButtonPressed(),
       () -> driveController.getTriangleButtonPressed(),
       () -> driveController.getCircleButtonPressed());
-
-    // Applies deadbands and inverts controls because joysticks
+    
+      // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
     // controls are front-left positive
     // left stick controls translation
@@ -90,17 +87,17 @@ public class RobotContainer {
    * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
    * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
    */
-  private void configureBindings() {
+  private void configureBindings()
+  {
+    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
-		Trigger halfSpeed = new Trigger(() -> driveController.getL1Button()); // if L1 on drive, half speed
-		Trigger halfTurn = new Trigger (() -> pieceController.getR1Button()); // if R1 on piece, half turn speed	
-		Trigger leftShoot = new Trigger(() -> pieceController.getCircleButton()); // if Circle on piece, turn on left shoot
-		Trigger rightShoot = new Trigger(() -> pieceController.getTriangleButton()); // if Circle on piece, turn on right shoot
-		Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); // if Options on drive, reset heading
-		Trigger shoot = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, shoot
-    
-    halfSpeed.onTrue(Commands.runOnce(drivebase::zeroGyro)); // didn't feel like changing the trigger name
-
+    /* driveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
+    driveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
+    driveController.b().whileTrue(
+        Commands.deferredProxy(() -> drivebase.driveToPose(
+                                   new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
+                              )); */
+    // driveController.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
   }
 
   /**
