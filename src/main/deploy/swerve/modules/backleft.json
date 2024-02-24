@@ -7,21 +7,21 @@
   "drive": {
     "type": "sparkmax",
     "id": 3,
-    "canbus": null
+    "canbus": 1
   },
   "angle": {
     "type": "sparkmax",
     "id": 7,
-    "canbus": null
+    "canbus": 1
   },
   "conversionFactor": {
     "angle": 16.8,
     "drive": 0.047286787200699704
   },
   "encoder": {
-    "type": "none",
-    "id": 0,
-    "canbus": null
+    "type": "canandcoder_can",
+    "id": 15,
+    "canbus": 1
   },
   "inverted": {
     "drive": false,
