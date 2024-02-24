@@ -1,9 +1,9 @@
 {
   "location": {
-    "front": 16,
-    "left": -6.5
+    "front": 12,
+    "left": -12
   },
-  "absoluteEncoderOffset": 0,
+  "absoluteEncoderOffset": -250,
   "drive": {
     "type": "sparkmax",
     "id": 1,
@@ -19,9 +19,9 @@
     "drive": 0.047286787200699704
   },
   "encoder": {
-    "type": "canandcoder",
+    "type": "cancoder",
     "id": 16,
-    "canbus": 1
+    "canbus": "rio"
   },
   "inverted": {
     "drive": false,
