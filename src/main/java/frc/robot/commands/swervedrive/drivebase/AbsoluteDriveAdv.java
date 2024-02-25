@@ -2,6 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/////////////// PROBABLY WON'T USE THIS ////////////////////
+
 package frc.robot.commands.swervedrive.drivebase;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -17,11 +19,8 @@ import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
 import swervelib.math.SwerveMath;
 
-/**
- * A more advanced Swerve Control System that has 4 buttons for which direction to face
- */
-public class AbsoluteDriveAdv extends Command
-{
+// advanced swerve control system with four buttons for which direction to face
+public class AbsoluteDriveAdv extends Command {
 
   private final SwerveSubsystem swerve;
   private final DoubleSupplier  vX, vY;
@@ -50,9 +49,7 @@ public class AbsoluteDriveAdv extends Command
    * @param lookRight     Face the robot right
    */
   public AbsoluteDriveAdv(SwerveSubsystem swerve, DoubleSupplier vX, DoubleSupplier vY, DoubleSupplier headingAdjust,
-                          BooleanSupplier lookAway, BooleanSupplier lookTowards, BooleanSupplier lookLeft,
-                          BooleanSupplier lookRight)
-  {
+    BooleanSupplier lookAway, BooleanSupplier lookTowards, BooleanSupplier lookLeft, BooleanSupplier lookRight) {
     this.swerve = swerve;
     this.vX = vX;
     this.vY = vY;
@@ -66,15 +63,13 @@ public class AbsoluteDriveAdv extends Command
   }
 
   @Override
-  public void initialize()
-  {
+  public void initialize() {
     resetHeading = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute()
-  {
+  public void execute() {
     double headingX = 0;
     double headingY = 0;
 
