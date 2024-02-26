@@ -7,13 +7,13 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ShootSubsystem;
 
-public class Shoot extends Command {
+public class ShootCommand extends Command {
 
     private final ShootSubsystem shootSubsystem;
     private double leftShoot;
     private double rightShoot;
 
-  public Shoot(ShootSubsystem shootSubsystem, double leftShoot, double rightShoot) {
+  public ShootCommand(ShootSubsystem shootSubsystem, double leftShoot, double rightShoot) {
     this.shootSubsystem = shootSubsystem;
     this.leftShoot = leftShoot;
     this.rightShoot = rightShoot;

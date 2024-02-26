@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AbsoluteDrive;
+import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -82,13 +83,6 @@ public class RobotContainer {
      */
   }
 
-  /**
-   * Use this method to define your trigger->command mappings. Triggers can be created via the
-   * {@link Trigger#Trigger(java.util.function.BooleanSupplier)} constructor with an arbitrary predicate, or via the
-   * named factories in {@link edu.wpi.first.wpilibj2.command.button.CommandGenericHID}'s subclasses for
-   * {@link CommandXboxController Xbox}/{@link edu.wpi.first.wpilibj2.command.button.CommandPS4Controller PS4}
-   * controllers or {@link edu.wpi.first.wpilibj2.command.button.CommandJoystick Flight joysticks}.
-   */
   private void configureBindings() {
 
     Trigger halfSpeed = new Trigger(() -> driveController.getL1Button()); // if L1 on drive, half speed
@@ -98,7 +92,7 @@ public class RobotContainer {
 		Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); // if Options on drive, reset heading
 		Trigger shoot = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, shoot
 
-    shoot.whileTrue(new Shoot(shootSubsystem, 0.5, 0.5));
+		shoot.whileTrue(new ShootCommand(shootSubsystem, 0.5, 0.5));
 
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
 
