@@ -4,7 +4,7 @@
 
 /////////////// PROBABLY WON'T USE THIS ////////////////////
 
-package frc.robot.commands.swervedrive.drivebase;
+package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
