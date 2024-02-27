@@ -52,5 +52,7 @@ public final class Constants {
   public static class PieceConstants {
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;
+
+    public static final int intakeMove = 1;
   }
 }
