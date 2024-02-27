@@ -40,6 +40,8 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase {
 
+  public static Command resetOdometry;
+
   /**
    * Swerve drive object.
    */

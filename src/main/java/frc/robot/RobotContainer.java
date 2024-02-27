@@ -64,8 +64,8 @@ public class RobotContainer {
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driveController.getRightX(),
-        () -> -driveController.getRightY());
+        () -> -pieceController.getRightX(),
+        () -> -pieceController.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -75,12 +75,12 @@ public class RobotContainer {
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driveController.getRightX());
+        () -> -pieceController.getRightX());
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driveController.getRawAxis(2));
+        () -> -pieceController.getRawAxis(2));
 
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
@@ -101,16 +101,7 @@ public class RobotContainer {
 		shoot.whileTrue(new ShootCommand(shootSubsystem, 0.5, 0.5));
     intake.whileTrue(new IntakeMoveCommand(intakeMoveSubsystem, 0));
     intake.whileTrue(new IntakeCommand(intakeSubsystem, 0.5));
-
-    // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
-    /* driveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
-    driveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
-    driveController.b().whileTrue(
-        Commands.deferredProxy(() -> drivebase.driveToPose(
-                                   new Pose2d(new Translation2d(4, 4), Rotation2d.fromDegrees(0)))
-                              )); */
-    // driveController.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
+    resetHeading.onTrue(SwerveSubsystem.resetOdometry);
   }
 
   /**

@@ -53,8 +53,11 @@ public final class Constants {
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;
 
-    public static final int intakeMove = 1;
-    public static final int intakeRight = 1;
-    public static final int intakeLeft = 1;
+    public static final int intakeMove = 9;
+    public static final int intakeRight = 10;
+    public static final int intakeLeft = 11;
+
+
+    public static final double defaultP = 0.0020645;
   }
 }
