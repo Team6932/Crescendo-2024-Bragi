@@ -9,10 +9,10 @@ import frc.robot.subsystems.IntakeMoveSubsystem;
 
 public class IntakeMoveCommand extends Command{
     
-    private IntakeMoveSubsystem intakeMoveSubsystem;
+    private final IntakeMoveSubsystem intakeMoveSubsystem;
     private double speed;
 
-    public intakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, double speed) {
+    public IntakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, double speed) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;
         this.speed = speed;
         addRequirements(intakeMoveSubsystem);

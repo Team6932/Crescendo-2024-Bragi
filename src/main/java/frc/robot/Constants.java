@@ -54,5 +54,7 @@ public final class Constants {
     public static final int leftShootId = 13;
 
     public static final int intakeMove = 1;
+    public static final int intakeRight = 1;
+    public static final int intakeLeft = 1;
   }
 }
