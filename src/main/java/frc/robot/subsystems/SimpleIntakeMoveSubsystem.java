@@ -11,7 +11,7 @@ public class SimpleIntakeMoveSubsystem extends SubsystemBase {
 
     public SimpleIntakeMoveSubsystem() {}
     
-    public void intakeMove (double speed) {
+    public void simpleIntakeMove (double speed) {
         intakeMoveMotor.set(speed);
     }
 }

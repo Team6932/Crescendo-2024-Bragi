@@ -13,9 +13,11 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AbsoluteDrive;
 import frc.robot.commands.IntakeCommand;
+import frc.robot.commands.IntakeMoveCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.SimpleIntakeMoveSubsystem;
+import frc.robot.subsystems.IntakeMoveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -34,6 +36,7 @@ public class RobotContainer {
   private final ShootSubsystem shootSubsystem = new ShootSubsystem();
   private final SimpleIntakeMoveSubsystem simpleIntakeMoveSubsystem = new SimpleIntakeMoveSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private final IntakeMoveSubsystem intakeMoveSubsystem = new IntakeMoveSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   PS4Controller driveController = new PS4Controller(0);
@@ -102,6 +105,7 @@ public class RobotContainer {
     simpleIntakeIn.whileTrue(new SimpleIntakeMoveCommand(simpleIntakeMoveSubsystem, -0.5));
 
     intake.whileTrue(new IntakeCommand(intakeSubsystem, 0.5));
+    intake.whileTrue(new IntakeMoveCommand(intakeMoveSubsystem, 50));
 
     /*driveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));

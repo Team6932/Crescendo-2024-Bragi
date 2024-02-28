@@ -9,13 +9,13 @@ import frc.robot.subsystems.SimpleIntakeMoveSubsystem;
 
 public class SimpleIntakeMoveCommand extends Command{
     
-    private final SimpleIntakeMoveSubsystem intakeMoveSubsystem;
+    private final SimpleIntakeMoveSubsystem simpleIntakeMoveSubsystem;
     private double speed;
 
-    public SimpleIntakeMoveCommand(SimpleIntakeMoveSubsystem intakeMoveSubsystem, double speed) {
-        this.intakeMoveSubsystem = intakeMoveSubsystem;
+    public SimpleIntakeMoveCommand(SimpleIntakeMoveSubsystem simpleIntakeMoveSubsystem, double speed) {
+        this.simpleIntakeMoveSubsystem = simpleIntakeMoveSubsystem;
         this.speed = speed;
-        addRequirements(intakeMoveSubsystem);
+        addRequirements(simpleIntakeMoveSubsystem);
     }
 
     @Override
@@ -23,12 +23,12 @@ public class SimpleIntakeMoveCommand extends Command{
 
     @Override
     public void execute () {
-        intakeMoveSubsystem.intakeMove(speed);
+        simpleIntakeMoveSubsystem.simpleIntakeMove(speed);
     }
 
     @Override
     public void end (boolean interrupted) {
-        intakeMoveSubsystem.intakeMove(0.0);
+        simpleIntakeMoveSubsystem.simpleIntakeMove(0.0);
     }
 
     @Override
