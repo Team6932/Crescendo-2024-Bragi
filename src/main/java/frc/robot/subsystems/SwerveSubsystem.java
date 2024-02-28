@@ -40,8 +40,6 @@ import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase {
 
-  public static Command resetOdometry;
-
   /**
    * Swerve drive object.
    */
@@ -276,7 +274,7 @@ public class SwerveSubsystem extends SubsystemBase {
     return swerveDrive.kinematics;
   }
 
-  // reset odometry to given initial pose; if you reset gyro angle, also call this function
+  // reset odometry to given initial pose; if you reset gyro angle, also call this
   public void resetOdometry(Pose2d initialHolonomicPose) {
     swerveDrive.resetOdometry(initialHolonomicPose);
   }
@@ -296,7 +294,7 @@ public class SwerveSubsystem extends SubsystemBase {
     swerveDrive.postTrajectory(trajectory);
   }
 
-  // zero the gyro angle and odometr
+  // zero the gyro angle and odometry
   public void zeroGyro() {
     swerveDrive.zeroGyro();
   }

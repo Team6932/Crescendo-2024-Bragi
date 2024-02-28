@@ -5,14 +5,14 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.IntakeMoveSubsystem;
+import frc.robot.subsystems.SimpleIntakeMoveSubsystem;
 
-public class IntakeMoveCommand extends Command{
+public class SimpleIntakeMoveCommand extends Command{
     
-    private final IntakeMoveSubsystem intakeMoveSubsystem;
+    private final SimpleIntakeMoveSubsystem intakeMoveSubsystem;
     private double speed;
 
-    public IntakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, double speed) {
+    public SimpleIntakeMoveCommand(SimpleIntakeMoveSubsystem intakeMoveSubsystem, double speed) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;
         this.speed = speed;
         addRequirements(intakeMoveSubsystem);
