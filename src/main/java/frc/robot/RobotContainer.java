@@ -95,17 +95,21 @@ public class RobotContainer {
 		Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); // if Options on drive, reset heading
 
 		Trigger shoot = new Trigger(() -> pieceController.getR1Button()); // if R1 on piece, shoot
-    Trigger intake = new Trigger(() -> pieceController.getL1Button()); // if X on piece, activate the intake 
+    Trigger intake = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, activate the intake 
+    Trigger manualIntake = new Trigger(() -> pieceController.getTriangleButton()); // if Triangle on piece, turn on chains
     Trigger simpleIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, move intake out
     Trigger simpleIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, move intake in
 
 		shoot.whileTrue(new ShootCommand(shootSubsystem, 0.5, 0.5));
+    shoot.whileTrue(new IntakeCommand(intakeSubsystem, 0.0, 0.0));
 
     simpleIntakeOut.whileTrue(new SimpleIntakeMoveCommand(simpleIntakeMoveSubsystem, 0.5));
     simpleIntakeIn.whileTrue(new SimpleIntakeMoveCommand(simpleIntakeMoveSubsystem, -0.5));
 
-    intake.whileTrue(new IntakeCommand(intakeSubsystem, 0.5));
+    intake.whileTrue(new IntakeCommand(intakeSubsystem, 0.5, 0.5));
     intake.whileTrue(new IntakeMoveCommand(intakeMoveSubsystem, 50));
+
+    manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, -0.5, -0.5));
 
     /*driveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
