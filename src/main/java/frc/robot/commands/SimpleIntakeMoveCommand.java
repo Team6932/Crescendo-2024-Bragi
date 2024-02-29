@@ -7,7 +7,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.SimpleIntakeMoveSubsystem;
 
-public class SimpleIntakeMoveCommand extends Command{
+public class SimpleIntakeMoveCommand extends Command{ 
     
     private final SimpleIntakeMoveSubsystem simpleIntakeMoveSubsystem;
     private double speed;
@@ -33,6 +33,6 @@ public class SimpleIntakeMoveCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return false;
-    }
+        return false; 
+    } 
 }
