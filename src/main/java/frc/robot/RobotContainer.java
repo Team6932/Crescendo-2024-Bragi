@@ -121,9 +121,6 @@ public class RobotContainer {
     manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
     manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
 
-    //intake.whileTrue(new IntakeCommand(intakeSubsystem, 0.3, 0.3));
-    //intake.whileTrue(new IntakeMoveCommand(intakeMoveSubsystem, 152, 0.1));
-
     /*driveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
     driveController.b().whileTrue(
@@ -138,19 +135,16 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand()
-  {
+  public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return drivebase.getAutonomousCommand("New Auto");
   }
 
-  public void setDriveMode()
-  {
+  public void setDriveMode() {
     //drivebase.setDefaultCommand();
   }
 
-  public void setMotorBrake(boolean brake)
-  {
+  public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }
 }

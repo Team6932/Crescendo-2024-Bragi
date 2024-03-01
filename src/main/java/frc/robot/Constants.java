@@ -40,7 +40,7 @@ public final class Constants {
 
   public static class OperatorConstants {
 
-    // Joystick Deadband
+    // deadband
     public static final double LEFT_X_DEADBAND  = 0.1;
     public static final double LEFT_Y_DEADBAND  = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
@@ -54,9 +54,9 @@ public final class Constants {
     // CAN IDs
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;
-    public static final int intakeMove = 9;
-    public static final int intakeRight = 10;
-    public static final int intakeLeft = 11;
+    public static final int intakeMoveId = 9;
+    public static final int intakeRightDownId = 10;
+    public static final int intakeLeftUpId = 11;
 
     // power settings (-1 to 1)
     public static final double leftShootPower = 0.5;

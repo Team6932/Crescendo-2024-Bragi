@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.PieceConstants;
 
 public class IntakeMoveSubsystem extends SubsystemBase { 
-    private final CANSparkMax intakeMoveMotor = new CANSparkMax(PieceConstants.intakeMove, MotorType.kBrushless);
+    private final CANSparkMax intakeMoveMotor = new CANSparkMax(PieceConstants.intakeMoveId, MotorType.kBrushless);
     private final SparkPIDController intakeMovePID = intakeMoveMotor.getPIDController();
 
     public IntakeMoveSubsystem() {}
