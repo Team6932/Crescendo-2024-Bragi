@@ -11,12 +11,12 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.PieceConstants;
 import frc.robot.commands.AbsoluteDrive;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeMoveCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.ShootCommand;
-import frc.robot.subsystems.SimpleIntakeMoveSubsystem;
 import frc.robot.subsystems.IntakeMoveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
@@ -34,7 +34,6 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
   private final ShootSubsystem shootSubsystem = new ShootSubsystem();
-  private final SimpleIntakeMoveSubsystem simpleIntakeMoveSubsystem = new SimpleIntakeMoveSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final IntakeMoveSubsystem intakeMoveSubsystem = new IntakeMoveSubsystem();
 
@@ -95,18 +94,31 @@ public class RobotContainer {
 		Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); // if Options on drive, reset heading
 
 		Trigger shoot = new Trigger(() -> pieceController.getR1Button()); // if R1 on piece, shoot
-    Trigger intake = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, activate the intake 
+    Trigger intake = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, intake a piece 
+
+    Trigger autoIntakeOut = new Trigger (pieceController.povUp(null)); // if D-Pad up on piece, auto move intake out
+    Trigger autoIntakeIn = new Trigger (pieceController.povDown(null)); // if D-Pad down on piece, auto move intake in
 
     Trigger manualIntake = new Trigger(() -> pieceController.getTriangleButton()); // if Triangle on piece, turn on intake
-    Trigger simpleIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, move intake out
-    Trigger simpleIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, move intake in
+    Trigger manualIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, manually move intake out
+    Trigger manualIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, manually move intake in
 
-		shoot.whileTrue(new ShootCommand(shootSubsystem, 0.5, 0.5));
-    shoot.whileTrue(new IntakeCommand(intakeSubsystem, -0.3, -0.3));
+    // simultaneously push game piece into shooter and shoot
+		shoot.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftShootPower, PieceConstants.rightShootPower));
+    shoot.whileTrue(new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower));
 
-    simpleIntakeOut.whileTrue(new SimpleIntakeMoveCommand(simpleIntakeMoveSubsystem, 0.5));
-    simpleIntakeIn.whileTrue(new SimpleIntakeMoveCommand(simpleIntakeMoveSubsystem, -0.5));
-    manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, 0.3, 0.3));
+    // automatically move intake out and grab game pieces
+    intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+    intake.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMoveAngle, 0.1)); // number is P for PID
+
+    // automatically move intake in/out
+    autoIntakeOut.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMoveAngle, 0.1)); // number is P for PID
+    autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMoveAngle, 0.5)); // number is P for PID
+
+    // manully move intake in/out and manually grab pieces
+    manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
+    manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
+    manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
 
     //intake.whileTrue(new IntakeCommand(intakeSubsystem, 0.3, 0.3));
     //intake.whileTrue(new IntakeMoveCommand(intakeMoveSubsystem, 152, 0.1));

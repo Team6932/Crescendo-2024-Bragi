@@ -50,14 +50,22 @@ public final class Constants {
 
 
   public static class PieceConstants {
+
+    // CAN IDs
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;
-
     public static final int intakeMove = 9;
     public static final int intakeRight = 10;
     public static final int intakeLeft = 11;
 
+    // power settings (-1 to 1)
+    public static final double leftShootPower = 0.5;
+    public static final double rightShootPower = 0.5;
+    public static final double leftUpIntakePower = 0.3;
+    public static final double rightDownIntakePower = 0.3; 
+    public static final double intakeMovePower = 0.5;
 
-    public static final double defaultP = 0.0020645;
+    // other game piece related constants
+    public static final double intakeMoveAngle = 152.0;
   }
 }
