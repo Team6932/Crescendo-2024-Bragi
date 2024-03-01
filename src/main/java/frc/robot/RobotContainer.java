@@ -107,13 +107,14 @@ public class RobotContainer {
 		shoot.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftShootPower, PieceConstants.rightShootPower));
     shoot.whileTrue(new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower));
 
-    // automatically move intake out and grab game pieces
+    // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
     intake.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMoveAngle, 0.1)); // number is P for PID
+    intake.onFalse(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMoveAngle, 0.05)); // number is P for PID
 
     // automatically move intake in/out
     autoIntakeOut.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMoveAngle, 0.1)); // number is P for PID
-    autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMoveAngle, 0.5)); // number is P for PID
+    autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMoveAngle, 0.05)); // number is P for PID
 
     // manully move intake in/out and manually grab pieces
     manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
