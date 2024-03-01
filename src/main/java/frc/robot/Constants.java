@@ -59,8 +59,8 @@ public final class Constants {
     public static final int intakeLeftUpId = 11;
 
     // power settings (-1 to 1)
-    public static final double leftShootPower = 0.5;
-    public static final double rightShootPower = 0.5;
+    public static final double leftShootPower = 0.65;
+    public static final double rightShootPower = 0.65;
     public static final double leftUpIntakePower = 0.3;
     public static final double rightDownIntakePower = 0.3; 
     public static final double intakeMovePower = 0.5;
