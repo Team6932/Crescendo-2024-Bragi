@@ -66,6 +66,7 @@ public final class Constants {
     public static final double intakeMovePower = 0.5;
 
     // other game piece related constants
-    public static final double intakeMoveAngle = 152.0;
+    public static final double intakeOutAngle = 152.0;
+    public static final double intakeInAngle = 0.0;
   }
 }

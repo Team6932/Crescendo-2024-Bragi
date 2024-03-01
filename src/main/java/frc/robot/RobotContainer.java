@@ -109,12 +109,12 @@ public class RobotContainer {
 
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
-    intake.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMoveAngle, 0.1)); // number is P for PID
-    intake.onFalse(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMoveAngle, 0.05)); // number is P for PID
+    intake.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 0.1)); // number is P for PID
+    intake.onFalse(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 0.05)); // number is P for PID
 
     // automatically move intake in/out
-    autoIntakeOut.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMoveAngle, 0.1)); // number is P for PID
-    autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMoveAngle, 0.05)); // number is P for PID
+    autoIntakeOut.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 0.1)); // number is P for PID
+    autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 0.05)); // number is P for PID
 
     // manully move intake in/out and manually grab pieces
     manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
