@@ -27,7 +27,7 @@ public class IntakeMoveCommand extends Command{
 
     @Override
     public void end (boolean interrupted) {
-        intakeMoveSubsystem.intakeMove(0.0, 0.0);
+        // intakeMoveSubsystem.intakeMove(0.0, 0.0);
     }
 
     @Override 
