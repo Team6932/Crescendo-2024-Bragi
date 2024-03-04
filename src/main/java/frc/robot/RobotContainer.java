@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PieceConstants;
@@ -96,8 +97,8 @@ public class RobotContainer {
 		Trigger shoot = new Trigger(() -> pieceController.getR1Button()); // if R1 on piece, shoot
     Trigger intake = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, intake a piece 
 
-    Trigger autoIntakeOut = new Trigger (pieceController.povUp(null)); // if D-Pad up on piece, auto move intake out
-    Trigger autoIntakeIn = new Trigger (pieceController.povDown(null)); // if D-Pad down on piece, auto move intake in
+    Trigger autoIntakeOut = new Trigger (() -> pieceController.getPOV() == 0); // if D-Pad up on piece, auto move intake out
+    Trigger autoIntakeIn = new Trigger (() -> pieceController.getPOV() == 180); // if D-Pad down on piece, auto move intake in
 
     Trigger manualIntake = new Trigger(() -> pieceController.getTriangleButton()); // if Triangle on piece, turn on intake
     Trigger manualIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, manually move intake out
@@ -105,7 +106,8 @@ public class RobotContainer {
 
     // simultaneously push game piece into shooter and shoot
 		shoot.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftShootPower, PieceConstants.rightShootPower));
-    shoot.whileTrue(new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower));
+    shoot.whileTrue(new WaitCommand(1.5). andThen(new IntakeCommand(
+      intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower)));
 
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
