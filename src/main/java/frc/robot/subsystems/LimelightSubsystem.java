@@ -2,7 +2,7 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,6 +32,10 @@ public class LimelightSubsystem extends SubsystemBase{
         tx = limelightTable.getEntry("tx").getDouble(0);
         ty = limelightTable.getEntry("ty").getDouble(0);
         ta = limelightTable.getEntry("ta").getDouble(0);
+
+        SmartDashboard.putNumber("valid target", tv);
+        SmartDashboard.putNumber("horizontal offset", tx);
+        SmartDashboard.putNumber("vertical offset", ty);    
     }
 
     /**
@@ -47,7 +51,7 @@ public class LimelightSubsystem extends SubsystemBase{
     public double getTY() {
         return Math.toRadians(ty);
     }
-    
+
     /**
      * Get if there are valid targets (int 0 for false and int 1 for true)
      */
