@@ -14,10 +14,12 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PieceConstants;
 import frc.robot.commands.AbsoluteDrive;
+import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeMoveCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.ShootCommand;
+import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeMoveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
@@ -37,6 +39,7 @@ public class RobotContainer {
   private final ShootSubsystem shootSubsystem = new ShootSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final IntakeMoveSubsystem intakeMoveSubsystem = new IntakeMoveSubsystem();
+  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   PS4Controller driveController = new PS4Controller(0);
@@ -104,10 +107,13 @@ public class RobotContainer {
     Trigger manualIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, manually move intake out
     Trigger manualIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, manually move intake in
 
+    Trigger climbUp = new Trigger(() -> driveController.getTriangleButton()); // if Triangle on drive, move climber up
+    Trigger climbDown = new Trigger(() -> driveController.getCrossButton());// if Cross on drive, move climber down
+
     // simultaneously push game piece into shooter and shoot
 		shoot.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftShootPower, PieceConstants.rightShootPower));
     shoot.whileTrue(new WaitCommand(1.5). andThen(new IntakeCommand(
-      intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower)));
+      intakeSubsystem, -PieceConstants.leftUpFeedPower, -PieceConstants.rightDownFeedPower)));
 
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
@@ -122,6 +128,10 @@ public class RobotContainer {
     manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
     manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
     manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+
+    // manually move climb mechanism up and down
+    climbUp.whileTrue(new ClimbCommand(climbSubsystem, PieceConstants.climbPower));
+    climbDown.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.climbPower));
 
     /*driveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
