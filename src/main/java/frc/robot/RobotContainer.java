@@ -5,6 +5,9 @@
 package frc.robot;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -17,11 +20,13 @@ import frc.robot.commands.AbsoluteDrive;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeMoveCommand;
+import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeMoveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -40,6 +45,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final IntakeMoveSubsystem intakeMoveSubsystem = new IntakeMoveSubsystem();
   private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   PS4Controller driveController = new PS4Controller(0);
@@ -81,7 +87,7 @@ public class RobotContainer {
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -pieceController.getRawAxis(2));
+        () -> -pieceController.getRightX());
 
     drivebase.setDefaultCommand(
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
@@ -110,6 +116,8 @@ public class RobotContainer {
     Trigger climbUp = new Trigger(() -> driveController.getTriangleButton()); // if Triangle on drive, move climber up
     Trigger climbDown = new Trigger(() -> driveController.getCrossButton());// if Cross on drive, move climber down
 
+    Trigger fullClimb = new Trigger(() -> driveController.getCircleButton()); // if Circle on drive, full send climber
+
     // simultaneously push game piece into shooter and shoot
 		shoot.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftShootPower, PieceConstants.rightShootPower));
     shoot.whileTrue(new WaitCommand(1.5). andThen(new IntakeCommand(
@@ -132,6 +140,17 @@ public class RobotContainer {
     // manually move climb mechanism up and down
     climbUp.whileTrue(new ClimbCommand(climbSubsystem, PieceConstants.climbPower));
     climbDown.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.climbPower));
+
+    fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));
+
+///////////////////// TESTING ////////////////////
+    Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 
+    moveTest.onTrue(drivebase.driveToPose(
+      new Pose2d(new Translation2d(4, 2), Rotation2d.fromDegrees(0))
+    ));
+
+    Trigger limelightTest = new Trigger(() -> driveController.getR1Button());
+    limelightTest.onTrue(new LimelightDrive(limelightSubsystem, drivebase));
 
     /*driveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));

@@ -68,9 +68,17 @@ public final class Constants {
     public static final double rightDownFeedPower = 0.5; // move pieces from intake to shooter on right/bottom
     public static final double intakeMovePower = 0.5; // move entire intake system 
     public static final double climbPower = 0.3; // move entire climb mechanism
+    public static final double fullClimbPower = 0.75;
 
     // other game piece related constants
     public static final double intakeOutAngle = 152.0;
     public static final double intakeInAngle = 0.0;
+  }
+
+  public static class LimelightConstants {
+
+    // Limelight position constants
+    public static final double limelightAngle = 0.0; // limelight is level
+    public static final double limelightHeight = 0.23; // height of limelight from ground in meters
   }
 }
