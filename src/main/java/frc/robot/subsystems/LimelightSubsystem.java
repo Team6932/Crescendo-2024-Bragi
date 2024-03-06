@@ -11,10 +11,11 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimelightConstants;
+import frc.robot.LimelightHelpers;
 
 public class LimelightSubsystem extends SubsystemBase{  
     private final NetworkTable limelightTable;
-    private double tv, tx, ty, ta;
+    private double tv, tx, ty, ta, aprilId;
     private ArrayList<Double> targetList;
     private final int MAX_ENTRIES = 50;
     private final NetworkTableEntry isTargetValid, ledEntry;
@@ -32,10 +33,13 @@ public class LimelightSubsystem extends SubsystemBase{
         tx = limelightTable.getEntry("tx").getDouble(0);
         ty = limelightTable.getEntry("ty").getDouble(0);
         ta = limelightTable.getEntry("ta").getDouble(0);
+        aprilId = LimelightHelpers.getFiducialID("limelight");
 
         SmartDashboard.putNumber("valid target", tv);
         SmartDashboard.putNumber("horizontal offset", tx);
-        SmartDashboard.putNumber("vertical offset", ty);    
+        SmartDashboard.putNumber("vertical offset", ty); 
+        SmartDashboard.putNumber("test", 1.5);   
+        SmartDashboard.putNumber("april tag", aprilId);
     }
 
     /**
