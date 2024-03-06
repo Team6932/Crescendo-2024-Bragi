@@ -120,8 +120,11 @@ public class RobotContainer {
 
     // simultaneously push game piece into shooter and shoot
 		shoot.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftShootPower, PieceConstants.rightShootPower));
-    shoot.whileTrue(new WaitCommand(1.5). andThen(new IntakeCommand(
-      intakeSubsystem, -PieceConstants.leftUpFeedPower, -PieceConstants.rightDownFeedPower)));
+    shoot.onTrue(new IntakeCommand(intakeSubsystem, -0.1, -0.1).withTimeout(0.3));
+    shoot.whileTrue(
+      new IntakeCommand(intakeSubsystem, -0.1, -0.1).withTimeout(0.3). andThen(
+      new WaitCommand(1.2)). andThen(
+      new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpFeedPower, -PieceConstants.rightDownFeedPower)));
 
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));

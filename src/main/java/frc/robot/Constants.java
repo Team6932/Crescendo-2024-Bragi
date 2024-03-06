@@ -60,12 +60,15 @@ public final class Constants {
     public static final int climb = 14;
 
     // power settings (-1 to 1)
-    public static final double leftShootPower = 1; // orange wheels on the left
-    public static final double rightShootPower = 1; // orange wheels on the right
+    public static final double leftShootPower = 0.8; // orange wheels on the left
+    public static final double rightShootPower = 0.8; // orange wheels on the right
+
     public static final double leftUpIntakePower = 0.3; // intake pieces on the left/top
     public static final double rightDownIntakePower = 0.3; // intake pieces on the right/bottom
-    public static final double leftUpFeedPower = 0.5; // move pieces from intake to shooter on left/top
-    public static final double rightDownFeedPower = 0.5; // move pieces from intake to shooter on right/bottom
+
+    public static final double leftUpFeedPower = 0.85; // move pieces from intake to shooter on left/top
+    public static final double rightDownFeedPower = 0.85; // move pieces from intake to shooter on right/bottom
+    
     public static final double intakeMovePower = 0.5; // move entire intake system 
     public static final double climbPower = 0.3; // move entire climb mechanism
     public static final double fullClimbPower = 0.75;
