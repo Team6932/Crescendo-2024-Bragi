@@ -11,7 +11,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimelightConstants;
-import frc.robot.LimelightHelpers;
+import frc.robot.utils.LimelightHelpers;
 
 public class LimelightSubsystem extends SubsystemBase{  
     private final NetworkTable limelightTable;

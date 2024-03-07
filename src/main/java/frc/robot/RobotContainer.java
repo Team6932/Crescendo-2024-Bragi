@@ -31,6 +31,7 @@ import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import java.io.File;
+import java.lang.management.OperatingSystemMXBean;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -80,16 +81,22 @@ public class RobotContainer {
     // left stick controls translation
     // right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
-        () -> -0.80*MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -0.80*MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -pieceController.getRightX());
+        () -> -OperatorConstants.drivePowerPercent * 
+          MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -OperatorConstants.drivePowerPercent *
+          MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -OperatorConstants.turnPowerPercent * 
+          pieceController.getRightX());
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
-        () -> -0.80*MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -0.80*MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -pieceController.getRightX());
+        () -> -OperatorConstants.drivePowerPercent * 
+          MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> -OperatorConstants.drivePowerPercent * 
+          MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+        () -> -OperatorConstants.turnPowerPercent * 
+          pieceController.getRightX());
 
-    drivebase.setDefaultCommand(
+    drivebase.setDefaultCommand( // if isSimulation = not true, angular velocity; else, direct angle sim
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
     /* 
      *  drivebase.setDefaultCommand(
@@ -101,7 +108,7 @@ public class RobotContainer {
 
     Trigger halfSpeed = new Trigger(() -> driveController.getL1Button()); // if L1 on drive, half speed
 		Trigger halfTurn = new Trigger (() -> pieceController.getCircleButton()); // if Circle on piece, half turn speed	
-		Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); // if Options on drive, reset heading
+    Trigger halfMovement = new Trigger(halfSpeed).and(halfTurn); // if L1 on drive AND Circle on piece, half movement
 
 		Trigger shoot = new Trigger(() -> pieceController.getR1Button()); // if R1 on piece, shoot
     Trigger intake = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, intake a piece 
@@ -143,6 +150,36 @@ public class RobotContainer {
     climbDown.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.climbPower));
 
     fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));
+
+    // half speed/drive (probably a better way to code this)
+    Command halfSpeedCommand = drivebase.driveCommand(
+      () -> -OperatorConstants.drivePowerPercent * 0.5 *
+        MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+      () -> -OperatorConstants.drivePowerPercent * 0.5 *
+        MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+      () -> -OperatorConstants.turnPowerPercent * 
+        pieceController.getRightX());
+    Command halfTurnCommand = drivebase.driveCommand(
+      () -> -OperatorConstants.drivePowerPercent * 
+        MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+      () -> -OperatorConstants.drivePowerPercent * 
+        MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+      () -> -OperatorConstants.turnPowerPercent * 0.5 *
+        pieceController.getRightX());
+    Command halfMovementCommand = drivebase.driveCommand(
+      () -> -OperatorConstants.drivePowerPercent * 0.5 * 
+        MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
+      () -> -OperatorConstants.drivePowerPercent * 0.5 * 
+        MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
+      () -> -OperatorConstants.turnPowerPercent * 0.5 *
+        pieceController.getRightX());
+    
+    halfSpeed.whileTrue(halfSpeedCommand);
+    halfTurn.whileTrue(halfTurnCommand);
+    halfMovement.whileTrue(halfMovementCommand);
+        
+
+          
 
 ///////////////////// TESTING ////////////////////
     Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 

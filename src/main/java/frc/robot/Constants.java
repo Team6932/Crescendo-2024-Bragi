@@ -46,6 +46,9 @@ public final class Constants {
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double RIGHT_Y_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
+
+    public static final double drivePowerPercent = 0.85;
+    public static final double turnPowerPercent = 0.7;
   }
 
 
