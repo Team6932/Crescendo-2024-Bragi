@@ -29,16 +29,15 @@ public class LimelightSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        tv = limelightTable.getEntry("tv").getDouble(0);
-        tx = limelightTable.getEntry("tx").getDouble(0);
-        ty = limelightTable.getEntry("ty").getDouble(0);
-        ta = limelightTable.getEntry("ta").getDouble(0);
+        tv = limelightTable.getEntry("tv").getDouble(1);
+        tx = limelightTable.getEntry("tx").getDouble(1);
+        ty = limelightTable.getEntry("ty").getDouble(1);
+        ta = limelightTable.getEntry("ta").getDouble(1);
         aprilId = LimelightHelpers.getFiducialID("limelight");
 
         SmartDashboard.putNumber("valid target", tv);
         SmartDashboard.putNumber("horizontal offset", tx);
         SmartDashboard.putNumber("vertical offset", ty); 
-        SmartDashboard.putNumber("test", 1.5);   
         SmartDashboard.putNumber("april tag", aprilId);
     }
 

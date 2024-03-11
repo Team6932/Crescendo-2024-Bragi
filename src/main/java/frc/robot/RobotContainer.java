@@ -190,7 +190,7 @@ public class RobotContainer {
 ///////////////////// TESTING ////////////////////
     Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 
     moveTest.onTrue(drivebase.driveToPose(
-      new Pose2d(new Translation2d(4, 2), Rotation2d.fromDegrees(0))
+      new Pose2d(new Translation2d(2, 1), Rotation2d.fromDegrees(90))
     ));
 
     Trigger limelightTest = new Trigger(() -> driveController.getR1Button());
@@ -212,7 +212,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    return drivebase.getAutonomousCommand("testAuto");
   }
 
   public void setDriveMode() {
