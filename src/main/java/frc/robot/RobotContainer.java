@@ -110,7 +110,8 @@ public class RobotContainer {
 		Trigger halfTurn = new Trigger (() -> pieceController.getCircleButton()); // if Circle on piece, half turn speed	
     Trigger halfMovement = new Trigger(halfSpeed).and(halfTurn); // if L1 on drive AND Circle on piece, half movement
 
-		Trigger shoot = new Trigger(() -> pieceController.getR1Button()); // if R1 on piece, shoot
+		Trigger speaker = new Trigger(() -> pieceController.getR1Button()); // if R1 on piece, speaker shoot
+    Trigger amp = new Trigger(() -> pieceController.getPOV() == 90); // if D-Pad right on piece, amp shoot
     Trigger intake = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, intake a piece 
 
     Trigger autoIntakeOut = new Trigger (() -> pieceController.getPOV() == 0); // if D-Pad up on piece, auto move intake out
@@ -125,11 +126,16 @@ public class RobotContainer {
 
     Trigger fullClimb = new Trigger(() -> driveController.getCircleButton()); // if Circle on drive, full send climber
 
-    // simultaneously push game piece into shooter and shoot
-		shoot.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftShootPower, PieceConstants.rightShootPower));
+    // simultaneously push game piece into shooter and shoot for speaker
+		speaker.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
     //shoot.onTrue(new IntakeCommand(intakeSubsystem, -0.1, -0.1).withTimeout(0.3));
-    shoot.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
-      intakeSubsystem, -PieceConstants.leftUpFeedPower, -PieceConstants.rightDownFeedPower)));
+    speaker.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
+      intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower)));
+
+    // simultaneously push game piece into shooter and shoot for amp
+    amp.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftAmpPower, PieceConstants.rightAmpPower));
+    amp.whileTrue(new WaitCommand(0.7). andThen(new IntakeCommand(
+      intakeSubsystem, -PieceConstants.leftUpAmpFeedPower, -PieceConstants.rightDownAmpFeedPower)));
 
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
