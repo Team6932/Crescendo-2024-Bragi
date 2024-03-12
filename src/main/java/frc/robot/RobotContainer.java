@@ -101,8 +101,8 @@ public class RobotContainer {
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -pieceController.getRightX(),
-        () -> -pieceController.getRightY());
+        () -> -pieceController.getLeftX(),
+        () -> -pieceController.getLeftY());
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -115,7 +115,7 @@ public class RobotContainer {
         () -> -OperatorConstants.drivePowerPercent *
           MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -OperatorConstants.turnPowerPercent * 
-          pieceController.getRightX());
+          pieceController.getLeftX());
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -OperatorConstants.drivePowerPercent * 
@@ -123,7 +123,7 @@ public class RobotContainer {
         () -> -OperatorConstants.drivePowerPercent * 
           MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -OperatorConstants.turnPowerPercent * 
-          pieceController.getRightX());
+          pieceController.getLeftX());
 
     drivebase.setDefaultCommand( // if isSimulation = not true, angular velocity; else, direct angle sim
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
@@ -196,21 +196,21 @@ public class RobotContainer {
       () -> -OperatorConstants.drivePowerPercent * 0.5 *
         MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
       () -> -OperatorConstants.turnPowerPercent * 
-        pieceController.getRightX());
+        pieceController.getLeftX());
     Command halfTurnCommand = drivebase.driveCommand(
       () -> -OperatorConstants.drivePowerPercent * 
         MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
       () -> -OperatorConstants.drivePowerPercent * 
         MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
       () -> -OperatorConstants.turnPowerPercent * 0.5 *
-        pieceController.getRightX());
+        pieceController.getLeftX());
     Command halfMovementCommand = drivebase.driveCommand(
       () -> -OperatorConstants.drivePowerPercent * 0.5 * 
         MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
       () -> -OperatorConstants.drivePowerPercent * 0.5 * 
         MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
       () -> -OperatorConstants.turnPowerPercent * 0.5 *
-        pieceController.getRightX());
+        pieceController.getLeftX());
     
     halfSpeed.whileTrue(halfSpeedCommand);
     halfTurn.whileTrue(halfTurnCommand);
