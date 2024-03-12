@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
@@ -32,6 +33,9 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import java.io.File;
 import java.lang.management.OperatingSystemMXBean;
+import java.util.function.DoubleSupplier;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -55,6 +59,31 @@ public class RobotContainer {
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
+
+    // register named commands for PathPlanner
+    NamedCommands.registerCommand("shoot", 
+      new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
+    
+    NamedCommands.registerCommand("feed", 
+      new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
+
+    NamedCommands.registerCommand("stopArm", 
+      new ParallelCommandGroup(
+        new ShootCommand(shootSubsystem, 0, 0), 
+        new IntakeCommand(intakeSubsystem, 0, 0), 
+        new IntakeMoveCommand(intakeMoveSubsystem, 0, 0), 
+        new ClimbCommand(climbSubsystem, 0)));
+
+    NamedCommands.registerCommand("intakeOut", 
+      new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 0.1));
+
+    NamedCommands.registerCommand("intakeIn", 
+      new IntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 0.5));
+
+    NamedCommands.registerCommand("intake", 
+      new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+
+
     // Configure the trigger bindings
     configureBindings();
 
@@ -105,6 +134,9 @@ public class RobotContainer {
   }
 
   private void configureBindings() {
+
+    Trigger stopAllArm = new Trigger(() -> driveController.getPSButton()).
+      or(() -> pieceController.getPSButton()); // is PS4 Button on piece or drive, stop everything other than movement 
 
     Trigger halfSpeed = new Trigger(() -> driveController.getL1Button()); // if L1 on drive, half speed
 		Trigger halfTurn = new Trigger (() -> pieceController.getCircleButton()); // if Circle on piece, half turn speed	
@@ -183,7 +215,13 @@ public class RobotContainer {
     halfSpeed.whileTrue(halfSpeedCommand);
     halfTurn.whileTrue(halfTurnCommand);
     halfMovement.whileTrue(halfMovementCommand);
-        
+
+    // shut down everything other than movement 
+    stopAllArm.whileTrue(new ParallelCommandGroup(
+      new ShootCommand(shootSubsystem, 0, 0), 
+      new IntakeCommand(intakeSubsystem, 0, 0), 
+      new IntakeMoveCommand(intakeMoveSubsystem, 0, 0), 
+      new ClimbCommand(climbSubsystem, 0)));        
 
           
 
