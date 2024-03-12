@@ -11,6 +11,7 @@ public class SimpleIntakeMoveCommand extends Command{
     
     private final IntakeMoveSubsystem intakeMoveSubsystem;
     private double speed;
+    private boolean outLimitSwitch, inLimitSwitch;
 
     public SimpleIntakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, double speed) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;
@@ -23,7 +24,24 @@ public class SimpleIntakeMoveCommand extends Command{
 
     @Override
     public void execute () {
-        intakeMoveSubsystem.simpleIntakeMove(speed);
+        outLimitSwitch = intakeMoveSubsystem.outLimitSwitch();
+        inLimitSwitch = intakeMoveSubsystem.inLimitSwitch();
+
+        if (speed > 0) {
+            if (outLimitSwitch) {
+                intakeMoveSubsystem.simpleIntakeMove(0);
+            } else {
+                intakeMoveSubsystem.simpleIntakeMove(speed);
+            }
+        } else {
+            if (inLimitSwitch) {
+                intakeMoveSubsystem.simpleIntakeMove(0);
+            } else {
+                intakeMoveSubsystem.simpleIntakeMove(speed);
+            }
+        }
+        
+        // intakeMoveSubsystem.simpleIntakeMove(speed);
     }
 
     @Override

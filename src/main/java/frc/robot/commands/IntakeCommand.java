@@ -8,6 +8,7 @@ public class IntakeCommand extends Command{
     private final IntakeSubsystem intakeSubsystem;
     private double leftSpeed;
     private double rightSpeed;
+    private boolean intakeLimit;
 
     public IntakeCommand(IntakeSubsystem intakeSubsystem, double leftSpeed, double rightSpeed) {
         this.intakeSubsystem = intakeSubsystem;
@@ -21,7 +22,19 @@ public class IntakeCommand extends Command{
 
     @Override
     public void execute() {
-        intakeSubsystem.intake(leftSpeed, rightSpeed);
+        intakeLimit = intakeSubsystem.intakeLimit(); 
+        
+        if (leftSpeed > 0 || rightSpeed > 0) {
+            if (intakeLimit) {
+                intakeSubsystem.intake(0, 0);
+            } else {
+                intakeSubsystem.intake(leftSpeed, rightSpeed);
+            }
+        } else {
+            intakeSubsystem.intake(leftSpeed, rightSpeed);
+        }
+
+        // intakeSubsystem.intake(leftSpeed, rightSpeed);
     }
 
     @Override
