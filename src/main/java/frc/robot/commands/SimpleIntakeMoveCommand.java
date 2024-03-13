@@ -41,7 +41,7 @@ public class SimpleIntakeMoveCommand extends Command{
             }
         }
         
-        // intakeMoveSubsystem.simpleIntakeMove(speed);
+        // intakeMoveSubsystem.simpleIntakeMove(speed); THIS LINE IS THE OLD CODE
     }
 
     @Override
