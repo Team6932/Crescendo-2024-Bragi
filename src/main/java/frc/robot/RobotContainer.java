@@ -35,6 +35,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 import java.io.File;
 
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
