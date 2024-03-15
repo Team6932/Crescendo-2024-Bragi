@@ -32,5 +32,6 @@ public class IntakeMoveSubsystem extends SubsystemBase {
 
     public void simpleIntakeMove (double speed) {
         intakeMoveMotor.set(speed);
+        intakeMoveMotor.setSecondaryCurrentLimit(4);
     }
 }
