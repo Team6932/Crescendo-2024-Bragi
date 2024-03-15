@@ -11,7 +11,7 @@ public class IntakeMoveCommand extends Command{
     
     private double angle;
     private double P;
-    private boolean outLimitSwitch, inLimitSwitch;
+    // private boolean outLimitSwitch, inLimitSwitch;
     private boolean limitSwitch;
 
     public IntakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, IntakeSubsystem intakeSubsystem, double angle, double P) {
@@ -19,7 +19,7 @@ public class IntakeMoveCommand extends Command{
         this.intakeSubsystem = intakeSubsystem;
         this.angle = angle;
         this.P = P;
-        addRequirements(intakeMoveSubsystem, intakeSubsystem);
+        addRequirements(intakeMoveSubsystem);
     }
 
     @Override
@@ -27,8 +27,8 @@ public class IntakeMoveCommand extends Command{
 
     @Override
     public void execute () {
-        outLimitSwitch = intakeMoveSubsystem.outLimitSwitch();
-        inLimitSwitch = intakeMoveSubsystem.inLimitSwitch();
+        // outLimitSwitch = intakeMoveSubsystem.outLimitSwitch();
+        // inLimitSwitch = intakeMoveSubsystem.inLimitSwitch();
         limitSwitch = intakeSubsystem.intakeLimit();
 
         if (limitSwitch) {

@@ -6,16 +6,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeMoveSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 
 public class SimpleIntakeMoveCommand extends Command{ 
     
     private final IntakeMoveSubsystem intakeMoveSubsystem;
+    private boolean limitSwitch;
     private double speed;
-    private boolean outLimitSwitch, inLimitSwitch;
+    private final IntakeSubsystem intakeSubsystem;
+    // private boolean outLimitSwitch, inLimitSwitch;
 
-    public SimpleIntakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, double speed) {
+    public SimpleIntakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, IntakeSubsystem intakeSubsystem, double speed) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;
         this.speed = speed;
+        this.intakeSubsystem = intakeSubsystem;
         addRequirements(intakeMoveSubsystem);
     }
 
@@ -24,10 +28,20 @@ public class SimpleIntakeMoveCommand extends Command{
 
     @Override
     public void execute () {
-        outLimitSwitch = intakeMoveSubsystem.outLimitSwitch();
-        inLimitSwitch = intakeMoveSubsystem.inLimitSwitch();
-
+        limitSwitch = intakeSubsystem.intakeLimit();
+        
         if (speed > 0) {
+            if (limitSwitch) {
+                intakeMoveSubsystem.simpleIntakeMove(0);
+            }
+        } else {
+            intakeMoveSubsystem.simpleIntakeMove(speed);
+        }
+
+        // outLimitSwitch = intakeMoveSubsystem.outLimitSwitch();
+        // inLimitSwitch = intakeMoveSubsystem.inLimitSwitch();
+
+        /* if (speed > 0) {
             if (outLimitSwitch) {
                 intakeMoveSubsystem.simpleIntakeMove(0);
             } else {
@@ -39,7 +53,7 @@ public class SimpleIntakeMoveCommand extends Command{
             } else {
                 intakeMoveSubsystem.simpleIntakeMove(speed);
             }
-        }
+        } */
         
         // intakeMoveSubsystem.simpleIntakeMove(speed); THIS LINE IS THE OLD CODE
     }
