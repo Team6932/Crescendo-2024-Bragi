@@ -24,6 +24,9 @@ import frc.robot.commands.IntakeMoveCommand;
 import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.ResetHeadingCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
+import frc.robot.commands.LimelightCommands.setAprilTagCommand;
+import frc.robot.commands.LimelightCommands.setCameraCommand;
+import frc.robot.commands.LimelightCommands.setNeuralNetworkCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeMoveSubsystem;
@@ -160,6 +163,10 @@ public class RobotContainer {
 
     Trigger fullClimb = new Trigger(() -> driveController.getCircleButton()); // if Circle on drive, full send climber
 
+    Trigger aprilTag = new Trigger(() -> driveController.getPOV() == 0); // if D-Pad up on drive, Limelight to April Tag mode
+    Trigger neuralNetwork = new Trigger(() -> driveController.getPOV() == 180); // if D-Pad down on drive, Limelight to neural mode
+    Trigger camera = new Trigger(() -> driveController.getPOV() == 90); // if D-Pad right on drive, Limelight to camera mode
+
     // simultaneously push game piece into shooter and shoot for speaker
 		speaker.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
     //shoot.onTrue(new IntakeCommand(intakeSubsystem, -0.1, -0.1).withTimeout(0.3));
@@ -181,8 +188,8 @@ public class RobotContainer {
     autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 0.05)); 
 
     // manully move intake in/out and manually grab pieces
-    manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeMovePower));
-    manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, -PieceConstants.intakeMovePower));
+    manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, -PieceConstants.intakeMovePower));
+    manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeMovePower));
     manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
 
     // manually move climb mechanism up and down
@@ -193,6 +200,11 @@ public class RobotContainer {
 
     // reset heading
     resetHeading.onTrue(new ResetHeadingCommand(drivebase));
+
+    // Limelight modes
+    aprilTag.onTrue(new setAprilTagCommand(limelightSubsystem));
+    neuralNetwork.onTrue(new setNeuralNetworkCommand(limelightSubsystem));
+    camera.onTrue(new setCameraCommand(limelightSubsystem));
 
     // half speed/drive (probably a better way to code this)
     Command halfSpeedCommand = drivebase.driveCommand(

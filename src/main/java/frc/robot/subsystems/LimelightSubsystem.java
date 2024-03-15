@@ -72,4 +72,16 @@ public class LimelightSubsystem extends SubsystemBase{
             getDist() * Math.sin(getTX())), 
             new Rotation2d(getTX()));
     }
+
+    public void setAprilTag() {
+        limelightTable.getEntry("pipeline").setNumber(1);
+    }
+
+    public void setCamera() {
+        limelightTable.getEntry("pipeline").setNumber(0);
+    }
+
+    public void setNeuralNetwork() {
+        limelightTable.getEntry("pipeline").setNumber(2);
+    }
 } 
