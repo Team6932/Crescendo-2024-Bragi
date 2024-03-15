@@ -22,6 +22,7 @@ import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeMoveCommand;
 import frc.robot.commands.LimelightDrive;
+import frc.robot.commands.ResetHeadingCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.ClimbSubsystem;
@@ -32,8 +33,6 @@ import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import java.io.File;
-import java.lang.management.OperatingSystemMXBean;
-import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -138,6 +137,8 @@ public class RobotContainer {
     Trigger stopAllArm = new Trigger(() -> driveController.getPSButton()).
       or(() -> pieceController.getPSButton()); // is PS4 Button on piece or drive, stop everything other than movement 
 
+    Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); // if Options on drive, reset heading
+
     Trigger halfSpeed = new Trigger(() -> driveController.getL1Button()); // if L1 on drive, half speed
 		Trigger halfTurn = new Trigger (() -> pieceController.getCircleButton()); // if Circle on piece, half turn speed	
     Trigger halfMovement = new Trigger(halfSpeed).and(halfTurn); // if L1 on drive AND Circle on piece, half movement
@@ -189,6 +190,9 @@ public class RobotContainer {
 
     fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));
 
+    // reset heading
+    resetHeading.onTrue(new ResetHeadingCommand(drivebase));
+
     // half speed/drive (probably a better way to code this)
     Command halfSpeedCommand = drivebase.driveCommand(
       () -> -OperatorConstants.drivePowerPercent * 0.5 *
@@ -226,13 +230,13 @@ public class RobotContainer {
           
 
 ///////////////////// TESTING ////////////////////
-    Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 
+    /* Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 
     moveTest.onTrue(drivebase.driveToPose(
       new Pose2d(new Translation2d(2, 1), Rotation2d.fromDegrees(90))
     ));
 
     Trigger limelightTest = new Trigger(() -> driveController.getR1Button());
-    limelightTest.onTrue(new LimelightDrive(limelightSubsystem, drivebase));
+    limelightTest.onTrue(new LimelightDrive(limelightSubsystem, drivebase)); */
 
     /*driveController.a().onTrue((Commands.runOnce(drivebase::zeroGyro)));
     driveController.x().onTrue(Commands.runOnce(drivebase::addFakeVisionReading));
