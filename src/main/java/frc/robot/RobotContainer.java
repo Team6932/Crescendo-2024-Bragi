@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PieceConstants;
 import frc.robot.commands.AbsoluteDrive;
@@ -27,6 +28,7 @@ import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.LimelightCommands.setAprilTagCommand;
 import frc.robot.commands.LimelightCommands.setCameraCommand;
 import frc.robot.commands.LimelightCommands.setNeuralNetworkCommand;
+import frc.robot.commands.LimelightCommands.setVisionModeCommand;
 import frc.robot.commands.ShootCommand;
 import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeMoveSubsystem;
@@ -163,9 +165,11 @@ public class RobotContainer {
 
     Trigger fullClimb = new Trigger(() -> driveController.getCircleButton()); // if Circle on drive, full send climber
 
-    Trigger aprilTag = new Trigger(() -> driveController.getPOV() == 0); // if D-Pad up on drive, Limelight to April Tag mode
-    Trigger neuralNetwork = new Trigger(() -> driveController.getPOV() == 180); // if D-Pad down on drive, Limelight to neural mode
-    Trigger camera = new Trigger(() -> driveController.getPOV() == 90); // if D-Pad right on drive, Limelight to camera mode
+    Trigger aprilTag = new Trigger(() -> driveController.getPOV() == 90); // if D-Pad right on drive, Limelight to April Tag mode
+    Trigger neuralNetwork = new Trigger(() -> driveController.getPOV() == 270); // if D-Pad left on drive, Limelight to neural mode
+
+    Trigger visionMode = new Trigger(() -> driveController.getPOV() == 180); // if D-Pad down on drive, Limelight to vision process
+    Trigger driveMode = new Trigger(() -> driveController.getPOV() == 0); // if D-Pad up on drive, Limelight to driver camera
 
     // simultaneously push game piece into shooter and shoot for speaker
 		speaker.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
@@ -202,9 +206,10 @@ public class RobotContainer {
     resetHeading.onTrue(new ResetHeadingCommand(drivebase));
 
     // Limelight modes
-    aprilTag.onTrue(new setAprilTagCommand(limelightSubsystem));
-    neuralNetwork.onTrue(new setNeuralNetworkCommand(limelightSubsystem));
-    camera.onTrue(new setCameraCommand(limelightSubsystem));
+    aprilTag.toggleOnTrue(new setAprilTagCommand(limelightSubsystem));
+    neuralNetwork.toggleOnTrue(new setNeuralNetworkCommand(limelightSubsystem));
+    visionMode.toggleOnTrue(new setVisionModeCommand(limelightSubsystem, LimelightConstants.visionProcessModeId));
+    driveMode.toggleOnTrue(new setVisionModeCommand(limelightSubsystem, LimelightConstants.cameraModeId));
 
     // half speed/drive (probably a better way to code this)
     Command halfSpeedCommand = drivebase.driveCommand(

@@ -15,7 +15,7 @@ import frc.robot.utils.LimelightHelpers;
 
 public class LimelightSubsystem extends SubsystemBase{  
     private final NetworkTable limelightTable;
-    private double tv, tx, ty, ta, aprilId;
+    private double tv, tx, ty, ta, pipeline, camMode;
     private ArrayList<Double> targetList;
     private final int MAX_ENTRIES = 50;
     private final NetworkTableEntry isTargetValid, ledEntry;
@@ -29,16 +29,19 @@ public class LimelightSubsystem extends SubsystemBase{
 
     @Override
     public void periodic() {
-        tv = limelightTable.getEntry("tv").getDouble(1);
-        tx = limelightTable.getEntry("tx").getDouble(1);
-        ty = limelightTable.getEntry("ty").getDouble(1);
-        ta = limelightTable.getEntry("ta").getDouble(1);
-        aprilId = LimelightHelpers.getFiducialID("limelight");
+        tv = limelightTable.getEntry("tv").getDouble(0);
+        tx = limelightTable.getEntry("tx").getDouble(0);
+        ty = limelightTable.getEntry("ty").getDouble(0);
+        ta = limelightTable.getEntry("ta").getDouble(0);
+        pipeline = limelightTable.getEntry("pipeline").getDouble(9);
+        camMode = limelightTable.getEntry("camMode").getDouble(0);
 
         SmartDashboard.putNumber("valid target", tv);
         SmartDashboard.putNumber("horizontal offset", tx);
         SmartDashboard.putNumber("vertical offset", ty); 
-        SmartDashboard.putNumber("april tag", aprilId);
+        SmartDashboard.putNumber("pipeline (9 = null)", pipeline);
+        SmartDashboard.putNumber("camera (1 = drive camera)", camMode);
+
     }
 
     /**
@@ -83,5 +86,9 @@ public class LimelightSubsystem extends SubsystemBase{
 
     public void setNeuralNetwork() {
         limelightTable.getEntry("pipeline").setNumber(2);
+    }
+
+    public void setVisionMode (int camModeIndex) {
+        limelightTable.getEntry("camMode").setNumber(camModeIndex);
     }
 } 

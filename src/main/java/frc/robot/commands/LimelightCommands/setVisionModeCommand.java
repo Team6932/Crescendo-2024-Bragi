@@ -3,11 +3,13 @@ package frc.robot.commands.LimelightCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LimelightSubsystem;
 
-public class setCameraCommand extends Command {
+public class setVisionModeCommand extends Command {
     private final LimelightSubsystem limelightSubsystem;
+    private final int camModeId;
 
-    public setCameraCommand (LimelightSubsystem limelightSubsystem) {
+    public setVisionModeCommand (LimelightSubsystem limelightSubsystem, int camModeId) {
         this.limelightSubsystem = limelightSubsystem;
+        this.camModeId = camModeId;
     }
 
     @Override
@@ -15,7 +17,7 @@ public class setCameraCommand extends Command {
     
     @Override
     public void execute () {
-        limelightSubsystem.setCamera();
+        limelightSubsystem.setVisionMode(camModeId);
     }
 
     @Override
