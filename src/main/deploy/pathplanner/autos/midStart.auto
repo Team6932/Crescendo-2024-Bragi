@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.9,
-      "y": 7.0
+      "x": 1.45,
+      "y": 5.6
     },
     "rotation": 180.0
   },
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "baseToShoot"
+            "pathName": "midStartToShoot"
           }
         },
         {
@@ -24,7 +24,26 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 1.0
+                  "waitTime": 0.5
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "deadline",
+          "data": {
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 0.5
                 }
               },
               {
@@ -45,7 +64,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "shootToLeftClosePiece"
+            "pathName": "midShootToCloseMidPiece"
           }
         },
         {
@@ -70,38 +89,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "leftClosePieceToShoot"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "feed"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "shootToLeftMidPiece"
+            "pathName": "closeMidPieceToMidShoot"
           }
         },
         {
@@ -117,31 +105,6 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "midLeftPieceToShoot"
-          }
-        },
-        {
-          "type": "deadline",
-          "data": {
-            "commands": [
-              {
-                "type": "wait",
-                "data": {
-                  "waitTime": 1.0
-                }
-              },
-              {
-                "type": "named",
-                "data": {
                   "name": "shoot"
                 }
               },
@@ -152,6 +115,12 @@
                 }
               }
             ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "midShootToOut"
           }
         }
       ]

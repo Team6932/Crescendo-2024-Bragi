@@ -11,10 +11,9 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class SimpleIntakeMoveCommand extends Command{ 
     
     private final IntakeMoveSubsystem intakeMoveSubsystem;
+    private final IntakeSubsystem intakeSubsystem;
     private boolean limitSwitch;
     private double speed;
-    private final IntakeSubsystem intakeSubsystem;
-    // private boolean outLimitSwitch, inLimitSwitch;
 
     public SimpleIntakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, IntakeSubsystem intakeSubsystem, double speed) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;
@@ -28,7 +27,18 @@ public class SimpleIntakeMoveCommand extends Command{
 
     @Override
     public void execute () {
-        limitSwitch = intakeSubsystem.intakeLimit();
+
+        /*limitSwitch = intakeSubsystem.getLimitSwitch();
+        
+        if (speed < 0) {
+            if (limitSwitch != true) {
+                intakeMoveSubsystem.simpleIntakeMove(0);
+            }
+        } else {
+            intakeMoveSubsystem.simpleIntakeMove(speed);
+        } */
+
+        /* limitSwitch = intakeSubsystem.intakeLimit();
         
         if (speed > 0) {
             if (limitSwitch) {
@@ -36,7 +46,7 @@ public class SimpleIntakeMoveCommand extends Command{
             }
         } else {
             intakeMoveSubsystem.simpleIntakeMove(speed);
-        }
+        } */
 
         // outLimitSwitch = intakeMoveSubsystem.outLimitSwitch();
         // inLimitSwitch = intakeMoveSubsystem.inLimitSwitch();
@@ -55,7 +65,7 @@ public class SimpleIntakeMoveCommand extends Command{
             }
         } */
         
-        // intakeMoveSubsystem.simpleIntakeMove(speed); THIS LINE IS THE OLD CODE
+        intakeMoveSubsystem.simpleIntakeMove(speed); //THIS LINE IS THE OLD CODE
     }
 
     @Override

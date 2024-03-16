@@ -8,7 +8,7 @@ public class IntakeCommand extends Command{
     private final IntakeSubsystem intakeSubsystem;
     private double leftSpeed;
     private double rightSpeed;
-    private boolean intakeLimit;
+    private boolean limitSwitch;
 
     public IntakeCommand(IntakeSubsystem intakeSubsystem, double leftSpeed, double rightSpeed) {
         this.intakeSubsystem = intakeSubsystem;
@@ -22,7 +22,19 @@ public class IntakeCommand extends Command{
 
     @Override
     public void execute() {
-        intakeLimit = intakeSubsystem.intakeLimit(); 
+ ////////////////////////// CHECK IF LIMIT SWITCH WORKS ///////////////////////////
+        /*limitSwitch = intakeSubsystem.getLimitSwitch();
+        if (leftSpeed > 0 || rightSpeed > 0) {
+            if (limitSwitch != true) {
+                intakeSubsystem.intake(0, 0);
+            } else {
+                intakeSubsystem.intake(leftSpeed, rightSpeed);
+            }
+        } else {
+            intakeSubsystem.intake(leftSpeed, rightSpeed);
+        } */
+
+        /* intakeLimit = intakeSubsystem.intakeLimit(); 
         
         if (leftSpeed > 0 || rightSpeed > 0) {
             if (intakeLimit) {
@@ -32,9 +44,9 @@ public class IntakeCommand extends Command{
             }
         } else {
             intakeSubsystem.intake(leftSpeed, rightSpeed);
-        }
+        } */
 
-        // intakeSubsystem.intake(leftSpeed, rightSpeed);
+        intakeSubsystem.intake(leftSpeed, rightSpeed);
     }
 
     @Override

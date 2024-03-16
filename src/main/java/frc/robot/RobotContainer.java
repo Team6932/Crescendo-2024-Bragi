@@ -11,6 +11,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.PS4Controller;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -39,6 +41,7 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import java.io.File;
 
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
@@ -48,6 +51,8 @@ import com.pathplanner.lib.path.PathPlannerTrajectory;
  * Instead, the structure of the robot (including subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+
+  private final SendableChooser<Command> autoChooser;
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
@@ -65,6 +70,8 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
+    autoChooser = AutoBuilder.buildAutoChooser();
+
     // register named commands for PathPlanner
     NamedCommands.registerCommand("shoot", 
       new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
@@ -76,19 +83,26 @@ public class RobotContainer {
       new ParallelCommandGroup(
         new ShootCommand(shootSubsystem, 0, 0), 
         new IntakeCommand(intakeSubsystem, 0, 0), 
-        new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, 0, 0), 
+        new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,0, 0, 0, 0), 
         new ClimbCommand(climbSubsystem, 0)));
 
     NamedCommands.registerCommand("intakeOut", 
-      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeOutAngle, 0.1));
+      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+      PieceConstants.intakeOutP, 
+      PieceConstants.intakeOutI,
+      PieceConstants.intakeOutD));
 
     NamedCommands.registerCommand("intakeIn", 
-      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 0.5));
+      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeInAngle, 
+      PieceConstants.IntakeInP,
+      PieceConstants.intakeInI,
+      PieceConstants.intakeInD));
 
     NamedCommands.registerCommand("intake", 
       new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
 
-
+    SmartDashboard.putData("Auto Chooser", autoChooser);
+    
     // Configure the trigger bindings
     configureBindings();
 
@@ -184,16 +198,28 @@ public class RobotContainer {
 
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
-    intake.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeOutAngle, 0.1)); // P for PID
-    intake.onFalse(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 0.05)); // P for PID
+    intake.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+      PieceConstants.intakeOutP,
+      PieceConstants.intakeOutI,
+      PieceConstants.intakeOutD));
+    intake.onFalse(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeInAngle, 
+      PieceConstants.IntakeInP,
+      PieceConstants.intakeInI,
+      PieceConstants.intakeInD)); // P for PID
 
     // automatically move intake in/out
-    autoIntakeOut.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeOutAngle, 0.1));
-    autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 0.05)); 
+    autoIntakeOut.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+      PieceConstants.intakeOutP,
+      PieceConstants.intakeOutI,
+      PieceConstants.intakeOutD));
+    autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeInAngle, 
+      PieceConstants.IntakeInP,
+      PieceConstants.intakeInI,
+      PieceConstants.intakeInD)); 
 
     // manully move intake in/out and manually grab pieces
-    manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, -PieceConstants.intakeMovePower));
-    manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeMovePower));
+    manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,-PieceConstants.intakeMovePower));
+    manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeMovePower));
     manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
 
     // manually move climb mechanism up and down
@@ -242,7 +268,7 @@ public class RobotContainer {
     stopAllArm.whileTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
       new IntakeCommand(intakeSubsystem, 0, 0), 
-      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, 0, 0), 
+      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, 0, 0, 0, 0), 
       new ClimbCommand(climbSubsystem, 0)));        
 
           
@@ -265,15 +291,26 @@ public class RobotContainer {
     // driveController.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
   }
 
-  /**
+  /** ////////////////////USE THIS FOR PATHPLANNER ///////////////////////////////////////////////////////////////////////////////////////
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  /*public Command getAutonomousCommand() {
     // An example command will be run in autonomous
     return drivebase.getAutonomousCommand("testAuto");
+  } */
+
+  /*public Command getAutonomousCommand() {
+    return (drivebase.driveToPose(
+      new Pose2d(new Translation2d(5, 0), Rotation2d.fromDegrees(0.0))
+    )); 
+  } */
+
+  public Command getAutonomousCommand() {
+    return autoChooser.getSelected();
   }
+
 
   public void setDriveMode() {
     //drivebase.setDefaultCommand();

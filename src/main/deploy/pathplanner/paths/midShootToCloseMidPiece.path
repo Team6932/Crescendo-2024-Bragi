@@ -3,59 +3,37 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.4,
-        "y": 5.55
+        "x": 1.35,
+        "y": 5.6
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5,
-        "y": 5.55
+        "x": 2.35,
+        "y": 5.6
       },
       "isLocked": false,
       "linkedName": "Mid Shoot"
     },
     {
       "anchor": {
-        "x": 1.8458425585406415,
-        "y": 6.459297677802154
-      },
-      "prevControl": {
-        "x": 1.7411914710514975,
-        "y": 6.337204742398154
-      },
-      "nextControl": {
-        "x": 1.9611668739234442,
-        "y": 6.593842712415422
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
         "x": 2.2,
-        "y": 7.0
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.3000000000000003,
-        "y": 7.0
+        "x": 1.7000000000000002,
+        "y": 5.55
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "left close piece"
+      "linkedName": "mid close piece"
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.1,
-      "rotationDegrees": 0.0,
-      "rotateFast": true
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [
     {
       "name": "stopArm",
-      "waypointRelativePos": 0.1,
+      "waypointRelativePos": 0.05,
       "command": {
         "type": "sequential",
         "data": {
@@ -72,7 +50,7 @@
     },
     {
       "name": "intakeOut",
-      "waypointRelativePos": 0,
+      "waypointRelativePos": 0.1,
       "command": {
         "type": "parallel",
         "data": {
@@ -89,7 +67,7 @@
     },
     {
       "name": "intake",
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 0.5,
       "command": {
         "type": "parallel",
         "data": {
@@ -113,11 +91,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": false
+    "rotation": 0,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "mid start",
   "previewStartingState": {
     "rotation": 180.0,
     "velocity": 0

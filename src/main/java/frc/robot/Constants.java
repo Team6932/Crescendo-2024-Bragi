@@ -48,7 +48,7 @@ public final class Constants {
     public static final double TURN_CONSTANT    = 6;
 
     public static final double drivePowerPercent = 0.85;
-    public static final double turnPowerPercent = 0.7;
+    public static final double turnPowerPercent = 0.85;
   }
 
 
@@ -57,9 +57,9 @@ public final class Constants {
     // CAN IDs
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;
-    public static final int intakeMoveId = 9;
-    public static final int intakeRightDownId = 10;
-    public static final int intakeLeftUpId = 11;
+    public static final int intakeMoveId = 9; 
+    public static final int intakeRightDownId = 10; // messed up, tested 10
+    public static final int intakeLeftUpId = 11; // messed up, tested 9
     public static final int climb = 14;
 
     // power settings (-1 to 1)
@@ -78,12 +78,23 @@ public final class Constants {
     public static final double leftUpAmpFeedPower = 0.4; // move piece from intake to shooter for amp on left/top
     public static final double rightDownAmpFeedPower = 0.4; // move pieces from intake to shooter for amp on right/bottom
     
-    public static final double intakeMovePower = 0.5; // move entire intake system 
+    public static final double intakeMovePower = 0.25; // move entire intake system 
+
     public static final double climbPower = 0.3; // move entire climb mechanism
     public static final double fullClimbPower = 0.75;
 
+
+    // PID settings
+    public static final double intakeOutP = 0.03;
+    public static final double intakeOutI = 0.03;
+    public static final double intakeOutD = 0.0;
+
+    public static final double IntakeInP = 0.03;
+    public static final double intakeInI = 0.03;
+    public static final double intakeInD = 0.0;
+
     // other game piece related constants
-    public static final double intakeOutAngle = 152.0; // angle when intake is extended
+    public static final double intakeOutAngle = -24.0; // encoder position value when intake is out
     public static final double intakeInAngle = 0.0; // angle when intake is retracted
   }
 
