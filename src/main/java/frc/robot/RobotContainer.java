@@ -70,8 +70,6 @@ public class RobotContainer {
    */
   public RobotContainer() {
 
-    autoChooser = AutoBuilder.buildAutoChooser();
-
     // register named commands for PathPlanner
     NamedCommands.registerCommand("shoot", 
       new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
@@ -100,6 +98,8 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("intake", 
       new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+
+    autoChooser = AutoBuilder.buildAutoChooser();
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
     

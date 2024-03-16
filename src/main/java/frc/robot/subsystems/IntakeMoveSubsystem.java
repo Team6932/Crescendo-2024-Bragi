@@ -45,8 +45,12 @@ public class IntakeMoveSubsystem extends SubsystemBase {
         intakeMoveMotor.setSecondaryCurrentLimit(4);
     }
 
+    public double getIntakeEncoder() {
+        return intakeMoveEncoder.getPosition();
+    }
+
     @Override
     public void periodic () {
-        SmartDashboard.putNumber("intakeMoveValue", intakeMoveEncoder.getPosition());
+        SmartDashboard.putNumber("intakeMoveValue", getIntakeEncoder());
     }
 }
