@@ -12,15 +12,19 @@ import frc.robot.Constants.PieceConstants;
 public class IntakeMoveSubsystem extends SubsystemBase { 
     private final CANSparkMax intakeMoveMotor = new CANSparkMax(PieceConstants.intakeMoveId, MotorType.kBrushless);
     private final SparkPIDController intakeMovePID = intakeMoveMotor.getPIDController();
+    
+    // these 2 limit switches currently unused
     private final SparkLimitSwitch outLimitSwitch = intakeMoveMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
     private final SparkLimitSwitch inLimitSwitch = intakeMoveMotor.getReverseLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
 
     public IntakeMoveSubsystem() {}
     
+    // unused
     public boolean outLimitSwitch() {
         return outLimitSwitch.isPressed();
     }
 
+    // unused
     public boolean inLimitSwitch() {
         return inLimitSwitch.isPressed();
     }
