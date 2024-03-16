@@ -47,7 +47,7 @@ public final class Constants {
     public static final double RIGHT_Y_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
 
-    public static final double drivePowerPercent = 0.85;
+    public static final double drivePowerPercent = 0.95;
     public static final double turnPowerPercent = 0.85;
   }
 
@@ -69,8 +69,8 @@ public final class Constants {
     public static final double leftAmpPower = 0.4; // orange wheels on left for amp
     public static final double rightAmpPower = 0.4; // orange wheels on right for amp
 
-    public static final double leftUpIntakePower = 0.3; // intake pieces on the left/top
-    public static final double rightDownIntakePower = 0.3; // intake pieces on the right/bottom
+    public static final double leftUpIntakePower = 0.45; // intake pieces on the left/top
+    public static final double rightDownIntakePower = 0.45; // intake pieces on the right/bottom
 
     public static final double leftUpSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on left/top
     public static final double rightDownSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on right/bottom
