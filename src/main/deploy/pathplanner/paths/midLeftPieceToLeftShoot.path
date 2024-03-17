@@ -65,8 +65,8 @@
       }
     },
     {
-      "name": "shoot",
-      "waypointRelativePos": 1.4,
+      "name": "ramp",
+      "waypointRelativePos": 1.45,
       "command": {
         "type": "parallel",
         "data": {
@@ -74,7 +74,7 @@
             {
               "type": "named",
               "data": {
-                "name": "shoot"
+                "name": "ramp"
               }
             }
           ]

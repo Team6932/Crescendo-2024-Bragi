@@ -71,11 +71,15 @@ public class RobotContainer {
   public RobotContainer() {
 
     // register named commands for PathPlanner
-    NamedCommands.registerCommand("shoot", 
-      new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
+    NamedCommands.registerCommand("ramp", 
+      new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower).withTimeout(1));
     
+    NamedCommands.registerCommand("shoot", 
+      new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower).withTimeout(0.5));
+
     NamedCommands.registerCommand("feed", 
-      new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
+      new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower).
+      withTimeout(0.5));
 
     NamedCommands.registerCommand("stopArm", 
       new ParallelCommandGroup(

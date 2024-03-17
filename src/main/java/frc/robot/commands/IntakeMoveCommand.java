@@ -70,12 +70,13 @@ public class IntakeMoveCommand extends Command{
 
     @Override
     public void end (boolean interrupted) {
-        intakeMoveSubsystem.intakeMove(angle, 0.0, 0.0, 0.0);
+        intakeMoveSubsystem.simpleIntakeMove(0);
+        //intakeMoveSubsystem.intakeMove(angle, 0.0, 0.0, 0.0);
     }
 
     @Override 
     public boolean isFinished () {
-        if (intakeMoveSubsystem.getIntakeEncoder() == angle) {
+        if (intakeMoveSubsystem.getIntakeEncoder() >= angle) {
             return true;
         } else {
             return false;
