@@ -1,11 +1,10 @@
 package frc.robot.commands;
 
-import edu.wpi.first.units.Angle;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeMoveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 
-public class IntakeMoveCommand extends Command{ 
+public class IntakeOutCommand extends Command{ 
     
     private final IntakeMoveSubsystem intakeMoveSubsystem;
     private final IntakeSubsystem intakeSubsystem;
@@ -14,7 +13,7 @@ public class IntakeMoveCommand extends Command{
     private double P, I, D;
     private boolean limitSwitch;
 
-    public IntakeMoveCommand(IntakeMoveSubsystem intakeMoveSubsystem, IntakeSubsystem intakeSubsystem, double angle, double P, double I, double D) {
+    public IntakeOutCommand(IntakeMoveSubsystem intakeMoveSubsystem, IntakeSubsystem intakeSubsystem, double angle, double P, double I, double D) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;
         this.intakeSubsystem = intakeSubsystem;
         this.angle = angle;
@@ -76,10 +75,11 @@ public class IntakeMoveCommand extends Command{
 
     @Override 
     public boolean isFinished () {
-        if (intakeMoveSubsystem.getIntakeEncoder() >= angle) {
+        if (intakeMoveSubsystem.getIntakeEncoder() <= angle) {
             return true;
         } else {
             return false;
-        }
+        } 
+        //return false;
     } 
 }

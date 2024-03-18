@@ -83,14 +83,17 @@ public final class Constants {
     public static final double climbPower = 0.3; // move entire climb mechanism
     public static final double fullClimbPower = 0.75;
 
+    public static final double speakerWheelSpeed = 18; // speed the wheels must move in m/s to make it to speaker
+    public static final double speakerMotorSpeed = 4400; // rpm of the motors to make it ot the speaker, wheels 4 in diameter
+
 
     // PID settings
-    public static final double intakeOutP = 0.03;
-    public static final double intakeOutI = 0.03;
+    public static final double intakeOutP = 0.5;
+    public static final double intakeOutI = 0.5;
     public static final double intakeOutD = 0.0;
 
-    public static final double IntakeInP = 0.03;
-    public static final double intakeInI = 0.03;
+    public static final double IntakeInP = 0.5;
+    public static final double intakeInI = 0.5;
     public static final double intakeInD = 0.0;
 
     // other game piece related constants

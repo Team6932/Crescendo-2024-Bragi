@@ -23,10 +23,12 @@ import frc.robot.Constants.PieceConstants;
 import frc.robot.commands.AbsoluteDrive;
 import frc.robot.commands.ClimbCommand;
 import frc.robot.commands.IntakeCommand;
-import frc.robot.commands.IntakeMoveCommand;
+import frc.robot.commands.IntakeInCommand;
+import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.ResetHeadingCommand;
 import frc.robot.commands.ResetIntakeCommand;
+import frc.robot.commands.ShootAutoCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.LimelightCommands.setAprilTagCommand;
 import frc.robot.commands.LimelightCommands.setCameraCommand;
@@ -86,17 +88,17 @@ public class RobotContainer {
       new ParallelCommandGroup(
         new ShootCommand(shootSubsystem, 0, 0), 
         new IntakeCommand(intakeSubsystem, 0, 0), 
-        new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,0, 0, 0, 0), 
+        new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,0, 0, 0, 0), 
         new ClimbCommand(climbSubsystem, 0)));
 
     NamedCommands.registerCommand("intakeOut", 
-      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+      new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, 
       PieceConstants.intakeOutI,
       PieceConstants.intakeOutD));
 
     NamedCommands.registerCommand("intakeIn", 
-      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeInAngle, 
+      new IntakeInCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP,
       PieceConstants.intakeInI,
       PieceConstants.intakeInD));
@@ -204,21 +206,21 @@ public class RobotContainer {
 
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
-    intake.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+    intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP,
       PieceConstants.intakeOutI,
       PieceConstants.intakeOutD));
-    intake.onFalse(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeInAngle, 
+    intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP,
       PieceConstants.intakeInI,
-      PieceConstants.intakeInD)); // P for PID
+      PieceConstants.intakeInD));
 
     // automatically move intake in/out
-    autoIntakeOut.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+    autoIntakeOut.onTrue(new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP,
       PieceConstants.intakeOutI,
       PieceConstants.intakeOutD));
-    autoIntakeIn.onTrue(new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeInAngle, 
+    autoIntakeIn.onTrue(new IntakeInCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP,
       PieceConstants.intakeInI,
       PieceConstants.intakeInD)); 
@@ -275,12 +277,17 @@ public class RobotContainer {
     stopAllArm.whileTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
       new IntakeCommand(intakeSubsystem, 0, 0), 
-      new IntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem, 0, 0, 0, 0), 
+      new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem, 0, 0, 0, 0), 
       new ClimbCommand(climbSubsystem, 0)));        
 
           
 
+
+
+  
 ///////////////////// TESTING ////////////////////
+    Trigger shootAuto = new Trigger(() -> pieceController.getPOV()==270);
+    shootAuto.whileTrue(new ShootAutoCommand(shootSubsystem, PieceConstants.speakerMotorSpeed, 0.3, 0.3, 0));
     /* Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 
     moveTest.onTrue(drivebase.driveToPose(
       new Pose2d(new Translation2d(2, 1), Rotation2d.fromDegrees(90))
