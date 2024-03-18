@@ -21,6 +21,9 @@ public class ResetHeadingCommand extends Command {
         drivebase.resetOdometry(new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(0)));
     }
 
+    @Override 
+    public void end (boolean interrupted) {}
+
     @Override
     public boolean isFinished() {
         return true;

@@ -28,8 +28,8 @@ import frc.robot.commands.IntakeOutCommand;
 import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.ResetHeadingCommand;
 import frc.robot.commands.ResetIntakeCommand;
-import frc.robot.commands.ShootAutoCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
+import frc.robot.commands.SpeakerCommand;
 import frc.robot.commands.LimelightCommands.setAprilTagCommand;
 import frc.robot.commands.LimelightCommands.setCameraCommand;
 import frc.robot.commands.LimelightCommands.setNeuralNetworkCommand;
@@ -194,10 +194,13 @@ public class RobotContainer {
     Trigger driveMode = new Trigger(() -> driveController.getPOV() == 0); // if D-Pad up on drive, Limelight to driver camera
 
     // simultaneously push game piece into shooter and shoot for speaker
-		speaker.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
+    speaker.whileTrue(new SpeakerCommand(intakeSubsystem, shootSubsystem, 
+      PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
+      -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
+		/*speaker.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
     //shoot.onTrue(new IntakeCommand(intakeSubsystem, -0.1, -0.1).withTimeout(0.3));
     speaker.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
-      intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower)));
+      intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower))); */
 
     // simultaneously push game piece into shooter and shoot for amp
     amp.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftAmpPower, PieceConstants.rightAmpPower));
@@ -207,23 +210,15 @@ public class RobotContainer {
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
     intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
-      PieceConstants.intakeOutP,
-      PieceConstants.intakeOutI,
-      PieceConstants.intakeOutD));
+      PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 
-      PieceConstants.IntakeInP,
-      PieceConstants.intakeInI,
-      PieceConstants.intakeInD));
+      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));
 
     // automatically move intake in/out
     autoIntakeOut.onTrue(new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
-      PieceConstants.intakeOutP,
-      PieceConstants.intakeOutI,
-      PieceConstants.intakeOutD));
+      PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
     autoIntakeIn.onTrue(new IntakeInCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 
-      PieceConstants.IntakeInP,
-      PieceConstants.intakeInI,
-      PieceConstants.intakeInD)); 
+      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD)); 
 
     // manully move intake in/out and manually grab pieces
     manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,-PieceConstants.intakeMovePower));
@@ -233,7 +228,6 @@ public class RobotContainer {
     // manually move climb mechanism up and down
     climbUp.whileTrue(new ClimbCommand(climbSubsystem, PieceConstants.climbPower));
     climbDown.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.climbPower));
-
     fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));
 
     // reset heading/intake encoder
@@ -286,8 +280,6 @@ public class RobotContainer {
 
   
 ///////////////////// TESTING ////////////////////
-    Trigger shootAuto = new Trigger(() -> pieceController.getPOV()==270);
-    shootAuto.whileTrue(new ShootAutoCommand(shootSubsystem, PieceConstants.speakerMotorSpeed, 0.3, 0.3, 0));
     /* Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 
     moveTest.onTrue(drivebase.driveToPose(
       new Pose2d(new Translation2d(2, 1), Rotation2d.fromDegrees(90))
