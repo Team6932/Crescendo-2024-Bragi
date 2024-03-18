@@ -1,0 +1,56 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.7,
+      "y": 6.7
+    },
+    "rotation": -120.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "ramp"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "shoot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "feed"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 8.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "UNCAStartToOut"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

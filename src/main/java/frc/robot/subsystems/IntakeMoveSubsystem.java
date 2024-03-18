@@ -49,6 +49,10 @@ public class IntakeMoveSubsystem extends SubsystemBase {
         return intakeMoveEncoder.getPosition();
     }
 
+    public void resetEncoder() {
+        intakeMoveEncoder.setPosition(0);
+    }
+
     @Override
     public void periodic () {
         SmartDashboard.putNumber("intakeMoveValue", getIntakeEncoder());

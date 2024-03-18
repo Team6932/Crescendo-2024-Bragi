@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.75,
-        "y": 4.4
+        "x": 0.7,
+        "y": 6.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.75,
-        "y": 4.4
+        "x": 1.7,
+        "y": 6.7
       },
       "isLocked": false,
-      "linkedName": "angle right shoot"
+      "linkedName": "UNCA left start"
     },
     {
       "anchor": {
-        "x": 1.479563752328638,
-        "y": 2.2441844317116404
+        "x": 3.0260742674459857,
+        "y": 6.7
       },
       "prevControl": {
-        "x": 1.1365407433364445,
-        "y": 2.459300555994879
+        "x": 2.4770623673664023,
+        "y": 6.569174861009519
       },
       "nextControl": {
-        "x": 2.0296589380074335,
-        "y": 1.8992094847605339
+        "x": 3.845841119444279,
+        "y": 6.8953438756735865
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.7063063361254205,
-        "y": 0.686046017984387
+        "x": 4.15979438191171,
+        "y": 7.4302272117292105
       },
       "prevControl": {
-        "x": 2.7063063361254205,
-        "y": 0.686046017984387
+        "x": 3.956306156238375,
+        "y": 7.226738986055875
       },
       "nextControl": null,
       "isLocked": false,
@@ -59,9 +59,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "right start",
+  "folder": "UNCA",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -120.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

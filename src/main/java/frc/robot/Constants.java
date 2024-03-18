@@ -58,9 +58,9 @@ public final class Constants {
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;
     public static final int intakeMoveId = 9; 
-    public static final int intakeRightDownId = 10; // messed up, tested 10
-    public static final int intakeLeftUpId = 11; // messed up, tested 9
-    public static final int climb = 14;
+    public static final int intakeRightDownId = 11; // issue
+    public static final int intakeLeftUpId = 14; // flip cimber, 14, 10, 11
+    public static final int climb = 10; // flip right down
 
     // power settings (-1 to 1)
     public static final double leftSpeakerPower = 0.8; // orange wheels on the left for speaker 

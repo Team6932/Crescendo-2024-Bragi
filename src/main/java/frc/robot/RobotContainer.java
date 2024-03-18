@@ -26,6 +26,7 @@ import frc.robot.commands.IntakeCommand;
 import frc.robot.commands.IntakeMoveCommand;
 import frc.robot.commands.LimelightDrive;
 import frc.robot.commands.ResetHeadingCommand;
+import frc.robot.commands.ResetIntakeCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.LimelightCommands.setAprilTagCommand;
 import frc.robot.commands.LimelightCommands.setCameraCommand;
@@ -124,8 +125,8 @@ public class RobotContainer {
     Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
         () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
         () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -pieceController.getLeftX(),
-        () -> -pieceController.getLeftY());
+        () -> -driveController.getRightX(),
+        () -> -driveController.getRightY());
 
     // Applies deadbands and inverts controls because joysticks
     // are back-right positive while robot
@@ -138,7 +139,7 @@ public class RobotContainer {
         () -> -OperatorConstants.drivePowerPercent *
           MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -OperatorConstants.turnPowerPercent * 
-          pieceController.getLeftX());
+          driveController.getRightX());
 
     Command driveFieldOrientedDirectAngleSim = drivebase.simDriveCommand(
         () -> -OperatorConstants.drivePowerPercent * 
@@ -146,7 +147,7 @@ public class RobotContainer {
         () -> -OperatorConstants.drivePowerPercent * 
           MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
         () -> -OperatorConstants.turnPowerPercent * 
-          pieceController.getLeftX());
+          driveController.getRightX());
 
     drivebase.setDefaultCommand( // if isSimulation = not true, angular velocity; else, direct angle sim
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
@@ -162,6 +163,7 @@ public class RobotContainer {
       or(() -> pieceController.getPSButton()); // is PS4 Button on piece or drive, stop everything other than movement 
 
     Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); // if Options on drive, reset heading
+    Trigger resetIntake = new Trigger(() -> pieceController.getOptionsButton()); // if Options on piece, reset encoder value
 
     Trigger halfSpeed = new Trigger(() -> driveController.getL1Button()); // if L1 on drive, half speed
 		Trigger halfTurn = new Trigger (() -> pieceController.getCircleButton()); // if Circle on piece, half turn speed	
@@ -232,8 +234,9 @@ public class RobotContainer {
 
     fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));
 
-    // reset heading
+    // reset heading/intake encoder
     resetHeading.onTrue(new ResetHeadingCommand(drivebase));
+    resetIntake.onTrue(new ResetIntakeCommand(intakeMoveSubsystem));
 
     // Limelight modes
     aprilTag.toggleOnTrue(new setAprilTagCommand(limelightSubsystem));
@@ -248,21 +251,21 @@ public class RobotContainer {
       () -> -OperatorConstants.drivePowerPercent * 0.5 *
         MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
       () -> -OperatorConstants.turnPowerPercent * 
-        pieceController.getLeftX());
+        driveController.getRightX());
     Command halfTurnCommand = drivebase.driveCommand(
       () -> -OperatorConstants.drivePowerPercent * 
         MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
       () -> -OperatorConstants.drivePowerPercent * 
         MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
       () -> -OperatorConstants.turnPowerPercent * 0.5 *
-        pieceController.getLeftX());
+        driveController.getRightX());
     Command halfMovementCommand = drivebase.driveCommand(
       () -> -OperatorConstants.drivePowerPercent * 0.5 * 
         MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
       () -> -OperatorConstants.drivePowerPercent * 0.5 * 
         MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
       () -> -OperatorConstants.turnPowerPercent * 0.5 *
-        pieceController.getLeftX());
+        driveController.getRightX());
     
     halfSpeed.whileTrue(halfSpeedCommand);
     halfTurn.whileTrue(halfTurnCommand);
