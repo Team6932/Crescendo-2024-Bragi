@@ -85,6 +85,7 @@ public final class Constants {
 
     public static final double speakerWheelSpeed = 18; // speed the wheels must move in m/s to make it to speaker
     public static final double speakerMotorSpeed = 4400; // rpm of the motors to make it ot the speaker, wheels 4 in diameter
+    public static final double maxSpeakerMotorSpeed = 5500; // hypothetical max rpm of the motors
 
 
     // PID settings
@@ -113,5 +114,7 @@ public final class Constants {
 
     // field element constants
     public static final double speakerBumper = 0.92; // distance of the thing that sticks out from the speaker in m
+    public static final int blueSpeakerId = 7; // april tag id of mid blue speaker
+    public static final int redSpeakerId = 3; // april tag id of mid red speaker
   }
 }

@@ -30,6 +30,7 @@ import frc.robot.commands.ResetHeadingCommand;
 import frc.robot.commands.ResetIntakeCommand;
 import frc.robot.commands.SimpleIntakeMoveCommand;
 import frc.robot.commands.SpeakerCommand;
+import frc.robot.commands.TestDrive;
 import frc.robot.commands.LimelightCommands.setAprilTagCommand;
 import frc.robot.commands.LimelightCommands.setCameraCommand;
 import frc.robot.commands.LimelightCommands.setNeuralNetworkCommand;
@@ -43,6 +44,8 @@ import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
 import java.io.File;
+
+import javax.swing.plaf.basic.BasicSliderUI.TrackListener;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -277,7 +280,11 @@ public class RobotContainer {
           
 
 
+    Trigger moveTest = new Trigger(() -> pieceController.getL3Button());
+    moveTest.whileTrue(new TestDrive(limelightSubsystem, drivebase));
 
+    Trigger testing = new Trigger(() -> pieceController.getR3Button());
+    testing.whileTrue(drivebase.doubleDriveCommand(5, 5, 0));
   
 ///////////////////// TESTING ////////////////////
     /* Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 

@@ -7,12 +7,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
-public class LimelightDrive extends Command {
+public class TestDrive extends Command {
     
     private final LimelightSubsystem limelightSubsystem;
     private final SwerveSubsystem drivebase;
 
-    public LimelightDrive(LimelightSubsystem limelightSubsystem, SwerveSubsystem drivebase) {
+    public TestDrive(LimelightSubsystem limelightSubsystem, SwerveSubsystem drivebase) {
         this.limelightSubsystem = limelightSubsystem;
         this.drivebase = drivebase;
         addRequirements(limelightSubsystem, drivebase);
@@ -21,20 +21,22 @@ public class LimelightDrive extends Command {
     @Override
     public void initialize() {
         limelightSubsystem.setLimelightAlliance();
+        drivebase.resetOdometry(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
     }
 
     @Override
     public void execute() {
-        drivebase.driveToPose(limelightSubsystem.getLimelightPosition());
+        drivebase.driveToPose(limelightSubsystem.getLimelightPose2d());
     }
 
     @Override
     public void end (boolean interrupted) {
         drivebase.driveToPose(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+        drivebase.resetOdometry(new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(180)));
     }
 
     @Override
-    public boolean isFinished() {
+    public boolean isFinished () {
         return false;
     }
 }

@@ -2,6 +2,8 @@ package frc.robot.subsystems;
 
 import java.util.ArrayList;
 
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -36,7 +38,7 @@ public class LimelightSubsystem extends SubsystemBase{
         pipeline = limelightTable.getEntry("pipeline").getDouble(9);
         camMode = limelightTable.getEntry("camMode").getDouble(0);
 
-        SmartDashboard.putNumber("valid target", tv);
+        SmartDashboard.putBoolean("valid target", getTV());
         SmartDashboard.putNumber("horizontal offset", tx);
         SmartDashboard.putNumber("vertical offset", ty); 
         SmartDashboard.putNumber("pipeline (9 = null)", pipeline);
@@ -61,9 +63,21 @@ public class LimelightSubsystem extends SubsystemBase{
     /**
      * Get if there are valid targets (int 0 for false and int 1 for true)
      */
-    public double getTV() {
-        return tv;
+    public boolean getTV() {
+        if (tv == 1) {
+            return true;
+        } else {
+            return false;
+        }
     } 
+
+    public void setLimelightAlliance() { // true for blue, false for red 
+        if (DriverStation.getAlliance().get() == Alliance.Red) {
+            limelightTable.getEntry("priorityid").setNumber(LimelightConstants.redSpeakerId);
+        } else {
+            limelightTable.getEntry("priorityid").setNumber(LimelightConstants.blueSpeakerId);
+        }
+    }
 
     public double getDist() {
         return (-LimelightConstants.limelightHeight) / Math.tan(getTY());
@@ -74,6 +88,18 @@ public class LimelightSubsystem extends SubsystemBase{
             getDist() * Math.cos(getTX()), 
             getDist() * Math.sin(getTX())), 
             new Rotation2d(getTX()));
+    }
+
+    public Pose2d getLimelightPose2d() {
+        double[] xMetersArray = limelightTable.getEntry("targetpose_robotspace").getDoubleArray(new double [1]);
+        double[] yMetersArray = limelightTable.getEntry("targetpose_robotspace").getDoubleArray(new double [2]);
+        double[] rotDegArray = limelightTable.getEntry("targetpose_robotspace").getDoubleArray(new double [5]);
+
+        double xMeters = xMetersArray[0] - LimelightConstants.speakerBumper;
+        double yMeters = yMetersArray[0];
+        double rotDeg = rotDegArray[0];
+
+        return new Pose2d(new Translation2d(xMeters, yMeters), Rotation2d.fromDegrees(rotDeg));
     }
 
     public void setAprilTag() {
