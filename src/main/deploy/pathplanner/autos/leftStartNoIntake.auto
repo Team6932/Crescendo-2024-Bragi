@@ -8,26 +8,7 @@
         {
           "type": "named",
           "data": {
-            "name": "ramp"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "shoot"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "feed"
-                }
-              }
-            ]
+            "name": "speaker"
           }
         },
         {
@@ -39,6 +20,6 @@
       ]
     }
   },
-  "folder": null,
+  "folder": "leftStarts",
   "choreoAuto": false
 }
