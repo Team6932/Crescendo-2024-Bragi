@@ -1,18 +1,17 @@
-package frc.robot.commands;
+package frc.robot.commands.IntakeSystemCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeMoveSubsystem;
 
-public class IntakeInCommand extends Command {
+public class IntakeOutCommand extends Command{ 
     
     private final IntakeMoveSubsystem intakeMoveSubsystem;
-
+    
     private double angle;
     private double P, I, D;
-    private boolean intakeInSwitch;
+    private boolean intakeOutSwitch;
 
-
-    public IntakeInCommand(IntakeMoveSubsystem intakeMoveSubsystem, double angle, double P, double I, double D) {
+    public IntakeOutCommand(IntakeMoveSubsystem intakeMoveSubsystem, double angle, double P, double I, double D) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;
         this.angle = angle;
         this.P = P;
@@ -25,7 +24,7 @@ public class IntakeInCommand extends Command {
     public void initialize() {}
 
     @Override
-    public void execute() {
+    public void execute () {
         intakeMoveSubsystem.intakeMove(angle, P, I, D);
     }
 
@@ -34,12 +33,12 @@ public class IntakeInCommand extends Command {
         intakeMoveSubsystem.simpleIntakeMove(0);
     }
 
-    @Override
-    public boolean isFinished() {
-        if (intakeMoveSubsystem.getIntakeEncoder() + 4 >= angle || intakeInSwitch) { // 4 is offset reading when testing the command
+    @Override 
+    public boolean isFinished () {
+        if (intakeMoveSubsystem.getIntakeEncoder() <= angle || intakeOutSwitch) {
             return true;
         } else {
             return false;
-        }
-    }
+        } 
+    } 
 }
