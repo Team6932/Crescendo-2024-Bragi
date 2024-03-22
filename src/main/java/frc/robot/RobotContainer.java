@@ -224,8 +224,8 @@ public class RobotContainer {
       PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD)); 
 
     // manully move intake in/out and manually grab pieces
-    manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,-PieceConstants.intakeMovePower));
-    manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeMovePower));
+    manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
+    manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
     manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
 
     // manually move climb mechanism up and down
