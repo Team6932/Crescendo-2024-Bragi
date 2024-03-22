@@ -1,5 +1,6 @@
 package frc.robot.commands.ShootingSystemCommands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PieceConstants;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -11,6 +12,9 @@ public class SpeakerCommand extends Command{
 
     private double leftShoot, rightShoot;
     private double leftFeed, rightFeed;
+
+    private boolean spaghettiIfStatement;
+    private Timer time = new Timer();
 
     public SpeakerCommand(IntakeSubsystem intakeSubsystem, ShootSubsystem shootSubsystem, 
             double leftShoot, double rightShoot, double leftFeed, double rightFeed) {
@@ -24,15 +28,25 @@ public class SpeakerCommand extends Command{
     }
 
     @Override
-    public void initialize() {}
+    public void initialize() {
+        spaghettiIfStatement = true;
+        time.reset();
+    }
 
     @Override
     public void execute() {
         shootSubsystem.shoot(leftShoot, rightShoot);
-        if (shootSubsystem.getShootReady(PieceConstants.speakerMotorSpeed)) {
+        if (shootSubsystem.getShootReady(PieceConstants.speakerMotorSpeed) && spaghettiIfStatement) {
             intakeSubsystem.intake(leftFeed, rightFeed);
+
+            time.reset();
+            spaghettiIfStatement = false;
+
+        } else if (shootSubsystem.getShootReady(PieceConstants.speakerMotorSpeed) && !spaghettiIfStatement) {
+            intakeSubsystem.intake(leftFeed, rightFeed);
+
         } else {
-            shootSubsystem.shoot(leftShoot, rightShoot);
+            intakeSubsystem.intake(0, 0);
         }
     }
 
@@ -44,6 +58,10 @@ public class SpeakerCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        return false;
+        if (time.get() > 1 && !spaghettiIfStatement) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

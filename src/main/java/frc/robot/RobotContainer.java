@@ -45,8 +45,6 @@ import frc.robot.subsystems.SwerveSubsystem;
 
 import java.io.File;
 
-import javax.swing.plaf.basic.BasicSliderUI.TrackListener;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.path.PathPlannerTrajectory;
@@ -86,6 +84,11 @@ public class RobotContainer {
     NamedCommands.registerCommand("feed", 
       new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower).
       withTimeout(0.5));
+
+    NamedCommands.registerCommand("speaker", 
+      new SpeakerCommand(intakeSubsystem, shootSubsystem, 
+      PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
+      -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
 
     NamedCommands.registerCommand("stopArm", 
       new ParallelCommandGroup(
@@ -156,10 +159,6 @@ public class RobotContainer {
 
     drivebase.setDefaultCommand( // if isSimulation = not true, angular velocity; else, direct angle sim
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
-    /* 
-     *  drivebase.setDefaultCommand(
-        !RobotBase.isSimulation() ? driveFieldOrientedDirectAngle : driveFieldOrientedDirectAngleSim);
-     */
   }
 
   private void configureBindings() {
@@ -276,7 +275,11 @@ public class RobotContainer {
       new IntakeCommand(intakeSubsystem, 0, 0), 
       new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
       new ClimbCommand(climbSubsystem, 0)));        
-
+    stopAllArm.onTrue(new ParallelCommandGroup(
+      new ShootCommand(shootSubsystem, 0, 0), 
+      new IntakeCommand(intakeSubsystem, 0, 0), 
+      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
+      new ClimbCommand(climbSubsystem, 0))).notifyAll();    
           
 
 
