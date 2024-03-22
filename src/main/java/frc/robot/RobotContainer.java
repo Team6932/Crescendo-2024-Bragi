@@ -91,17 +91,17 @@ public class RobotContainer {
       new ParallelCommandGroup(
         new ShootCommand(shootSubsystem, 0, 0), 
         new IntakeCommand(intakeSubsystem, 0, 0), 
-        new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,0, 0, 0, 0), 
+        new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
         new ClimbCommand(climbSubsystem, 0)));
 
     NamedCommands.registerCommand("intakeOut", 
-      new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+      new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, 
       PieceConstants.intakeOutI,
       PieceConstants.intakeOutD));
 
     NamedCommands.registerCommand("intakeIn", 
-      new IntakeInCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 
+      new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP,
       PieceConstants.intakeInI,
       PieceConstants.intakeInD));
@@ -212,15 +212,15 @@ public class RobotContainer {
 
     // automatically move intake out and grab game pieces and then move intake in
     intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
-    intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+    intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
-    intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 
+    intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));
 
     // automatically move intake in/out
-    autoIntakeOut.onTrue(new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem,PieceConstants.intakeOutAngle, 
+    autoIntakeOut.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
-    autoIntakeIn.onTrue(new IntakeInCommand(intakeMoveSubsystem, intakeSubsystem, PieceConstants.intakeInAngle, 
+    autoIntakeIn.onTrue(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD)); 
 
     // manully move intake in/out and manually grab pieces
@@ -274,7 +274,7 @@ public class RobotContainer {
     stopAllArm.whileTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
       new IntakeCommand(intakeSubsystem, 0, 0), 
-      new IntakeOutCommand(intakeMoveSubsystem, intakeSubsystem, 0, 0, 0, 0), 
+      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
       new ClimbCommand(climbSubsystem, 0)));        
 
           

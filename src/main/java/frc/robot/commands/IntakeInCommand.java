@@ -2,19 +2,18 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.IntakeMoveSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeInCommand extends Command {
     
     private final IntakeMoveSubsystem intakeMoveSubsystem;
-    private final IntakeSubsystem intakeSubsystem;
 
     private double angle;
     private double P, I, D;
+    private boolean intakeInSwitch;
 
-    public IntakeInCommand(IntakeMoveSubsystem intakeMoveSubsystem, IntakeSubsystem intakeSubsystem, double angle, double P, double I, double D) {
+
+    public IntakeInCommand(IntakeMoveSubsystem intakeMoveSubsystem, double angle, double P, double I, double D) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;
-        this.intakeSubsystem = intakeSubsystem;
         this.angle = angle;
         this.P = P;
         this.I = I;
@@ -37,7 +36,7 @@ public class IntakeInCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (intakeMoveSubsystem.getIntakeEncoder() + 4 >= angle) { // 4 is offset reading when testing the command
+        if (intakeMoveSubsystem.getIntakeEncoder() + 4 >= angle || intakeInSwitch) { // 4 is offset reading when testing the command
             return true;
         } else {
             return false;

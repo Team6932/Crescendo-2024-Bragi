@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.LimelightConstants;
 import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -26,17 +27,26 @@ public class TestDrive extends Command {
 
     @Override
     public void execute() {
-        drivebase.driveToPose(limelightSubsystem.getLimelightPose2d());
+        drivebase.doubleDriveCommand(
+            limelightSubsystem.getXMeters() / LimelightConstants.maxXDist, 
+            limelightSubsystem.getYMeters() / LimelightConstants.maxYDist, 
+            limelightSubsystem.getRotDeg() / LimelightConstants.maxRotDeg);
     }
 
     @Override
     public void end (boolean interrupted) {
-        drivebase.driveToPose(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
+        drivebase.doubleDriveCommand(0, 0, 0);
         drivebase.resetOdometry(new Pose2d(new Translation2d(0, 0), Rotation2d.fromDegrees(180)));
     }
 
     @Override
     public boolean isFinished () {
-        return false;
+        if (limelightSubsystem.getXMeters() < LimelightConstants.xDistError && 
+            limelightSubsystem.getYMeters() < LimelightConstants.yDistError && 
+            limelightSubsystem.getRotDeg() < LimelightConstants.rotDegError) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

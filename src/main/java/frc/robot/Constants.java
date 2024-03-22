@@ -47,7 +47,7 @@ public final class Constants {
     public static final double RIGHT_Y_DEADBAND = 0.1;
     public static final double TURN_CONSTANT    = 6;
 
-    public static final double drivePowerPercent = 0.95;
+    public static final double drivePowerPercent = 1;
     public static final double turnPowerPercent = 0.85;
   }
 
@@ -61,6 +61,11 @@ public final class Constants {
     public static final int intakeRightDownId = 11; // issue
     public static final int intakeLeftUpId = 14; // flip cimber, 14, 10, 11
     public static final int climb = 10; // flip right down
+
+    // limit switch IDs
+    public static final int intakeSwitch = 0;
+    public static final int intakeOutSwitch = 1;
+    public static final int intakeInSwitch = 2;
 
     // power settings (-1 to 1)
     public static final double leftSpeakerPower = 0.8; // orange wheels on the left for speaker 
@@ -114,7 +119,19 @@ public final class Constants {
 
     // field element constants
     public static final double speakerBumper = 0.92; // distance of the thing that sticks out from the speaker in m
+    public static final double tagHeight = 1.22; // height of apriltags in m 
+
     public static final int blueSpeakerId = 7; // april tag id of mid blue speaker
-    public static final int redSpeakerId = 3; // april tag id of mid red speaker
+    public static final int redSpeakerId = 4; // april tag id of mid red speaker
+
+    public static final double maxXDist = 1;
+    public static final double maxYDist = 1;
+    public static final double maxRotDeg = 27;
+
+    // acceptable amount of error in m and deg
+    public static final double xDistError = 0.2;
+    public static final double yDistError = 0.2;
+    public static final double rotDegError = 3;
+
   }
 }

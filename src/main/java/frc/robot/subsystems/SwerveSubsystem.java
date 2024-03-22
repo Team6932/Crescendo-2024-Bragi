@@ -136,7 +136,6 @@ public class SwerveSubsystem extends SubsystemBase {
   }
 //////////////////// END PATH PLANNER ////////////////////////////
 
-/////////// PROBABLY USING THIS DRIVE COMMAND THE MOST /////////////
   /**
    * Command to drive the robot using translative values and heading as a setpoint.
    *

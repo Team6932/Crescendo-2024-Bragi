@@ -12,27 +12,22 @@ import frc.robot.Constants.PieceConstants;
 public class IntakeSubsystem extends SubsystemBase{
     private final CANSparkMax leftIntakeMotor = new CANSparkMax(PieceConstants.intakeLeftUpId, MotorType.kBrushless);
     private final CANSparkMax rightIntakeMotor = new CANSparkMax(PieceConstants.intakeRightDownId, MotorType.kBrushless);
-    //private final SparkLimitSwitch intakeLimit = leftIntakeMotor.getForwardLimitSwitch(SparkLimitSwitch.Type.kNormallyClosed);
 
-    //DigitalInput limitSwitch = new DigitalInput(0);
+    DigitalInput intakeSwitch = new DigitalInput(PieceConstants.intakeSwitch);
 
     public IntakeSubsystem() {}
 
-    /*public boolean intakeLimit() {
-        return intakeLimit.isPressed();
-    } */
-
-    /*public boolean getLimitSwitch() {
-        return limitSwitch.get();
-    } */
+    public boolean getIntakeSwitch() {
+        return intakeSwitch.get();
+    }
 
     public void intake (double leftSpeed, double rightSpeed) {
         leftIntakeMotor.set(leftSpeed);
         rightIntakeMotor.set(rightSpeed);
     }
 
-   /* @Override
+   @Override
     public void periodic() {
-        SmartDashboard.putBoolean("limit switch", getLimitSwitch());
-    } */
+        SmartDashboard.putBoolean("Piece?", getIntakeSwitch());
+    } 
 }
