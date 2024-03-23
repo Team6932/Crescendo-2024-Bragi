@@ -102,8 +102,10 @@ public final class Constants {
     public static final double intakeInI = 0.5;
     public static final double intakeInD = 0.0;
 
+    public static final double maxIntakeMovePID = 0.4;
+
     // other game piece related constants
-    public static final double intakeOutAngle = -24.0; // encoder position value when intake is out
+    public static final double intakeOutAngle = -28.0; // encoder position value when intake is out
     public static final double intakeInAngle = 0.0; // angle when intake is retracted
   }
 

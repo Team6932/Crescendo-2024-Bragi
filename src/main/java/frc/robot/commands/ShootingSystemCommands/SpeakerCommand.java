@@ -37,7 +37,6 @@ public class SpeakerCommand extends Command{
     public void execute() {
         shootSubsystem.shoot(leftShoot, rightShoot);
         if (shootSubsystem.getShootReady(PieceConstants.speakerMotorSpeed) && spaghettiIfStatement) {
-            intakeSubsystem.intake(leftFeed, rightFeed);
 
             time.reset();
             spaghettiIfStatement = false;
@@ -62,6 +61,6 @@ public class SpeakerCommand extends Command{
             return true;
         } else {
             return false;
-        }
+        } 
     }
 }

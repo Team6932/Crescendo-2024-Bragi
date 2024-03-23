@@ -37,7 +37,7 @@ public class IntakeInCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (intakeMoveSubsystem.getIntakeEncoder() + 4 >= angle){ //|| intakeInSwitch) { // 4 is offset reading when testing the command
+        if (intakeMoveSubsystem.getIntakeEncoder() >= angle){ //|| intakeInSwitch) { 
             return true;
         } else {
             return false;

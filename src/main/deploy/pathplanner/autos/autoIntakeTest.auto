@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.72,
-      "y": 6.68
+      "x": 2,
+      "y": 2
     },
-    "rotation": -120.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,18 +14,12 @@
         {
           "type": "named",
           "data": {
-            "name": "speaker"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "leftShootToOut"
+            "name": "autoIntake"
           }
         }
       ]
     }
   },
-  "folder": "leftStarts",
+  "folder": "other",
   "choreoAuto": false
 }

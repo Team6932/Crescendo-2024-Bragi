@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.6199999999999999,
+        "x": 1.72,
         "y": 6.68
       },
       "isLocked": false,
@@ -16,32 +16,32 @@
     },
     {
       "anchor": {
-        "x": 3.6,
-        "y": 6.65
+        "x": 4.299329165230569,
+        "y": 6.5697627145962505
       },
       "prevControl": {
-        "x": 2.9557260841662747,
-        "y": 6.412314803855121
+        "x": 2.9850532297835777,
+        "y": 6.812201964824335
       },
       "nextControl": {
-        "x": 4.348429741299529,
-        "y": 6.926110308813666
+        "x": 5.4970027220507705,
+        "y": 6.348832641008059
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 7.636086937659348,
-        "y": 7.452947350969118
+        "x": 7.6,
+        "y": 5.75
       },
       "prevControl": {
-        "x": 7.736086937659348,
-        "y": 7.452947350969118
+        "x": 6.6,
+        "y": 5.75
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "left mid piece"
+      "linkedName": "L.M mid piece"
     }
   ],
   "rotationTargets": [],
@@ -66,7 +66,7 @@
     },
     {
       "name": "intakeOut",
-      "waypointRelativePos": 1.2,
+      "waypointRelativePos": 1.1,
       "command": {
         "type": "parallel",
         "data": {
@@ -83,7 +83,7 @@
     },
     {
       "name": "intake",
-      "waypointRelativePos": 1.7,
+      "waypointRelativePos": 1.65,
       "command": {
         "type": "parallel",
         "data": {
@@ -107,7 +107,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,

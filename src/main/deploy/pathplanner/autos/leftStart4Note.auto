@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.8,
-      "y": 6.6
+      "x": 0.72,
+      "y": 6.68
     },
     "rotation": -120.0
   },
@@ -89,6 +89,12 @@
           "type": "named",
           "data": {
             "name": "speaker"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "leftShootToL.MMidPiece"
           }
         }
       ]

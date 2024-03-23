@@ -33,6 +33,7 @@ public class IntakeMoveSubsystem extends SubsystemBase {
         intakeMovePID.setP(P);
         intakeMovePID.setI(I);
         intakeMovePID.setD(D);
+        intakeMovePID.setOutputRange(-PieceConstants.maxIntakeMovePID, PieceConstants.maxIntakeMovePID);
         intakeMovePID.setReference(degrees, ControlType.kPosition);
     } 
 

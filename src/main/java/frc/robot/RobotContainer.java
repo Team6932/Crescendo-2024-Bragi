@@ -15,6 +15,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.LimelightConstants;
@@ -117,6 +119,16 @@ public class RobotContainer {
     NamedCommands.registerCommand("intake", 
       new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower)
       .withTimeout(2));
+
+    NamedCommands.registerCommand("autoIntake", 
+      new SequentialCommandGroup(
+        new ParallelDeadlineGroup(
+          new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower),
+          new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle,
+            PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)), 
+        new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
+          PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD))
+        .withTimeout(6));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
