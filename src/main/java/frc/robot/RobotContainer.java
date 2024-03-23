@@ -26,8 +26,9 @@ import frc.robot.commands.DriveSystemCommands.ResetHeadingCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeInCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeOutCommand;
+import frc.robot.commands.IntakeSystemCommands.ManualIntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.ResetIntakeCommand;
-import frc.robot.commands.IntakeSystemCommands.SimpleIntakeMoveCommand;
+import frc.robot.commands.IntakeSystemCommands.ManualIntakeMoveCommand;
 import frc.robot.commands.LimelightCommands.LimelightDrive;
 import frc.robot.commands.LimelightCommands.setAprilTagCommand;
 import frc.robot.commands.LimelightCommands.setCameraCommand;
@@ -82,7 +83,7 @@ public class RobotContainer {
       new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower).withTimeout(0.5));
 
     NamedCommands.registerCommand("feed", 
-      new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower).
+      new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower).
       withTimeout(0.5));
 
     NamedCommands.registerCommand("speaker", 
@@ -93,7 +94,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("stopArm", 
       new ParallelCommandGroup(
         new ShootCommand(shootSubsystem, 0, 0), 
-        new IntakeCommand(intakeSubsystem, 0, 0), 
+        new ManualIntakeCommand(intakeSubsystem, 0, 0), 
         new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
         new ClimbCommand(climbSubsystem, 0)));
 
@@ -206,7 +207,7 @@ public class RobotContainer {
 
     // simultaneously push game piece into shooter and shoot for amp
     amp.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftAmpPower, PieceConstants.rightAmpPower));
-    amp.whileTrue(new WaitCommand(0.7). andThen(new IntakeCommand(
+    amp.whileTrue(new WaitCommand(0.7). andThen(new ManualIntakeCommand(
       intakeSubsystem, -PieceConstants.leftUpAmpFeedPower, -PieceConstants.rightDownAmpFeedPower)));
 
     // automatically move intake out and grab game pieces and then move intake in
@@ -223,9 +224,9 @@ public class RobotContainer {
       PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD)); 
 
     // manully move intake in/out and manually grab pieces
-    manualIntakeOut.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
-    manualIntakeIn.whileTrue(new SimpleIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
-    manualIntake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+    manualIntakeOut.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
+    manualIntakeIn.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
+    manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
 
     // manually move climb mechanism up and down
     climbUp.whileTrue(new ClimbCommand(climbSubsystem, PieceConstants.climbPower));
@@ -272,12 +273,12 @@ public class RobotContainer {
     // shut down everything other than movement 
     stopAllArm.whileTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
-      new IntakeCommand(intakeSubsystem, 0, 0), 
+      new ManualIntakeCommand(intakeSubsystem, 0, 0), 
       new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
       new ClimbCommand(climbSubsystem, 0)));        
     stopAllArm.onTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
-      new IntakeCommand(intakeSubsystem, 0, 0), 
+      new ManualIntakeCommand(intakeSubsystem, 0, 0), 
       new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
       new ClimbCommand(climbSubsystem, 0))).notifyAll();    
           
