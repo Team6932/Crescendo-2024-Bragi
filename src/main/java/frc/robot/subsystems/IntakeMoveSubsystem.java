@@ -16,18 +16,18 @@ public class IntakeMoveSubsystem extends SubsystemBase {
     private final SparkPIDController intakeMovePID = intakeMoveMotor.getPIDController();
     private final RelativeEncoder intakeMoveEncoder = intakeMoveMotor.getEncoder();
     
-    DigitalInput intakeOutSwitch = new DigitalInput(PieceConstants.intakeOutSwitch);
-    DigitalInput intakeInSwitch = new DigitalInput(PieceConstants.intakeInSwitch);
+    //DigitalInput intakeOutSwitch = new DigitalInput(PieceConstants.intakeOutSwitch);
+    //DigitalInput intakeInSwitch = new DigitalInput(PieceConstants.intakeInSwitch);
 
     public IntakeMoveSubsystem() {}
 
-    public boolean getIntakeOutSwitch() {
+    /*public boolean getIntakeOutSwitch() {
         return intakeOutSwitch.get();
     }
 
     public boolean getIntakeInSwitch() {
         return intakeInSwitch.get();
-    }
+    } */
 
     public void intakeMove (double degrees, double P, double I, double D) {
         intakeMovePID.setP(P);
@@ -50,7 +50,7 @@ public class IntakeMoveSubsystem extends SubsystemBase {
     }
 
     public boolean getNeedReset() {
-        if (getIntakeInSwitch() && getIntakeEncoder() > 1.5) { // arbitrary encoder value I believe will cause issues
+        if (getIntakeEncoder() > 0.8) { // arbitrary encoder value I believe will cause issues
             return true;
         } else {
             return false;
@@ -60,8 +60,8 @@ public class IntakeMoveSubsystem extends SubsystemBase {
     @Override
     public void periodic () {
         SmartDashboard.putNumber("intakeMoveValue", getIntakeEncoder());
-        SmartDashboard.putBoolean("intakeOut", getIntakeOutSwitch());
-        SmartDashboard.putBoolean("intakeIn", getIntakeInSwitch());
-        SmartDashboard.putBoolean("needIntakeRESET", getNeedReset());
+        /*SmartDashboard.putBoolean("intakeOut", getIntakeOutSwitch());
+        SmartDashboard.putBoolean("intakeIn", getIntakeInSwitch());*/
+        SmartDashboard.putBoolean("pieceRESET", getNeedReset());
     }
 }

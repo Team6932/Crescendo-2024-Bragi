@@ -21,7 +21,7 @@ import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PieceConstants;
 import frc.robot.commands.TestDrive;
-import frc.robot.commands.ClimbSystemCommands.ClimbCommand;
+//import frc.robot.commands.ClimbSystemCommands.ClimbCommand;
 import frc.robot.commands.DriveSystemCommands.ResetHeadingCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeInCommand;
@@ -37,7 +37,7 @@ import frc.robot.commands.LimelightCommands.setVisionModeCommand;
 import frc.robot.commands.ShootingSystemCommands.ShootCommand;
 import frc.robot.commands.ShootingSystemCommands.SpeakerCommand;
 import frc.robot.commands.UNUSEDFromYAGSL.AbsoluteDrive;
-import frc.robot.subsystems.ClimbSubsystem;
+//import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeMoveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LimelightSubsystem;
@@ -64,7 +64,7 @@ public class RobotContainer {
   private final ShootSubsystem shootSubsystem = new ShootSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final IntakeMoveSubsystem intakeMoveSubsystem = new IntakeMoveSubsystem();
-  private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
+  //private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -83,35 +83,40 @@ public class RobotContainer {
       new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower).withTimeout(0.5));
 
     NamedCommands.registerCommand("feed", 
-      new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower).
-      withTimeout(0.5));
+      new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpSpeakerFeedPower, PieceConstants.rightDownSpeakerFeedPower)
+      .withTimeout(0.5));
 
     NamedCommands.registerCommand("speaker", 
       new SpeakerCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
-      -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
+      PieceConstants.leftUpSpeakerFeedPower, PieceConstants.rightDownSpeakerFeedPower)
+      .withTimeout(2));
 
     NamedCommands.registerCommand("stopArm", 
       new ParallelCommandGroup(
         new ShootCommand(shootSubsystem, 0, 0), 
         new ManualIntakeCommand(intakeSubsystem, 0, 0), 
-        new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
-        new ClimbCommand(climbSubsystem, 0)));
+        new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0))
+        .withTimeout(0.1));//, 
+        //new ClimbCommand(climbSubsystem, 0)));
 
     NamedCommands.registerCommand("intakeOut", 
       new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, 
       PieceConstants.intakeOutI,
-      PieceConstants.intakeOutD));
+      PieceConstants.intakeOutD)
+      .withTimeout(2));
 
     NamedCommands.registerCommand("intakeIn", 
       new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP,
       PieceConstants.intakeInI,
-      PieceConstants.intakeInD));
+      PieceConstants.intakeInD)
+      .withTimeout(2));
 
     NamedCommands.registerCommand("intake", 
-      new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+      new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower)
+      .withTimeout(2));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -199,7 +204,7 @@ public class RobotContainer {
     // simultaneously push game piece into shooter and shoot for speaker
     speaker.whileTrue(new SpeakerCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
-      -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
+      PieceConstants.leftUpSpeakerFeedPower, PieceConstants.rightDownSpeakerFeedPower));
 		/*speaker.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
     //shoot.onTrue(new IntakeCommand(intakeSubsystem, -0.1, -0.1).withTimeout(0.3));
     speaker.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
@@ -208,10 +213,10 @@ public class RobotContainer {
     // simultaneously push game piece into shooter and shoot for amp
     amp.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftAmpPower, PieceConstants.rightAmpPower));
     amp.whileTrue(new WaitCommand(0.7). andThen(new ManualIntakeCommand(
-      intakeSubsystem, -PieceConstants.leftUpAmpFeedPower, -PieceConstants.rightDownAmpFeedPower)));
+      intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));
 
     // automatically move intake out and grab game pieces and then move intake in
-    intake.whileTrue(new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+    intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower));
     intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
@@ -226,12 +231,12 @@ public class RobotContainer {
     // manully move intake in/out and manually grab pieces
     manualIntakeOut.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
     manualIntakeIn.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
-    manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+    manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower));
 
     // manually move climb mechanism up and down
-    climbUp.whileTrue(new ClimbCommand(climbSubsystem, PieceConstants.climbPower));
+    /*climbUp.whileTrue(new ClimbCommand(climbSubsystem, PieceConstants.climbPower));
     climbDown.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.climbPower));
-    fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));
+    fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));*/
 
     // reset heading/intake encoder
     resetHeading.onTrue(new ResetHeadingCommand(drivebase));
@@ -274,13 +279,13 @@ public class RobotContainer {
     stopAllArm.whileTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
       new ManualIntakeCommand(intakeSubsystem, 0, 0), 
-      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
-      new ClimbCommand(climbSubsystem, 0)));        
+      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0)));//, 
+      //new ClimbCommand(climbSubsystem, 0)));        
     stopAllArm.onTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
       new ManualIntakeCommand(intakeSubsystem, 0, 0), 
-      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0), 
-      new ClimbCommand(climbSubsystem, 0))).notifyAll();    
+      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0)));//, 
+      //new ClimbCommand(climbSubsystem, 0))).notifyAll();    
           
 
 

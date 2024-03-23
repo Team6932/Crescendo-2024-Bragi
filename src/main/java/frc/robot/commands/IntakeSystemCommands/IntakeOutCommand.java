@@ -25,7 +25,7 @@ public class IntakeOutCommand extends Command{
 
     @Override
     public void execute () {
-        intakeOutSwitch = intakeMoveSubsystem.getIntakeOutSwitch();
+        //intakeOutSwitch = intakeMoveSubsystem.getIntakeOutSwitch();
         intakeMoveSubsystem.intakeMove(angle, P, I, D);
     }
 
@@ -36,7 +36,7 @@ public class IntakeOutCommand extends Command{
 
     @Override 
     public boolean isFinished () {
-        if (intakeMoveSubsystem.getIntakeEncoder() <= angle || intakeOutSwitch) {
+        if (intakeMoveSubsystem.getIntakeEncoder() <= angle){// || intakeOutSwitch) {
             return true;
         } else {
             return false;

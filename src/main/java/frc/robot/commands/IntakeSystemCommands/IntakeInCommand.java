@@ -26,7 +26,7 @@ public class IntakeInCommand extends Command {
 
     @Override
     public void execute() {
-        intakeInSwitch = intakeMoveSubsystem.getIntakeInSwitch();
+        //intakeInSwitch = intakeMoveSubsystem.getIntakeInSwitch();
         intakeMoveSubsystem.intakeMove(angle, P, I, D);
     }
 
@@ -37,7 +37,7 @@ public class IntakeInCommand extends Command {
 
     @Override
     public boolean isFinished() {
-        if (intakeMoveSubsystem.getIntakeEncoder() + 4 >= angle || intakeInSwitch) { // 4 is offset reading when testing the command
+        if (intakeMoveSubsystem.getIntakeEncoder() + 4 >= angle){ //|| intakeInSwitch) { // 4 is offset reading when testing the command
             return true;
         } else {
             return false;
