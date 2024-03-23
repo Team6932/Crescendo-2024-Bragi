@@ -9,7 +9,7 @@ public class IntakeInCommand extends Command {
 
     private double angle;
     private double P, I, D;
-    private boolean intakeInSwitch;
+    //private boolean intakeInSwitch;
 
 
     public IntakeInCommand(IntakeMoveSubsystem intakeMoveSubsystem, double angle, double P, double I, double D) {

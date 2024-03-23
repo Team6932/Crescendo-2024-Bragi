@@ -8,7 +8,7 @@ public class IntakeCommand extends Command{
     private final IntakeSubsystem intakeSubsystem;
     private double leftSpeed;
     private double rightSpeed;
-    private boolean intakeSwitch;
+    //private boolean intakeSwitch;
 
     public IntakeCommand(IntakeSubsystem intakeSubsystem, double leftSpeed, double rightSpeed) {
         this.intakeSubsystem = intakeSubsystem;

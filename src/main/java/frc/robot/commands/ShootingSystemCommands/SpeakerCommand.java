@@ -57,7 +57,7 @@ public class SpeakerCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        if (time.get() > 1 && !spaghettiIfStatement) {
+        if (time.get() > 0.2 && !spaghettiIfStatement) {
             return true;
         } else {
             return false;

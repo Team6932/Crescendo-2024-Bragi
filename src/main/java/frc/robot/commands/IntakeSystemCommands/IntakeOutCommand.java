@@ -9,7 +9,7 @@ public class IntakeOutCommand extends Command{
     
     private double angle;
     private double P, I, D;
-    private boolean intakeOutSwitch;
+    //private boolean intakeOutSwitch;
 
     public IntakeOutCommand(IntakeMoveSubsystem intakeMoveSubsystem, double angle, double P, double I, double D) {
         this.intakeMoveSubsystem = intakeMoveSubsystem;

@@ -3,45 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.636086937659348,
-        "y": 7.452947350969118
+        "x": 2.5,
+        "y": 6.7
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.736086937659348,
-        "y": 7.452947350969118
+        "x": 2.55,
+        "y": 6.7
       },
       "isLocked": false,
-      "linkedName": "left mid piece"
-    },
-    {
-      "anchor": {
-        "x": 4.05,
-        "y": 6.67
-      },
-      "prevControl": {
-        "x": 4.977183854566787,
-        "y": 7.044606593415912
-      },
-      "nextControl": {
-        "x": 3.1228161454332124,
-        "y": 6.295393406584088
-      },
-      "isLocked": false,
-      "linkedName": null
+      "linkedName": "OFFSET left close piece"
     },
     {
       "anchor": {
         "x": 0.72,
-        "y": 6.68
+        "y": 6.5
       },
       "prevControl": {
-        "x": 0.5700000000000001,
-        "y": 6.68
+        "x": 0.6700000000000002,
+        "y": 6.5
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "angle left shoot"
+      "linkedName": "OFFSET left shoot"
     }
   ],
   "rotationTargets": [],
@@ -49,9 +33,9 @@
   "eventMarkers": [
     {
       "name": "intakeIn",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.05,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
@@ -66,7 +50,7 @@
     },
     {
       "name": "ramp",
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 0.65,
       "command": {
         "type": "parallel",
         "data": {
@@ -91,12 +75,12 @@
   "goalEndState": {
     "velocity": 0,
     "rotation": -120.0,
-    "rotateFast": false
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": "left start",
+  "folder": "offsetLeftStarts",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 20.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

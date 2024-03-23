@@ -3,16 +3,18 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
+    "offsetLeftStarts",
     "UNCA",
     "left start",
     "mid start",
     "right start"
   ],
   "autoFolders": [
-    "rightStarts",
-    "midStarts",
+    "offsetTests",
     "leftStarts",
-    "other"
+    "midStarts",
+    "other",
+    "rightStarts"
   ],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 3.0,

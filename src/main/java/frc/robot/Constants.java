@@ -74,7 +74,7 @@ public final class Constants {
     public static final double leftAmpPower = 0.4; // orange wheels on left for amp
     public static final double rightAmpPower = 0.4; // orange wheels on right for amp
 
-    public static final double leftUpIntakePower = 0.45; // intake pieces on the left/top
+    public static final double leftUpIntakePower = 0.45; // intake pieces on the left/top 
     public static final double rightDownIntakePower = 0.45; // intake pieces on the right/bottom
 
     public static final double leftUpSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on left/top
@@ -83,13 +83,13 @@ public final class Constants {
     public static final double leftUpAmpFeedPower = 0.4; // move piece from intake to shooter for amp on left/top
     public static final double rightDownAmpFeedPower = 0.4; // move pieces from intake to shooter for amp on right/bottom
     
-    public static final double intakeMovePower = 0.25; // move entire intake system 
+    public static final double intakeMovePower = 0.35; // move entire intake system 
 
     public static final double climbPower = 0.3; // move entire climb mechanism
     public static final double fullClimbPower = 0.75;
 
     public static final double speakerWheelSpeed = 18; // speed the wheels must move in m/s to make it to speaker
-    public static final double speakerMotorSpeed = 4400; // rpm of the motors to make it ot the speaker, wheels 4 in diameter
+    public static final double speakerMotorSpeed = 3800; // rpm of the motors to make it ot the speaker, wheels 4 in diameter, 4400
     public static final double maxSpeakerMotorSpeed = 5500; // hypothetical max rpm of the motors
 
 
@@ -102,7 +102,7 @@ public final class Constants {
     public static final double intakeInI = 0.5;
     public static final double intakeInD = 0.0;
 
-    public static final double maxIntakeMovePID = 0.4;
+    public static final double maxIntakeMovePID = 0.4; 
 
     // other game piece related constants
     public static final double intakeOutAngle = -28.0; // encoder position value when intake is out

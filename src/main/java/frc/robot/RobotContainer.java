@@ -22,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.LimelightConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.PieceConstants;
-import frc.robot.commands.TestDrive;
+//import frc.robot.commands.TestDrive;
 //import frc.robot.commands.ClimbSystemCommands.ClimbCommand;
 import frc.robot.commands.DriveSystemCommands.ResetHeadingCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeCommand;
@@ -31,18 +31,18 @@ import frc.robot.commands.IntakeSystemCommands.IntakeOutCommand;
 import frc.robot.commands.IntakeSystemCommands.ManualIntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.ResetIntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.ManualIntakeMoveCommand;
-import frc.robot.commands.LimelightCommands.LimelightDrive;
-import frc.robot.commands.LimelightCommands.setAprilTagCommand;
-import frc.robot.commands.LimelightCommands.setCameraCommand;
-import frc.robot.commands.LimelightCommands.setNeuralNetworkCommand;
-import frc.robot.commands.LimelightCommands.setVisionModeCommand;
+//import frc.robot.commands.LimelightCommands.LimelightDrive;
+//import frc.robot.commands.LimelightCommands.setAprilTagCommand;
+//import frc.robot.commands.LimelightCommands.setCameraCommand;
+//import frc.robot.commands.LimelightCommands.setNeuralNetworkCommand;
+//import frc.robot.commands.LimelightCommands.setVisionModeCommand;
 import frc.robot.commands.ShootingSystemCommands.ShootCommand;
 import frc.robot.commands.ShootingSystemCommands.SpeakerCommand;
 import frc.robot.commands.UNUSEDFromYAGSL.AbsoluteDrive;
 //import frc.robot.subsystems.ClimbSubsystem;
 import frc.robot.subsystems.IntakeMoveSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.LimelightSubsystem;
+//import frc.robot.subsystems.LimelightSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -67,7 +67,7 @@ public class RobotContainer {
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
   private final IntakeMoveSubsystem intakeMoveSubsystem = new IntakeMoveSubsystem();
   //private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
-  private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
+  //private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
   // Replace with CommandPS4Controller or CommandJoystick if needed
   PS4Controller driveController = new PS4Controller(0);
@@ -85,13 +85,13 @@ public class RobotContainer {
       new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower).withTimeout(0.5));
 
     NamedCommands.registerCommand("feed", 
-      new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpSpeakerFeedPower, PieceConstants.rightDownSpeakerFeedPower)
+      new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower)
       .withTimeout(0.5));
 
     NamedCommands.registerCommand("speaker", 
       new SpeakerCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
-      PieceConstants.leftUpSpeakerFeedPower, PieceConstants.rightDownSpeakerFeedPower)
+      PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower)
       .withTimeout(2));
 
     NamedCommands.registerCommand("stopArm", 
@@ -117,13 +117,13 @@ public class RobotContainer {
       .withTimeout(2));
 
     NamedCommands.registerCommand("intake", 
-      new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower)
+      new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower)
       .withTimeout(2));
 
     NamedCommands.registerCommand("autoIntake", 
       new SequentialCommandGroup(
         new ParallelDeadlineGroup(
-          new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower),
+          new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower),
           new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle,
             PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)), 
         new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
@@ -216,7 +216,7 @@ public class RobotContainer {
     // simultaneously push game piece into shooter and shoot for speaker
     speaker.whileTrue(new SpeakerCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
-      PieceConstants.leftUpSpeakerFeedPower, PieceConstants.rightDownSpeakerFeedPower));
+      PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
 		/*speaker.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
     //shoot.onTrue(new IntakeCommand(intakeSubsystem, -0.1, -0.1).withTimeout(0.3));
     speaker.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
@@ -228,7 +228,7 @@ public class RobotContainer {
       intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));
 
     // automatically move intake out and grab game pieces and then move intake in
-    intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower));
+    intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
     intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
@@ -243,7 +243,7 @@ public class RobotContainer {
     // manully move intake in/out and manually grab pieces
     manualIntakeOut.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
     manualIntakeIn.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
-    manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, -PieceConstants.rightDownIntakePower));
+    manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, 0.7*PieceConstants.rightDownIntakePower));
 
     // manually move climb mechanism up and down
     /*climbUp.whileTrue(new ClimbCommand(climbSubsystem, PieceConstants.climbPower));
@@ -255,10 +255,10 @@ public class RobotContainer {
     resetIntake.onTrue(new ResetIntakeCommand(intakeMoveSubsystem));
 
     // Limelight modes
-    aprilTag.toggleOnTrue(new setAprilTagCommand(limelightSubsystem));
+    /*aprilTag.toggleOnTrue(new setAprilTagCommand(limelightSubsystem));
     neuralNetwork.toggleOnTrue(new setNeuralNetworkCommand(limelightSubsystem));
     visionMode.toggleOnTrue(new setVisionModeCommand(limelightSubsystem, LimelightConstants.visionProcessModeId));
-    driveMode.toggleOnTrue(new setVisionModeCommand(limelightSubsystem, LimelightConstants.cameraModeId));
+    driveMode.toggleOnTrue(new setVisionModeCommand(limelightSubsystem, LimelightConstants.cameraModeId));*/
 
     // half speed/drive (probably a better way to code this)
     Command halfSpeedCommand = drivebase.driveCommand(
@@ -301,11 +301,11 @@ public class RobotContainer {
           
 
 
-    Trigger moveTest = new Trigger(() -> pieceController.getL3Button());
+    /*Trigger moveTest = new Trigger(() -> pieceController.getL3Button());
     moveTest.whileTrue(new TestDrive(limelightSubsystem, drivebase));
 
     Trigger testing = new Trigger(() -> pieceController.getR3Button());
-    testing.whileTrue(drivebase.doubleDriveCommand(5, 5, 0));
+    testing.whileTrue(drivebase.doubleDriveCommand(5, 5, 0));*/
   
 ///////////////////// TESTING ////////////////////
     /* Trigger moveTest = new Trigger(() -> driveController.getSquareButton()); 
