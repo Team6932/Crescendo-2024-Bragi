@@ -22,6 +22,7 @@ public class IntakeCommand extends Command{
 
     @Override
     public void execute() {
+        intakeSwitch = intakeSubsystem.getIntakeSwitch();
         intakeSubsystem.intake(leftSpeed, rightSpeed);
     }
 

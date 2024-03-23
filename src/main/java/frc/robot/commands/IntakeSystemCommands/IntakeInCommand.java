@@ -26,6 +26,7 @@ public class IntakeInCommand extends Command {
 
     @Override
     public void execute() {
+        intakeInSwitch = intakeMoveSubsystem.getIntakeInSwitch();
         intakeMoveSubsystem.intakeMove(angle, P, I, D);
     }
 
