@@ -49,10 +49,19 @@ public class IntakeMoveSubsystem extends SubsystemBase {
         intakeMoveEncoder.setPosition(0);
     }
 
+    public boolean getNeedReset() {
+        if (getIntakeInSwitch() && getIntakeEncoder() > 1.5) { // arbitrary encoder value I believe will cause issues
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void periodic () {
         SmartDashboard.putNumber("intakeMoveValue", getIntakeEncoder());
         SmartDashboard.putBoolean("intakeOut", getIntakeOutSwitch());
         SmartDashboard.putBoolean("intakeIn", getIntakeInSwitch());
+        SmartDashboard.putBoolean("needIntakeRESET", getNeedReset());
     }
 }
