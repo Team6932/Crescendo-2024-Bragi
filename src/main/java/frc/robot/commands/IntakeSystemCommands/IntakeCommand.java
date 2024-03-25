@@ -8,7 +8,7 @@ public class IntakeCommand extends Command{
     private final IntakeSubsystem intakeSubsystem;
     private double leftSpeed;
     private double rightSpeed;
-    //private boolean intakeSwitch;
+    private boolean intakeSwitch;
 
     public IntakeCommand(IntakeSubsystem intakeSubsystem, double leftSpeed, double rightSpeed) {
         this.intakeSubsystem = intakeSubsystem;
@@ -22,7 +22,7 @@ public class IntakeCommand extends Command{
 
     @Override
     public void execute() {
-        //intakeSwitch = intakeSubsystem.getIntakeSwitch();
+        intakeSwitch = intakeSubsystem.getIntakeSwitch();
         intakeSubsystem.intake(leftSpeed, rightSpeed);
     }
 
@@ -33,7 +33,7 @@ public class IntakeCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        if (rightSpeed < 0 && leftSpeed < 0 ){//&& intakeSwitch) {
+        if (rightSpeed < 0 && leftSpeed < 0 && intakeSwitch) {
             return true;
         } else {
             return false;

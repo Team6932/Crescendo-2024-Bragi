@@ -12,13 +12,13 @@ public class IntakeSubsystem extends SubsystemBase{
     private final CANSparkMax leftIntakeMotor = new CANSparkMax(PieceConstants.intakeLeftUpId, MotorType.kBrushless);
     private final CANSparkMax rightIntakeMotor = new CANSparkMax(PieceConstants.intakeRightDownId, MotorType.kBrushless);
 
-    //DigitalInput intakeSwitch = new DigitalInput(PieceConstants.intakeSwitch);
+    DigitalInput intakeSwitch = new DigitalInput(PieceConstants.intakeSwitch);
 
     public IntakeSubsystem() {}
 
-    /*public boolean getIntakeSwitch() {
-        return intakeSwitch.get();
-    } */
+    public boolean getIntakeSwitch() {
+        return !intakeSwitch.get();
+    } 
 
     public void intake (double leftSpeed, double rightSpeed) {
         leftIntakeMotor.set(leftSpeed);
@@ -27,6 +27,6 @@ public class IntakeSubsystem extends SubsystemBase{
 
    @Override
     public void periodic() {
-        //SmartDashboard.putBoolean("Piece?", getIntakeSwitch());
+        SmartDashboard.putBoolean("Piece?", getIntakeSwitch());
     } 
 }

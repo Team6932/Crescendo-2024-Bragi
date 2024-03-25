@@ -123,12 +123,13 @@ public class RobotContainer {
     NamedCommands.registerCommand("autoIntake", 
       new SequentialCommandGroup(
         new ParallelDeadlineGroup(
-          new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower),
+          new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower)
+          .withTimeout(3),
           new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle,
             PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)), 
         new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
           PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD))
-        .withTimeout(6));
+        .withTimeout(3));
 
     autoChooser = AutoBuilder.buildAutoChooser();
 
@@ -198,6 +199,8 @@ public class RobotContainer {
     Trigger autoIntakeOut = new Trigger (() -> pieceController.getPOV() == 0); // if D-Pad up on piece, auto move intake out
     Trigger autoIntakeIn = new Trigger (() -> pieceController.getPOV() == 180); // if D-Pad down on piece, auto move intake in
 
+    Trigger fullAutoIntake = new Trigger(() -> pieceController.getPOV() == 270); // if D-Pad left on piece, full auto intake
+
     Trigger manualIntake = new Trigger(() -> pieceController.getTriangleButton()); // if Triangle on piece, turn on intake
     Trigger manualIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, manually move intake out
     Trigger manualIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, manually move intake in
@@ -228,9 +231,15 @@ public class RobotContainer {
       intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));
 
     // automatically move intake out and grab game pieces and then move intake in
-    intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+    /*intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
     intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
+    intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
+      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));*/
+    intake.onTrue(new ParallelCommandGroup(
+      new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower), 
+      new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
+        PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)));
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));
 
@@ -253,6 +262,17 @@ public class RobotContainer {
     // reset heading/intake encoder
     resetHeading.onTrue(new ResetHeadingCommand(drivebase));
     resetIntake.onTrue(new ResetIntakeCommand(intakeMoveSubsystem));
+
+    // fully automatic intake 
+    fullAutoIntake.onTrue(new SequentialCommandGroup(
+      new ParallelDeadlineGroup(
+        new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower)
+        .withTimeout(3),
+        new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle,
+            PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)), 
+      new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
+        PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD))
+      .withTimeout(3));
 
     // Limelight modes
     /*aprilTag.toggleOnTrue(new setAprilTagCommand(limelightSubsystem));

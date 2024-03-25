@@ -74,8 +74,8 @@ public final class Constants {
     public static final double leftAmpPower = 0.4; // orange wheels on left for amp
     public static final double rightAmpPower = 0.4; // orange wheels on right for amp
 
-    public static final double leftUpIntakePower = 0.45; // intake pieces on the left/top 
-    public static final double rightDownIntakePower = 0.45; // intake pieces on the right/bottom
+    public static final double leftUpIntakePower = 0.5; // intake pieces on the left/top 
+    public static final double rightDownIntakePower = 0.5; // intake pieces on the right/bottom
 
     public static final double leftUpSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on left/top
     public static final double rightDownSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on right/bottom
@@ -105,7 +105,7 @@ public final class Constants {
     public static final double maxIntakeMovePID = 0.4; 
 
     // other game piece related constants
-    public static final double intakeOutAngle = -28.0; // encoder position value when intake is out
+    public static final double intakeOutAngle = -30.0; // encoder position value when intake is out
     public static final double intakeInAngle = 0.0; // angle when intake is retracted
   }
 
