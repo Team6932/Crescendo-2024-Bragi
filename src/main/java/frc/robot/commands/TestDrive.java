@@ -1,4 +1,4 @@
-/*package frc.robot.commands;
+package frc.robot.commands;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -16,12 +16,12 @@ public class TestDrive extends Command {
     public TestDrive(LimelightSubsystem limelightSubsystem, SwerveSubsystem drivebase) {
         this.limelightSubsystem = limelightSubsystem;
         this.drivebase = drivebase;
-        addRequirements(limelightSubsystem, drivebase);
+        addRequirements(drivebase);
     }
 
     @Override
     public void initialize() {
-        limelightSubsystem.setLimelightAlliance();
+        limelightSubsystem.getAlliance();
         drivebase.resetOdometry(new Pose2d(new Translation2d(0, 0), new Rotation2d(0)));
     }
 
@@ -30,7 +30,7 @@ public class TestDrive extends Command {
         drivebase.doubleDriveCommand(
             limelightSubsystem.getXMeters() / LimelightConstants.maxXDist, 
             limelightSubsystem.getYMeters() / LimelightConstants.maxYDist, 
-            limelightSubsystem.getRotDeg() / LimelightConstants.maxRotDeg);
+            limelightSubsystem.getRot());
     }
 
     @Override
@@ -41,12 +41,10 @@ public class TestDrive extends Command {
 
     @Override
     public boolean isFinished () {
-        if (limelightSubsystem.getXMeters() < LimelightConstants.xDistError && 
-            limelightSubsystem.getYMeters() < LimelightConstants.yDistError && 
-            limelightSubsystem.getRotDeg() < LimelightConstants.rotDegError) {
+        if (limelightSubsystem.getInPosition()) {
             return true;
         } else {
             return false;
         }
     }
-}*/
+}

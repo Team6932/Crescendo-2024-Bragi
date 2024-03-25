@@ -115,12 +115,16 @@ public final class Constants {
     public static final int cameraModeId = 1;
     public static final int visionProcessModeId = 0;
 
+    // Limelight ranges
+    public static final double xFOV = 82; // degrees for left and right
+    public static final double yFOV = 56; // degrees for up and down
+
     // Limelight position constants
     public static final double limelightAngle = 0.0; // limelight is level
     public static final double limelightHeight = 0.23; // height of limelight from ground in meters
 
     // field element constants
-    public static final double speakerBumper = 0.92; // distance of the thing that sticks out from the speaker in m
+    public static final double subwoofer = 0.92; // distance of the thing that sticks out from the speaker in m
     public static final double tagHeight = 1.22; // height of apriltags in m 
 
     public static final int blueSpeakerId = 7; // april tag id of mid blue speaker
