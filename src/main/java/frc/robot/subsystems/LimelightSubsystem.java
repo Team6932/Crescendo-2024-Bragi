@@ -1,6 +1,5 @@
 package frc.robot.subsystems;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -92,7 +91,7 @@ public class LimelightSubsystem extends SubsystemBase{
         }
         return rotationVal;
     }
-    
+
     @Override
     public void periodic() {
         SmartDashboard.putBoolean("inShootPosition", getInPosition());

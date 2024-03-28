@@ -36,12 +36,12 @@ public class SpeakerCommand extends Command{
     @Override
     public void execute() {
         shootSubsystem.shoot(leftShoot, rightShoot);
-        if (shootSubsystem.getShootReady(PieceConstants.speakerMotorSpeed) && spaghettiIfStatement) {
 
+        if (shootSubsystem.getShootReady(PieceConstants.speakerMotorSpeed) && spaghettiIfStatement) {
             time.reset();
             spaghettiIfStatement = false;
 
-        } else if (shootSubsystem.getShootReady(PieceConstants.speakerMotorSpeed) && !spaghettiIfStatement) {
+        } else if (!spaghettiIfStatement) {
             intakeSubsystem.intake(leftFeed, rightFeed);
 
         } else {
@@ -57,7 +57,7 @@ public class SpeakerCommand extends Command{
 
     @Override
     public boolean isFinished() {
-        if (time.get() > 0.2 && !spaghettiIfStatement) {
+        if (time.hasElapsed(0.2) && !spaghettiIfStatement) {
             return true;
         } else {
             return false;
