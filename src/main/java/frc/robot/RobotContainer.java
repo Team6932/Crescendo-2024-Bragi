@@ -31,6 +31,7 @@ import frc.robot.commands.IntakeSystemCommands.IntakeOutCommand;
 import frc.robot.commands.IntakeSystemCommands.ManualIntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.ResetIntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.ManualIntakeMoveCommand;
+import frc.robot.commands.ShootingSystemCommands.AmpCommand;
 //import frc.robot.commands.LimelightCommands.LimelightDrive;
 //import frc.robot.commands.LimelightCommands.setAprilTagCommand;
 //import frc.robot.commands.LimelightCommands.setCameraCommand;
@@ -226,22 +227,25 @@ public class RobotContainer {
       intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower))); */
 
     // simultaneously push game piece into shooter and shoot for amp
-    amp.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftAmpPower, PieceConstants.rightAmpPower));
+    amp.whileTrue(new AmpCommand(intakeSubsystem, shootSubsystem, 
+      PieceConstants.leftAmpPower, PieceConstants.rightAmpPower, 
+      PieceConstants.leftUpAmpFeedPower, -PieceConstants.rightDownAmpFeedPower));
+    /*amp.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftAmpPower, PieceConstants.rightAmpPower));
     amp.whileTrue(new WaitCommand(0.7). andThen(new ManualIntakeCommand(
-      intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));
+      intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));*/
 
     // automatically move intake out and grab game pieces and then move intake in
-    /*intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
-    intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
-      PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
-    intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
-      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));*/
     intake.onTrue(new ParallelCommandGroup(
       new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower), 
       new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
         PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)));
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));
+    /*intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+    intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
+      PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
+    intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
+      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));*/
 
     // automatically move intake in/out
     autoIntakeOut.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
