@@ -41,10 +41,10 @@ public final class Constants {
   public static class OperatorConstants {
 
     // deadband
-    public static final double LEFT_X_DEADBAND  = 0.1;
-    public static final double LEFT_Y_DEADBAND  = 0.1;
-    public static final double RIGHT_X_DEADBAND = 0.1;
-    public static final double RIGHT_Y_DEADBAND = 0.1;
+    public static final double LEFT_X_DEADBAND  = 0.15;
+    public static final double LEFT_Y_DEADBAND  = 0.15;
+    public static final double RIGHT_X_DEADBAND = 0.15;
+    public static final double RIGHT_Y_DEADBAND = 0.15;
     public static final double TURN_CONSTANT    = 6;
 
     public static final double drivePowerPercent = 1;
@@ -54,13 +54,23 @@ public final class Constants {
 
   public static class PieceConstants {
 
+    // motor positive/negative settings
+    public static final double signRightShoot = 1;
+    public static final double signLeftShoot = 1;
+
+    public static final double signLeftUpIntake = 1;
+    public static final double signRightDownIntake = 1;
+
+    public static final double signLeftUpFeed = -1;
+    public static final double signRightDownFeed = -1;
+
     // CAN IDs
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;
     public static final int intakeMoveId = 9; 
-    public static final int intakeRightDownId = 11; // issue
-    public static final int intakeLeftUpId = 14; // flip cimber, 14, 10, 11
-    public static final int climb = 10; // flip right down
+    public static final int intakeRightDownId = 11; 
+    public static final int intakeLeftUpId = 14; 
+    public static final int climb = 10; 
 
     // limit switch IDs
     public static final int intakeSwitch = 0;
@@ -74,8 +84,8 @@ public final class Constants {
     public static final double leftAmpPower = 0.4; // orange wheels on left for amp
     public static final double rightAmpPower = 0.4; // orange wheels on right for amp
 
-    public static final double leftUpIntakePower = 0.5; // intake pieces on the left/top 
-    public static final double rightDownIntakePower = 0.5; // intake pieces on the right/bottom
+    public static final double leftUpIntakePower = 0.3; // intake pieces on the left/top 0.5
+    public static final double rightDownIntakePower = 0.3; // intake pieces on the right/bottom
 
     public static final double leftUpSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on left/top
     public static final double rightDownSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on right/bottom

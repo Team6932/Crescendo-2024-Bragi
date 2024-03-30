@@ -80,28 +80,30 @@ public class RobotContainer {
 
     // register named commands for PathPlanner
     NamedCommands.registerCommand("ramp", 
-      new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower).withTimeout(1));
+      new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower * PieceConstants.signLeftShoot, 
+        PieceConstants.rightSpeakerPower * PieceConstants.signRightShoot).withTimeout(1));
     
     NamedCommands.registerCommand("shoot", 
-      new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower).withTimeout(0.5));
+      new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower * PieceConstants.signLeftShoot, 
+        PieceConstants.rightSpeakerPower * PieceConstants.signRightShoot).withTimeout(0.5));
 
     NamedCommands.registerCommand("feed", 
-      new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower)
-      .withTimeout(0.5));
+      new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpSpeakerFeedPower * PieceConstants.signLeftUpFeed, 
+        PieceConstants.rightDownSpeakerFeedPower * PieceConstants.signRightDownFeed).withTimeout(0.5));
 
     NamedCommands.registerCommand("speaker", 
       new SpeakerCommand(intakeSubsystem, shootSubsystem, 
-      PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
-      PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower)
-      .withTimeout(2));
+      PieceConstants.leftSpeakerPower * PieceConstants.signLeftShoot, 
+      PieceConstants.rightSpeakerPower * PieceConstants.signRightShoot, 
+      PieceConstants.leftUpSpeakerFeedPower * PieceConstants.signLeftUpFeed, 
+      PieceConstants.rightDownSpeakerFeedPower * PieceConstants.signRightDownFeed).withTimeout(2));
 
     NamedCommands.registerCommand("stopArm", 
       new ParallelCommandGroup(
         new ShootCommand(shootSubsystem, 0, 0), 
         new ManualIntakeCommand(intakeSubsystem, 0, 0), 
         new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0))
-        .withTimeout(0.1));//, 
-        //new ClimbCommand(climbSubsystem, 0)));
+        .withTimeout(0.1));
 
     NamedCommands.registerCommand("intakeOut", 
       new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
@@ -118,14 +120,14 @@ public class RobotContainer {
       .withTimeout(2));
 
     NamedCommands.registerCommand("intake", 
-      new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower)
-      .withTimeout(2));
+      new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
+        PieceConstants.rightDownIntakePower * PieceConstants.signRightDownIntake).withTimeout(2));
 
     NamedCommands.registerCommand("autoIntake", 
       new SequentialCommandGroup(
         new ParallelDeadlineGroup(
-          new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower)
-          .withTimeout(3),
+          new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
+            PieceConstants.rightDownIntakePower * PieceConstants.signRightDownIntake).withTimeout(3),
           new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle,
             PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)), 
         new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
@@ -181,8 +183,10 @@ public class RobotContainer {
     // if R1 on piece, shoot for the speaker 
     Trigger speaker = new Trigger(() -> pieceController.getR1Button()); 
     speaker.whileTrue(new SpeakerCommand(intakeSubsystem, shootSubsystem, 
-      PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
-      PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
+      PieceConstants.leftSpeakerPower * PieceConstants.signLeftShoot, 
+      PieceConstants.rightSpeakerPower * PieceConstants.signRightShoot, 
+      PieceConstants.leftUpSpeakerFeedPower * PieceConstants.signLeftUpFeed, 
+      PieceConstants.rightDownSpeakerFeedPower * PieceConstants.signRightDownFeed));
 		/*speaker.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower));
     //shoot.onTrue(new IntakeCommand(intakeSubsystem, -0.1, -0.1).withTimeout(0.3));
     speaker.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
@@ -191,8 +195,10 @@ public class RobotContainer {
     // if D-Pad right on piece, shoot for the amp
     Trigger amp = new Trigger(() -> pieceController.getPOV() == 90); 
     amp.whileTrue(new AmpCommand(intakeSubsystem, shootSubsystem, 
-      PieceConstants.leftAmpPower, PieceConstants.rightAmpPower, 
-      PieceConstants.leftUpAmpFeedPower, -PieceConstants.rightDownAmpFeedPower));
+      PieceConstants.leftAmpPower * PieceConstants.signLeftShoot, 
+      PieceConstants.rightAmpPower * PieceConstants.signRightShoot, 
+      PieceConstants.leftUpAmpFeedPower * PieceConstants.signLeftUpFeed, 
+      PieceConstants.rightDownAmpFeedPower * PieceConstants.signRightDownFeed));
     /*amp.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftAmpPower, PieceConstants.rightAmpPower));
     amp.whileTrue(new WaitCommand(0.7). andThen(new ManualIntakeCommand(
       intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));*/
@@ -200,7 +206,8 @@ public class RobotContainer {
     // if L1 on piece, automatically intake a piece
     Trigger intake = new Trigger(() -> pieceController.getL1Button()); 
     intake.onTrue(new ParallelCommandGroup(
-      new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower), 
+      new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
+        PieceConstants.rightDownIntakePower * PieceConstants.signRightDownIntake), 
       new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
         PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)));
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
@@ -225,7 +232,9 @@ public class RobotContainer {
     Trigger manualIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, manually move intake in
     manualIntakeOut.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
     manualIntakeIn.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
-    manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, 0.7*PieceConstants.rightDownIntakePower));
+    manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, 
+      PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
+      PieceConstants.rightDownIntakePower * PieceConstants.signRightDownIntake));
 
     // manually move climb mechanism up and down
     /*climbUp.whileTrue(new ClimbCommand(climbSubsystem, PieceConstants.climbPower));
@@ -242,8 +251,8 @@ public class RobotContainer {
     Trigger fullAutoIntake = new Trigger(() -> pieceController.getPOV() == 270); 
     fullAutoIntake.onTrue(new SequentialCommandGroup(
       new ParallelDeadlineGroup(
-        new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower)
-        .withTimeout(3),
+        new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
+          PieceConstants.rightDownIntakePower * PieceConstants.signRightDownIntake).withTimeout(3),
         new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle,
             PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)), 
       new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
