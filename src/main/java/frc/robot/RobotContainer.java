@@ -139,28 +139,8 @@ public class RobotContainer {
     // Configure the trigger bindings
     configureBindings();
 
-    AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
-      () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-      () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-      () -> -MathUtil.applyDeadband(driveController.getRightX(),OperatorConstants.RIGHT_X_DEADBAND),
-      () -> -MathUtil.applyDeadband(driveController.getRightY(), OperatorConstants.RIGHT_Y_DEADBAND));
-    
-      // Applies deadbands and inverts controls because joysticks
-    // are back-right positive while robot
-    // controls are front-left positive
-    // left stick controls translation
-    // right stick controls the desired angle NOT angular rotation
-    Command driveFieldOrientedDirectAngle = drivebase.driveCommand(
-        () -> -MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> -MathUtil.applyDeadband(driveController.getLeftX(), OperatorConstants.LEFT_X_DEADBAND),
-        () -> -driveController.getRightX(),
-        () -> -driveController.getRightY());
-
-    // Applies deadbands and inverts controls because joysticks
-    // are back-right positive while robot
-    // controls are front-left positive
-    // left stick controls translation
-    // right stick controls the angular velocity of the robot
+    // Applies deadbands and inverts controls because joysticks are back-right positive while robot
+    // controls are front-left positive; left stick controls translation; right stick controls the angular velocity of the robot
     Command driveFieldOrientedAnglularVelocity = drivebase.driveCommand(
         () -> -OperatorConstants.drivePowerPercent * 
           MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -183,28 +163,9 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    Trigger stopAllArm = new Trigger(() -> driveController.getPSButton()).
-      or(() -> pieceController.getPSButton()); // is PS4 Button on piece or drive, stop everything other than movement 
+    // drive controller - PS4 Button, Options, L1, R1, 
+    // piece controller - PS4 Button, Options, L1, R1, D-Right, D-Up, D-Down, D-Left, Triangle Square Cross
 
-    Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); // if Options on drive, reset heading
-    Trigger resetIntake = new Trigger(() -> pieceController.getOptionsButton()); // if Options on piece, reset encoder value
-
-    Trigger halfSpeed = new Trigger(() -> driveController.getL1Button()); // if L1 on drive, half speed
-		Trigger halfTurn = new Trigger (() -> pieceController.getCircleButton()); // if Circle on piece, half turn speed	
-    Trigger halfMovement = new Trigger(halfSpeed).and(halfTurn); // if L1 on drive AND Circle on piece, half movement
-
-		Trigger speaker = new Trigger(() -> pieceController.getR1Button()); // if R1 on piece, speaker shoot
-    Trigger amp = new Trigger(() -> pieceController.getPOV() == 90); // if D-Pad right on piece, amp shoot
-    Trigger intake = new Trigger(() -> pieceController.getL1Button()); // if L1 on piece, intake a piece 
-
-    Trigger autoIntakeOut = new Trigger (() -> pieceController.getPOV() == 0); // if D-Pad up on piece, auto move intake out
-    Trigger autoIntakeIn = new Trigger (() -> pieceController.getPOV() == 180); // if D-Pad down on piece, auto move intake in
-
-    Trigger fullAutoIntake = new Trigger(() -> pieceController.getPOV() == 270); // if D-Pad left on piece, full auto intake
-
-    Trigger manualIntake = new Trigger(() -> pieceController.getTriangleButton()); // if Triangle on piece, turn on intake
-    Trigger manualIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, manually move intake out
-    Trigger manualIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, manually move intake in
 
     Trigger climbUp = new Trigger(() -> driveController.getTriangleButton()); // if Triangle on drive, move climber up
     Trigger climbDown = new Trigger(() -> driveController.getCrossButton());// if Cross on drive, move climber down
@@ -217,7 +178,8 @@ public class RobotContainer {
     Trigger visionMode = new Trigger(() -> driveController.getPOV() == 180); // if D-Pad down on drive, Limelight to vision process
     Trigger driveMode = new Trigger(() -> driveController.getPOV() == 0); // if D-Pad up on drive, Limelight to driver camera
 
-    // simultaneously push game piece into shooter and shoot for speaker
+    // if R1 on piece, shoot for the speaker 
+    Trigger speaker = new Trigger(() -> pieceController.getR1Button()); 
     speaker.whileTrue(new SpeakerCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftSpeakerPower, PieceConstants.rightSpeakerPower, 
       PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower));
@@ -226,7 +188,8 @@ public class RobotContainer {
     speaker.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
       intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower))); */
 
-    // simultaneously push game piece into shooter and shoot for amp
+    // if D-Pad right on piece, shoot for the amp
+    Trigger amp = new Trigger(() -> pieceController.getPOV() == 90); 
     amp.whileTrue(new AmpCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftAmpPower, PieceConstants.rightAmpPower, 
       PieceConstants.leftUpAmpFeedPower, -PieceConstants.rightDownAmpFeedPower));
@@ -234,7 +197,8 @@ public class RobotContainer {
     amp.whileTrue(new WaitCommand(0.7). andThen(new ManualIntakeCommand(
       intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));*/
 
-    // automatically move intake out and grab game pieces and then move intake in
+    // if L1 on piece, automatically intake a piece
+    Trigger intake = new Trigger(() -> pieceController.getL1Button()); 
     intake.onTrue(new ParallelCommandGroup(
       new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower), 
       new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
@@ -247,13 +211,18 @@ public class RobotContainer {
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));*/
 
-    // automatically move intake in/out
+    // if D-Pad up on piece, auto move intake out; if D-Pad down on piece, auto move intake in
+    Trigger autoIntakeOut = new Trigger (() -> pieceController.getPOV() == 0); 
+    Trigger autoIntakeIn = new Trigger (() -> pieceController.getPOV() == 180); 
     autoIntakeOut.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
     autoIntakeIn.onTrue(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
       PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD)); 
 
-    // manully move intake in/out and manually grab pieces
+    // manual intake system
+    Trigger manualIntake = new Trigger(() -> pieceController.getTriangleButton()); // if Triangle on piece, turn on intake
+    Trigger manualIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, manually move intake out
+    Trigger manualIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, manually move intake in
     manualIntakeOut.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
     manualIntakeIn.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
     manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, 0.7*PieceConstants.rightDownIntakePower));
@@ -263,11 +232,14 @@ public class RobotContainer {
     climbDown.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.climbPower));
     fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));*/
 
-    // reset heading/intake encoder
+    // if Options on drive, reset heading; if Options on piece, reset intake move encoder value
+    Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); 
+    Trigger resetIntake = new Trigger(() -> pieceController.getOptionsButton()); 
     resetHeading.onTrue(new ResetHeadingCommand(drivebase));
     resetIntake.onTrue(new ResetIntakeCommand(intakeMoveSubsystem));
 
-    // fully automatic intake 
+    // if D-Pad left on piece, fully automatic intake system
+    Trigger fullAutoIntake = new Trigger(() -> pieceController.getPOV() == 270); 
     fullAutoIntake.onTrue(new SequentialCommandGroup(
       new ParallelDeadlineGroup(
         new IntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower)
@@ -284,7 +256,11 @@ public class RobotContainer {
     visionMode.toggleOnTrue(new setVisionModeCommand(limelightSubsystem, LimelightConstants.visionProcessModeId));
     driveMode.toggleOnTrue(new setVisionModeCommand(limelightSubsystem, LimelightConstants.cameraModeId));*/
 
-    // half speed/drive (probably a better way to code this)
+    // half drive/turn speeds
+    Trigger halfSpeed = new Trigger(() -> driveController.getL1Button()); // if L1 on drive, half speed
+		Trigger halfTurn = new Trigger (() -> pieceController.getR1Button()); // if R1 on drive, half turn speed	
+    Trigger halfMovement = new Trigger(halfSpeed).and(halfTurn); // if L1 and R1 on drive, half movement
+
     Command halfSpeedCommand = drivebase.driveCommand(
       () -> -OperatorConstants.drivePowerPercent * 0.5 *
         MathUtil.applyDeadband(driveController.getLeftY(), OperatorConstants.LEFT_Y_DEADBAND),
@@ -311,17 +287,16 @@ public class RobotContainer {
     halfTurn.whileTrue(halfTurnCommand);
     halfMovement.whileTrue(halfMovementCommand);
 
-    // shut down everything other than movement 
+    // if PS4 Button on piece or drive, stop everything other than movement
+    Trigger stopAllArm = new Trigger(() -> driveController.getPSButton()).or(() -> pieceController.getPSButton());
     stopAllArm.whileTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
       new ManualIntakeCommand(intakeSubsystem, 0, 0), 
-      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0)));//, 
-      //new ClimbCommand(climbSubsystem, 0)));        
+      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0)));
     stopAllArm.onTrue(new ParallelCommandGroup(
       new ShootCommand(shootSubsystem, 0, 0), 
       new ManualIntakeCommand(intakeSubsystem, 0, 0), 
-      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0)));//, 
-      //new ClimbCommand(climbSubsystem, 0))).notifyAll();    
+      new IntakeOutCommand(intakeMoveSubsystem, 0, 0, 0, 0)));
           
 
 
@@ -348,22 +323,6 @@ public class RobotContainer {
                               )); */
     // driveController.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
   }
-
-  /** ////////////////////USE THIS FOR PATHPLANNER ///////////////////////////////////////////////////////////////////////////////////////
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  /*public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("testAuto");
-  } */
-
-  /*public Command getAutonomousCommand() {
-    return (drivebase.driveToPose(
-      new Pose2d(new Translation2d(5, 0), Rotation2d.fromDegrees(0.0))
-    )); 
-  } */
 
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
