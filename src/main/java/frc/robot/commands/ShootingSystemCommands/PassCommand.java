@@ -44,6 +44,9 @@ public class PassCommand extends Command{
         } else if (!spaghettiIfStatement) {
             intakeSubsystem.intake(leftFeed, rightFeed);
 
+        } else if (time.hasElapsed(1.5)) {
+            intakeSubsystem.intake(leftFeed, rightShoot);
+            
         } else {
             intakeSubsystem.intake(0, 0);
         }
