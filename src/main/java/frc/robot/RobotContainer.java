@@ -32,6 +32,7 @@ import frc.robot.commands.IntakeSystemCommands.ManualIntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.ResetIntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.ManualIntakeMoveCommand;
 import frc.robot.commands.ShootingSystemCommands.AmpCommand;
+import frc.robot.commands.ShootingSystemCommands.PassCommand;
 //import frc.robot.commands.LimelightCommands.LimelightDrive;
 //import frc.robot.commands.LimelightCommands.setAprilTagCommand;
 //import frc.robot.commands.LimelightCommands.setCameraCommand;
@@ -165,14 +166,13 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    // drive controller - PS4 Button, Options, L1, R1, 
-    // piece controller - PS4 Button, Options, L1, R1, D-Right, D-Up, D-Down, D-Left, Triangle Square Cross
+    // drive controller - PS4 Button, Options, L1, R1, Square, Triangle
+    // piece controller - PS4 Button, Options, L1, R1, D-Up, D-Down, D-Left, Triangle Square Cross
 
 
-    Trigger climbUp = new Trigger(() -> driveController.getTriangleButton()); // if Triangle on drive, move climber up
-    Trigger climbDown = new Trigger(() -> driveController.getCrossButton());// if Cross on drive, move climber down
-
-    Trigger fullClimb = new Trigger(() -> driveController.getCircleButton()); // if Circle on drive, full send climber
+    //Trigger climbUp = new Trigger(() -> driveController.getTriangleButton()); // if Triangle on drive, move climber up
+    //Trigger climbDown = new Trigger(() -> driveController.getCrossButton());// if Cross on drive, move climber down
+    //Trigger fullClimb = new Trigger(() -> driveController.getCircleButton()); // if Circle on drive, full send climber
 
     Trigger aprilTag = new Trigger(() -> driveController.getPOV() == 90); // if D-Pad right on drive, Limelight to April Tag mode
     Trigger neuralNetwork = new Trigger(() -> driveController.getPOV() == 270); // if D-Pad left on drive, Limelight to neural mode
@@ -192,8 +192,8 @@ public class RobotContainer {
     speaker.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
       intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower))); */
 
-    // if D-Pad right on piece, shoot for the amp
-    Trigger amp = new Trigger(() -> pieceController.getPOV() == 90); 
+    // if Square on drive, shoot for the amp
+    Trigger amp = new Trigger(() -> driveController.getSquareButton()); 
     amp.whileTrue(new AmpCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftAmpPower * PieceConstants.signLeftShoot, 
       PieceConstants.rightAmpPower * PieceConstants.signRightShoot, 
@@ -202,6 +202,14 @@ public class RobotContainer {
     /*amp.whileTrue(new ShootCommand(shootSubsystem, PieceConstants.leftAmpPower, PieceConstants.rightAmpPower));
     amp.whileTrue(new WaitCommand(0.7). andThen(new ManualIntakeCommand(
       intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));*/
+
+    // if Triangle on drive, pass a game piece
+    Trigger pass = new Trigger(() -> driveController.getTriangleButton());
+    pass.whileTrue(new PassCommand(intakeSubsystem, shootSubsystem, 
+      PieceConstants.leftPassPower * PieceConstants.signLeftShoot,
+      PieceConstants.rightPassPower * PieceConstants.signRightShoot,
+      PieceConstants.leftPassFeedPower * PieceConstants.signLeftUpFeed,
+      PieceConstants.rightPassFeedPower * PieceConstants.signRightDownFeed));
 
     // if L1 on piece, automatically intake a piece
     Trigger intake = new Trigger(() -> pieceController.getL1Button()); 

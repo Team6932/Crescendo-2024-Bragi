@@ -6,7 +6,7 @@ import frc.robot.Constants.PieceConstants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShootSubsystem;
 
-public class AmpCommand extends Command{
+public class PassCommand extends Command{
     private final IntakeSubsystem intakeSubsystem;
     private final ShootSubsystem shootSubsystem;
 
@@ -16,7 +16,7 @@ public class AmpCommand extends Command{
     private boolean spaghettiIfStatement;
     private Timer time = new Timer();
 
-    public AmpCommand(IntakeSubsystem intakeSubsystem, ShootSubsystem shootSubsystem, 
+    public PassCommand(IntakeSubsystem intakeSubsystem, ShootSubsystem shootSubsystem, 
             double leftShoot, double rightShoot, double leftFeed, double rightFeed) {
         this.intakeSubsystem = intakeSubsystem;
         this.shootSubsystem = shootSubsystem;
@@ -37,7 +37,7 @@ public class AmpCommand extends Command{
     public void execute() {
         shootSubsystem.shoot(leftShoot, rightShoot);
 
-        if (shootSubsystem.getShootReady(PieceConstants.ampMotorSpeed) && spaghettiIfStatement) {
+        if (time.get() > 0.3) {
             time.reset();
             spaghettiIfStatement = false;
 

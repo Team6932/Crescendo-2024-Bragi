@@ -80,18 +80,21 @@ public final class Constants {
     // power settings (-1 to 1)
     public static final double leftSpeakerPower = 0.8; // orange wheels on the left for speaker 
     public static final double rightSpeakerPower = 0.8; // orange wheels on the right for speaker
-
-    public static final double leftAmpPower = 0.4; // orange wheels on left for amp
-    public static final double rightAmpPower = 0.4; // orange wheels on right for amp
-
-    public static final double leftUpIntakePower = 0.3; // intake pieces on the left/top 0.5
-    public static final double rightDownIntakePower = 0.3; // intake pieces on the right/bottom
-
     public static final double leftUpSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on left/top
     public static final double rightDownSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on right/bottom
 
-    public static final double leftUpAmpFeedPower = 0.4; // move piece from intake to shooter for amp on left/top
-    public static final double rightDownAmpFeedPower = 0.4; // move pieces from intake to shooter for amp on right/bottom
+    public static final double leftAmpPower = 0.2; // orange wheels on left for amp
+    public static final double rightAmpPower = 0.2; // orange wheels on right for amp
+    public static final double leftUpAmpFeedPower = 0.2; // move piece from intake to shooter for amp on left/top
+    public static final double rightDownAmpFeedPower = 0.2; // move pieces from intake to shooter for amp on right/bottom
+
+    public static final double leftPassPower = 1; // orange wheels on left for passing
+    public static final double rightPassPower = 1; // orange wheels on right for passing
+    public static final double leftPassFeedPower = 1; // move piece from intake to shooter for passing on left
+    public static final double rightPassFeedPower = 1; // move piece from intake to shooter for passing on right
+
+    public static final double leftUpIntakePower = 0.3; // intake pieces on the left/top 0.5
+    public static final double rightDownIntakePower = 0.3; // intake pieces on the right/bottom
     
     public static final double intakeMovePower = 0.35; // move entire intake system 
 
@@ -99,8 +102,9 @@ public final class Constants {
     public static final double fullClimbPower = 0.75;
 
     public static final double speakerWheelSpeed = 18; // speed the wheels must move in m/s to make it to speaker
-    public static final double speakerMotorSpeed = 3800; // rpm of the motors to make it ot the speaker, wheels 4 in diameter, 4400
-    public static final double maxSpeakerMotorSpeed = 5500; // hypothetical max rpm of the motors
+    public static final double speakerMotorSpeed = 3800; // rpm of the motors to make it to the speaker, wheels 4 in diameter, 4400
+    public static final double ampMotorSpeed = 900; // rpm of the motors to make it to the amp
+    public static final double maxSpeakerMotorSpeed = 5500; // hypothetical max rpm of the motorsl
 
 
     // PID settings
