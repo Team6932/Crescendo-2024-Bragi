@@ -104,7 +104,8 @@ public final class Constants {
     public static final double speakerWheelSpeed = 18; // speed the wheels must move in m/s to make it to speaker
     public static final double speakerMotorSpeed = 3800; // rpm of the motors to make it to the speaker, wheels 4 in diameter, 4400
     public static final double ampMotorSpeed = 900; // rpm of the motors to make it to the amp
-    public static final double maxSpeakerMotorSpeed = 5500; // hypothetical max rpm of the motorsl
+    public static final double passMotorSpeed = 5200; // rpm of the motors to pass
+    public static final double maxSpeakerMotorSpeed = 5500; // hypothetical max rpm of the motors
 
 
     // PID settings
@@ -116,7 +117,7 @@ public final class Constants {
     public static final double intakeInI = 0.5;
     public static final double intakeInD = 0.0;
 
-    public static final double maxIntakeMovePID = 0.4; 
+    public static final double maxIntakeMovePID = 0.55; 
 
     // other game piece related constants
     public static final double intakeOutAngle = -30.0; // encoder position value when intake is out

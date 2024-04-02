@@ -37,7 +37,7 @@ public class PassCommand extends Command{
     public void execute() {
         shootSubsystem.shoot(leftShoot, rightShoot);
 
-        if (time.get() > 0.3) {
+        if (shootSubsystem.getShootReady(PieceConstants.passMotorSpeed) && spaghettiIfStatement) {
             time.reset();
             spaghettiIfStatement = false;
 

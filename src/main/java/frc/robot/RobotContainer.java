@@ -166,8 +166,8 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    // drive controller - PS4 Button, Options, L1, R1, Square, Triangle
-    // piece controller - PS4 Button, Options, L1, R1, D-Up, D-Down, D-Left, Triangle Square Cross
+    // drive controller - PS4 Button, Options, L1, R1, 
+    // piece controller - PS4 Button, Options, L1, R1, L2, R2, D-Up, D-Down, D-Left, Triangle, Square, Cross
 
 
     //Trigger climbUp = new Trigger(() -> driveController.getTriangleButton()); // if Triangle on drive, move climber up
@@ -192,8 +192,8 @@ public class RobotContainer {
     speaker.whileTrue(new WaitCommand(1.2). andThen(new IntakeCommand(
       intakeSubsystem, -PieceConstants.leftUpSpeakerFeedPower, -PieceConstants.rightDownSpeakerFeedPower))); */
 
-    // if Square on drive, shoot for the amp
-    Trigger amp = new Trigger(() -> driveController.getSquareButton()); 
+    // if L2 on piece, shoot for the amp
+    Trigger amp = new Trigger(() -> pieceController.getL2Button()); 
     amp.whileTrue(new AmpCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftAmpPower * PieceConstants.signLeftShoot, 
       PieceConstants.rightAmpPower * PieceConstants.signRightShoot, 
@@ -203,8 +203,8 @@ public class RobotContainer {
     amp.whileTrue(new WaitCommand(0.7). andThen(new ManualIntakeCommand(
       intakeSubsystem, PieceConstants.leftUpAmpFeedPower, PieceConstants.rightDownAmpFeedPower)));*/
 
-    // if Triangle on drive, pass a game piece
-    Trigger pass = new Trigger(() -> driveController.getTriangleButton());
+    // if R2 on drive, pass a game piece
+    Trigger pass = new Trigger(() -> pieceController.getR2Button());
     pass.whileTrue(new PassCommand(intakeSubsystem, shootSubsystem, 
       PieceConstants.leftPassPower * PieceConstants.signLeftShoot,
       PieceConstants.rightPassPower * PieceConstants.signRightShoot,

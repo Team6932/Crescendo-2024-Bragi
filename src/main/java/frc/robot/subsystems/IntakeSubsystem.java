@@ -15,8 +15,8 @@ public class IntakeSubsystem extends SubsystemBase{
     DigitalInput intakeSwitch = new DigitalInput(PieceConstants.intakeSwitch);
 
     public IntakeSubsystem() {
-        leftIntakeMotor.setSmartCurrentLimit(20);
-        rightIntakeMotor.setSmartCurrentLimit(20);
+        leftIntakeMotor.setSmartCurrentLimit(40);
+        rightIntakeMotor.setSmartCurrentLimit(40);
     }
 
     public boolean getIntakeSwitch() {
