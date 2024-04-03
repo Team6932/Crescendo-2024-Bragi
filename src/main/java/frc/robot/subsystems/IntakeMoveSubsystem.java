@@ -5,6 +5,7 @@ import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -19,7 +20,14 @@ public class IntakeMoveSubsystem extends SubsystemBase {
     //DigitalInput intakeOutSwitch = new DigitalInput(PieceConstants.intakeOutSwitch);
     //DigitalInput intakeInSwitch = new DigitalInput(PieceConstants.intakeInSwitch);
 
-    public IntakeMoveSubsystem() {}
+    public IntakeMoveSubsystem() {
+        intakeMoveMotor.restoreFactoryDefaults();
+
+        intakeMoveMotor.setSmartCurrentLimit(PieceConstants.intakeMoveCurrent);
+        intakeMoveMotor.setIdleMode(IdleMode.kBrake);
+
+        intakeMoveMotor.burnFlash();
+    }
 
     /*public boolean getIntakeOutSwitch() {
         return intakeOutSwitch.get();

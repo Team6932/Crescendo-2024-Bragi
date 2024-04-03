@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -15,8 +16,17 @@ public class IntakeSubsystem extends SubsystemBase{
     DigitalInput intakeSwitch = new DigitalInput(PieceConstants.intakeSwitch);
 
     public IntakeSubsystem() {
-        leftIntakeMotor.setSmartCurrentLimit(40);
-        rightIntakeMotor.setSmartCurrentLimit(40);
+        leftIntakeMotor.restoreFactoryDefaults();
+        rightIntakeMotor.restoreFactoryDefaults();
+
+        leftIntakeMotor.setSmartCurrentLimit(PieceConstants.intakeCurrent);
+        leftIntakeMotor.setIdleMode(IdleMode.kBrake);
+
+        rightIntakeMotor.setSmartCurrentLimit(PieceConstants.intakeCurrent);
+        rightIntakeMotor.setIdleMode(IdleMode.kBrake);
+        
+        leftIntakeMotor.burnFlash();
+        rightIntakeMotor.burnFlash();
     }
 
     public boolean getIntakeSwitch() {

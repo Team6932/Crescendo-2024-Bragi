@@ -64,6 +64,11 @@ public final class Constants {
     public static final double signLeftUpFeed = -1;
     public static final double signRightDownFeed = -1;
 
+    // smart current limit
+    public static final int intakeCurrent = 40;
+    public static final int intakeMoveCurrent = 60;
+    public static final int shootCurrent = 60;
+
     // CAN IDs
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;

@@ -4,6 +4,7 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -20,7 +21,19 @@ public class ShootSubsystem extends SubsystemBase {
     private final RelativeEncoder leftShootEncoder = leftShootMotor.getEncoder();
     private final RelativeEncoder rightShootEncoder = rightShootMotor.getEncoder();
 
-    public ShootSubsystem() {}
+    public ShootSubsystem() {
+        leftShootMotor.restoreFactoryDefaults();
+        rightShootMotor.restoreFactoryDefaults();
+
+        leftShootMotor.setSmartCurrentLimit(PieceConstants.shootCurrent);
+        leftShootMotor.setIdleMode(IdleMode.kBrake);
+
+        rightShootMotor.setSmartCurrentLimit(PieceConstants.shootCurrent);
+        rightShootMotor.setIdleMode(IdleMode.kBrake);
+
+        leftShootMotor.burnFlash();
+        rightShootMotor.burnFlash();
+    }
     
     public void shoot (double leftSpeed, double rightSpeed) {
         leftShootMotor.set(-leftSpeed);

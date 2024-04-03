@@ -25,6 +25,7 @@ import frc.robot.Constants.PieceConstants;
 //import frc.robot.commands.TestDrive;
 //import frc.robot.commands.ClimbSystemCommands.ClimbCommand;
 import frc.robot.commands.DriveSystemCommands.ResetHeadingCommand;
+import frc.robot.commands.DriveSystemCommands.ReverseResetHeadingCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeInCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeOutCommand;
@@ -166,7 +167,7 @@ public class RobotContainer {
 
   private void configureBindings() {
 
-    // drive controller - PS4 Button, Options, L1, R1, 
+    // drive controller - PS4 Button, Options, Share, L1, R1
     // piece controller - PS4 Button, Options, L1, R1, L2, R2, D-Up, D-Down, D-Left, Triangle, Square, Cross
 
 
@@ -249,11 +250,13 @@ public class RobotContainer {
     climbDown.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.climbPower));
     fullClimb.whileTrue(new ClimbCommand(climbSubsystem, -PieceConstants.fullClimbPower));*/
 
-    // if Options on drive, reset heading; if Options on piece, reset intake move encoder value
+    // if Options on drive, reset heading; if Options on piece, reset intake move encoder value; if Share on drive, reverse reset 
     Trigger resetHeading = new Trigger(() -> driveController.getOptionsButton()); 
     Trigger resetIntake = new Trigger(() -> pieceController.getOptionsButton()); 
+    Trigger reverseResetHeading = new Trigger(() -> driveController.getShareButton());
     resetHeading.onTrue(new ResetHeadingCommand(drivebase));
     resetIntake.onTrue(new ResetIntakeCommand(intakeMoveSubsystem));
+    reverseResetHeading.onTrue(new ReverseResetHeadingCommand(drivebase));
 
     // if D-Pad left on piece, fully automatic intake system
     Trigger fullAutoIntake = new Trigger(() -> pieceController.getPOV() == 270); 
