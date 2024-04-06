@@ -98,8 +98,8 @@ public final class Constants {
     public static final double leftPassFeedPower = 1; // move piece from intake to shooter for passing on left
     public static final double rightPassFeedPower = 1; // move piece from intake to shooter for passing on right
 
-    public static final double leftUpIntakePower = 0.3; // intake pieces on the left/top 0.5
-    public static final double rightDownIntakePower = 0.3; // intake pieces on the right/bottom
+    public static final double leftUpIntakePower = 0.5; // intake pieces on the left/top 
+    public static final double rightDownIntakePower = 0.5; // intake pieces on the right/bottom
     
     public static final double intakeMovePower = 0.35; // move entire intake system 
 
@@ -122,7 +122,7 @@ public final class Constants {
     public static final double intakeInI = 0.5;
     public static final double intakeInD = 0.0;
 
-    public static final double maxIntakeMovePID = 0.55; 
+    public static final double maxIntakeMovePID = 0.70; // .55
 
     // other game piece related constants
     public static final double intakeOutAngle = -30.0; // encoder position value when intake is out
