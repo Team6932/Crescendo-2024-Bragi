@@ -69,10 +69,43 @@ public class ShootSubsystem extends SubsystemBase {
         }
     }
 
+    public boolean getRightShootReady(double rightSpeed) {
+        if (getRightShootEncoder() >= rightSpeed) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean getLeftShootReady(double leftSpeed) {
+        if (getLeftShootEncoder() >= leftSpeed) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean getShootIssue() {
+
+        if (Math.abs(getLeftShootEncoder()) >= 1000 && Math.abs(getRightShootEncoder()) <= 500) {
+            return true;
+
+        } else if (Math.abs(getRightShootEncoder()) >= 1000 && Math.abs(getLeftShootEncoder()) <= 500) {
+            return true;
+
+        } else if (Math.abs(getLeftShootEncoder() - getRightShootEncoder()) >= 750) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
     @Override
     public void periodic() {
         SmartDashboard.putNumber("leftShoot", getLeftShootEncoder());
         SmartDashboard.putNumber("rightShoot", getRightShootEncoder());
         SmartDashboard.putBoolean("shootReady", getShootReady(PieceConstants.speakerMotorSpeed));
+        SmartDashboard.putBoolean("shootISSUE", getShootIssue());
     }
 }

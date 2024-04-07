@@ -1,6 +1,7 @@
 package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.MotorType;
 
@@ -12,6 +13,9 @@ import frc.robot.Constants.PieceConstants;
 public class IntakeSubsystem extends SubsystemBase{
     private final CANSparkMax leftIntakeMotor = new CANSparkMax(PieceConstants.intakeLeftUpId, MotorType.kBrushless);
     private final CANSparkMax rightIntakeMotor = new CANSparkMax(PieceConstants.intakeRightDownId, MotorType.kBrushless);
+
+    private final RelativeEncoder leftIntakeEncoder = leftIntakeMotor.getEncoder();
+    private final RelativeEncoder rightIntakeEncoder = rightIntakeMotor.getEncoder();
 
     DigitalInput intakeSwitch = new DigitalInput(PieceConstants.intakeSwitch);
 
@@ -38,8 +42,35 @@ public class IntakeSubsystem extends SubsystemBase{
         rightIntakeMotor.set(rightSpeed);
     }
 
+    public double getLeftIntakeEncoder () {
+        return leftIntakeEncoder.getVelocity();
+    }
+
+    public double getRightIntakeEncoder () {
+        return rightIntakeEncoder.getVelocity();
+    }
+
+    public boolean getIntakeError() {
+
+        if (Math.abs(getLeftIntakeEncoder()) >= 500 && Math.abs(getRightIntakeEncoder()) <= 200) {
+            return true;
+
+        } else if (Math.abs(getRightIntakeEncoder()) >= 500 && Math.abs(getLeftIntakeEncoder()) <= 200) {
+            return true;
+
+        } else if (Math.abs(getLeftIntakeEncoder() - getRightIntakeEncoder()) >= 1000) {
+            return true;
+
+        } else {
+            return false;
+        }
+    }
+
    @Override
     public void periodic() {
         SmartDashboard.putBoolean("Piece?", getIntakeSwitch());
+        SmartDashboard.putNumber("leftIntake", getLeftIntakeEncoder());
+        SmartDashboard.putNumber("rightIntake", getRightIntakeEncoder());
+        SmartDashboard.putBoolean("intakeISSUE", getIntakeError());
     } 
 }

@@ -3,45 +3,45 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.840024291946602,
-        "y": 7.110459999956827
+        "x": 7.55,
+        "y": 0.75
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.940024291946601,
-        "y": 7.110459999956827
+        "x": 7.6,
+        "y": 0.75
       },
       "isLocked": false,
-      "linkedName": "OFFSET left mid piece"
+      "linkedName": "right mid piece"
     },
     {
       "anchor": {
-        "x": 4.05,
-        "y": 6.67
+        "x": 2.985376622311319,
+        "y": 1.5930221095569663
       },
       "prevControl": {
-        "x": 5.043114678298065,
-        "y": 6.787146215256521
+        "x": 4.6132824276980005,
+        "y": 0.5232554374457188
       },
       "nextControl": {
-        "x": 3.101655608410367,
-        "y": 6.558134815986346
+        "x": 1.3545125811763632,
+        "y": 2.664732765159937
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.67,
-        "y": 6.5
+        "x": 0.75,
+        "y": 4.4
       },
       "prevControl": {
-        "x": 0.5200000000000004,
-        "y": 6.5
+        "x": 0.7,
+        "y": 4.4
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "angle right shoot"
     }
   ],
   "rotationTargets": [],
@@ -49,9 +49,9 @@
   "eventMarkers": [
     {
       "name": "intakeIn",
-      "waypointRelativePos": 0.3,
+      "waypointRelativePos": 0.2,
       "command": {
-        "type": "sequential",
+        "type": "parallel",
         "data": {
           "commands": [
             {
@@ -66,18 +66,11 @@
     },
     {
       "name": "ramp",
-      "waypointRelativePos": 1.4,
+      "waypointRelativePos": 1.55,
       "command": {
         "type": "parallel",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "ramp"
-              }
-            }
-          ]
+          "commands": []
         }
       }
     }
@@ -90,11 +83,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -120.0,
+    "rotation": 120.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "offsetLeftStarts",
+  "folder": "offsetRightStarts",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

@@ -214,7 +214,7 @@ public class RobotContainer {
     // if L1 on piece, automatically intake a piece
     Trigger intake = new Trigger(() -> pieceController.getL1Button()); 
     intake.onTrue(new ParallelCommandGroup(
-      new IntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
+      new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
         PieceConstants.rightDownIntakePower * PieceConstants.signRightDownIntake), 
       new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
         PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)));
@@ -266,8 +266,7 @@ public class RobotContainer {
         new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle,
             PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)), 
       new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
-        PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD))
-      .withTimeout(3));
+        PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD)));
 
     // Limelight modes
     /*aprilTag.toggleOnTrue(new setAprilTagCommand(limelightSubsystem));

@@ -37,7 +37,8 @@ public class AmpCommand extends Command{
     public void execute() {
         shootSubsystem.shoot(leftShoot, rightShoot);
 
-        if (shootSubsystem.getShootReady(PieceConstants.ampMotorSpeed) && spaghettiIfStatement) {
+        if (shootSubsystem.getRightShootReady(PieceConstants.rightAmpMotorSpeed) 
+            && shootSubsystem.getLeftShootReady(PieceConstants.leftAmpMotorSpeed) && spaghettiIfStatement) {
             time.reset();
             spaghettiIfStatement = false;
 
