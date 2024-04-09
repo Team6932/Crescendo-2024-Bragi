@@ -61,7 +61,7 @@ public final class Constants {
      * The deadband affects how much the driver must move the joystick before the robot reacts
      * 
      * drivePowerPercent and turnPowerPercent do not actually slow the robot by a specific percent.
-     * They limit the joystick output to the drive function, resulting in a decrease in speed
+     * They limit the joystick output to the drive function, resulting in a decrease in speed.
      */
     // deadband
     public static final double LEFT_X_DEADBAND  = 0.15;
@@ -77,6 +77,14 @@ public final class Constants {
 
   public static class PieceConstants {
 
+    /*
+     * These say if the motor needs to spin in a positive or negative direction to perform a given task.
+     * I created this section since we were changing how we were mounting our motors.
+     * I did not want to risk accidentally missing or adding a negative at a competition.
+     *  
+     * Another strategy would be to have these be booleans (true/false)
+     * and do SparkMAX.setInverted(true/false);
+     */
     // motor positive/negative settings
     public static final double signRightShoot = 1;
     public static final double signLeftShoot = 1;
@@ -87,11 +95,18 @@ public final class Constants {
     public static final double signLeftUpFeed = -1;
     public static final double signRightDownFeed = -1;
 
+    /*
+     * These set the smart current limit for the SparkMAX motor controllers.
+     * The motors were getting too hot due to the lack of a current limit on the SparkMAX. 
+     */
     // smart current limit
     public static final int intakeCurrent = 60;
     public static final int intakeMoveCurrent = 60;
     public static final int shootCurrent = 60;
 
+    /*
+     * These are the CAN IDs for all of our intake/shoot related motor controllers
+     */
     // CAN IDs
     public static final int rightShootId = 12;
     public static final int leftShootId = 13;
@@ -100,11 +115,18 @@ public final class Constants {
     public static final int intakeLeftUpId = 14; 
     public static final int climb = 10; 
 
+    /*
+     * These are the DIO (digital input) IDs for our limit switches. We ended up only partially using one limit switch.
+     * There should also be a way to connect limit switches to the motor controllers. 
+     */
     // limit switch IDs
     public static final int intakeSwitch = 1;
     public static final int intakeOutSwitch = 7;
     public static final int intakeInSwitch = 8;
 
+    /*
+     * This contains all the power settings for our different mechanisms. These are are done through testing.
+     */
     // power settings (-1 to 1)
     public static final double leftSpeakerPower = 0.8; // orange wheels on the left for speaker 
     public static final double rightSpeakerPower = 0.8; // orange wheels on the right for speaker
@@ -124,19 +146,30 @@ public final class Constants {
     public static final double leftUpIntakePower = 0.5; // intake pieces on the left/top 
     public static final double rightDownIntakePower = 0.5; // intake pieces on the right/bottom
     
-    public static final double intakeMovePower = 0.35; // move entire intake system 
+    public static final double intakeMovePower = 0.35; // move entire intake system manually
 
-    public static final double climbPower = 0.3; // move entire climb mechanism
-    public static final double fullClimbPower = 0.75;
+    public static final double climbPower = 0.3; // UNUSED move entire climb mechanism
+    public static final double fullClimbPower = 0.75; // UNUSED
 
-    public static final double speakerWheelSpeed = 18; // speed the wheels must move in m/s to make it to speaker
+    /*
+     * These contain desired encoder velocity values obtained from SparkMAX.getEncoder().getVelocity(). 
+     * These values were obtained through testing. 
+     * You can use setVelocityConversionFactor() to convert them into more useful units like m/s or ft/s. 
+     * 
+     * Originally, the plan was to use PID and encoder velocities to control the motors.
+     * However, I didn't want to deal with PID constants.
+     * Encoder velocities were used to check if the motors reached the desired speed. 
+     */
     public static final double speakerMotorSpeed = 3800; // rpm of the motors to make it to the speaker, wheels 4 in diameter, 4400
     public static final double leftAmpMotorSpeed = 670; // rpm of left motor to make it to the amp
     public static final double rightAmpMotorSpeed = 480; // rpm of right motor for amp
     public static final double passMotorSpeed = 5200; // rpm of the motors to pass
     public static final double maxSpeakerMotorSpeed = 5500; // hypothetical max rpm of the motors
 
-
+    /*
+     * These are PID constants for moving the intake in/out.
+     * These are not tuned (DO NOT COPY THESE). It worked, so I never bothered to tune them properly. 
+     */
     // PID settings
     public static final double intakeOutP = 0.5;
     public static final double intakeOutI = 0.5;
@@ -146,8 +179,18 @@ public final class Constants {
     public static final double intakeInI = 0.5;
     public static final double intakeInD = 0.0;
 
-    public static final double maxIntakeMovePID = 0.80; // .55
+    /*
+     * This limits what the SparkMAX tries to tell the motor to do.
+     * In this case, the power setting will always be between -0.80 and 0.80 (look in IntakeMoveSubsystem to see how).
+     */
+    public static final double maxIntakeMovePID = 0.80; 
 
+    /*
+     * These are the setpoints used for moving the intake in/out.
+     * These are values obtained from SparkMAX.getEncoder().getPosition().
+     * 
+     * You can turn these values into more useful units like degrees or radians using setPositionConversionFactor(). 
+     */
     // other game piece related constants
     public static final double intakeOutAngle = -30.0; // encoder position value when intake is out
     public static final double intakeInAngle = 0.0; // angle when intake is retracted
