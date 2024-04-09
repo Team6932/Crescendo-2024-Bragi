@@ -2,6 +2,19 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/*
+ * This file contains all the constants we used/wanted to use. 
+ * 
+ * double is a number that can have decimals
+ * int is an integer (no decimals)
+ * 
+ * public means everything can be accessed by other classes (files)
+ * learn more about Java for static and final 
+ * 
+ * An option for better orginization is to have a Constants folder that contains 
+ * different files. Each file can have constants relating to a specific task or mechanism.
+ */
+
 package frc.robot;
 
 import com.pathplanner.lib.util.PIDConstants;
@@ -19,7 +32,12 @@ import swervelib.math.Matter;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-  public static final double kMaxDriveSpeed = 4.8; // m/s
+  /*
+   * These were from YAGSL
+   * I only changed the ones we needed
+   * PID values are not tuned
+   */
+  public static final double kMaxDriveSpeed = 4.6; // m/s
   public static final double kMaxTurnSpeed = 2 * Math.PI; // rad/s
 
   public static final double ROBOT_MASS = (148 - 20.3) * 0.453592; // 32lbs * kg per pound
@@ -39,7 +57,12 @@ public final class Constants {
   }
 
   public static class OperatorConstants {
-
+    /*
+     * The deadband affects how much the driver must move the joystick before the robot reacts
+     * 
+     * drivePowerPercent and turnPowerPercent do not actually slow the robot by a specific percent.
+     * They limit the joystick output to the drive function, resulting in a decrease in speed
+     */
     // deadband
     public static final double LEFT_X_DEADBAND  = 0.15;
     public static final double LEFT_Y_DEADBAND  = 0.15;
@@ -47,7 +70,7 @@ public final class Constants {
     public static final double RIGHT_Y_DEADBAND = 0.15;
     public static final double TURN_CONSTANT    = 6;
 
-    public static final double drivePowerPercent = 1;
+    public static final double drivePowerPercent = 1.00;
     public static final double turnPowerPercent = 0.85;
   }
 
@@ -65,7 +88,7 @@ public final class Constants {
     public static final double signRightDownFeed = -1;
 
     // smart current limit
-    public static final int intakeCurrent = 40;
+    public static final int intakeCurrent = 60;
     public static final int intakeMoveCurrent = 60;
     public static final int shootCurrent = 60;
 
@@ -78,9 +101,9 @@ public final class Constants {
     public static final int climb = 10; 
 
     // limit switch IDs
-    public static final int intakeSwitch = 0;
-    public static final int intakeOutSwitch = 1;
-    public static final int intakeInSwitch = 2;
+    public static final int intakeSwitch = 1;
+    public static final int intakeOutSwitch = 7;
+    public static final int intakeInSwitch = 8;
 
     // power settings (-1 to 1)
     public static final double leftSpeakerPower = 0.8; // orange wheels on the left for speaker 
@@ -88,18 +111,18 @@ public final class Constants {
     public static final double leftUpSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on left/top
     public static final double rightDownSpeakerFeedPower = 0.85; // move pieces from intake to shooter for speaker on right/bottom
 
-    public static final double leftAmpPower = 0.2; // orange wheels on left for amp
-    public static final double rightAmpPower = 0.2; // orange wheels on right for amp
-    public static final double leftUpAmpFeedPower = 0.2; // move piece from intake to shooter for amp on left/top
-    public static final double rightDownAmpFeedPower = 0.2; // move pieces from intake to shooter for amp on right/bottom
+    public static final double leftAmpPower = 0.13; // orange wheels on left for amp
+    public static final double rightAmpPower = 0.10; // orange wheels on right for amp
+    public static final double leftUpAmpFeedPower = 0.17; // move piece from intake to shooter for amp on left/top
+    public static final double rightDownAmpFeedPower = 0.17; // move pieces from intake to shooter for amp on right/bottom
 
     public static final double leftPassPower = 1; // orange wheels on left for passing
     public static final double rightPassPower = 1; // orange wheels on right for passing
     public static final double leftPassFeedPower = 1; // move piece from intake to shooter for passing on left
     public static final double rightPassFeedPower = 1; // move piece from intake to shooter for passing on right
 
-    public static final double leftUpIntakePower = 0.3; // intake pieces on the left/top 0.5
-    public static final double rightDownIntakePower = 0.3; // intake pieces on the right/bottom
+    public static final double leftUpIntakePower = 0.5; // intake pieces on the left/top 
+    public static final double rightDownIntakePower = 0.5; // intake pieces on the right/bottom
     
     public static final double intakeMovePower = 0.35; // move entire intake system 
 
@@ -108,7 +131,8 @@ public final class Constants {
 
     public static final double speakerWheelSpeed = 18; // speed the wheels must move in m/s to make it to speaker
     public static final double speakerMotorSpeed = 3800; // rpm of the motors to make it to the speaker, wheels 4 in diameter, 4400
-    public static final double ampMotorSpeed = 900; // rpm of the motors to make it to the amp
+    public static final double leftAmpMotorSpeed = 670; // rpm of left motor to make it to the amp
+    public static final double rightAmpMotorSpeed = 480; // rpm of right motor for amp
     public static final double passMotorSpeed = 5200; // rpm of the motors to pass
     public static final double maxSpeakerMotorSpeed = 5500; // hypothetical max rpm of the motors
 
@@ -122,7 +146,7 @@ public final class Constants {
     public static final double intakeInI = 0.5;
     public static final double intakeInD = 0.0;
 
-    public static final double maxIntakeMovePID = 0.55; 
+    public static final double maxIntakeMovePID = 0.80; // .55
 
     // other game piece related constants
     public static final double intakeOutAngle = -30.0; // encoder position value when intake is out
