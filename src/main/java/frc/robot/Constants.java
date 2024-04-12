@@ -116,7 +116,7 @@ public final class Constants {
     public static final int climb = 10; 
 
     /*
-     * These are the DIO (digital input) IDs for our limit switches. We ended up only partially using one limit switch.
+     * These are the DIO (digital input) IDs for our limit switches. We ended up only partially "using" one limit switch.
      * There should also be a way to connect limit switches to the motor controllers. 
      */
     // limit switch IDs

@@ -63,7 +63,9 @@ public class RobotContainer {
 
   private final SendableChooser<Command> autoChooser;
 
-  // The robot's subsystems and commands are defined here...
+  /*
+   * Define all the subsystems.
+   */
   private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(), "swerve"));
   private final ShootSubsystem shootSubsystem = new ShootSubsystem();
   private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
@@ -71,15 +73,20 @@ public class RobotContainer {
   //private final ClimbSubsystem climbSubsystem = new ClimbSubsystem();
   //private final LimelightSubsystem limelightSubsystem = new LimelightSubsystem();
 
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  /*
+   * Define our two controllers for the drive team. 
+   */
   PS4Controller driveController = new PS4Controller(0);
   PS4Controller pieceController = new PS4Controller(1);
+
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
    */
   public RobotContainer() {
 
-    // register named commands for PathPlanner
+    /*
+     * Register all Named Commands for PathPlanner
+     */
     NamedCommands.registerCommand("ramp", 
       new ShootCommand(shootSubsystem, PieceConstants.leftSpeakerPower * PieceConstants.signLeftShoot, 
         PieceConstants.rightSpeakerPower * PieceConstants.signRightShoot).withTimeout(1));
@@ -135,11 +142,17 @@ public class RobotContainer {
           PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD))
         .withTimeout(3));
 
+    /*
+     * Create an autoChooser, so we can select which autonomous routine we want to run. 
+     */
     autoChooser = AutoBuilder.buildAutoChooser();
 
     SmartDashboard.putData("Auto Chooser", autoChooser);
     
-    // Configure the trigger bindings
+    /*
+     * Configure our button bindings.
+     * You can find it below. 
+     */
     configureBindings();
 
     // Applies deadbands and inverts controls because joysticks are back-right positive while robot
@@ -164,6 +177,17 @@ public class RobotContainer {
         !RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
   }
 
+  /*
+   * This is where we declare all of our button bindings and specify what they do. 
+   * 
+   * Use the Trigger class.
+   * 
+   * .whileTrue makes the command run continuously until the button is pressed.
+   * An end condition is not strictly necesary. 
+   * 
+   * .onTrue makes the command run as soon as the button is pressed. 
+   * An end condition is necessary. 
+   */
   private void configureBindings() {
 
     // drive controller - PS4 Button, Options, Share, L1, R1
@@ -342,15 +366,16 @@ public class RobotContainer {
     // driveController.x().whileTrue(Commands.runOnce(drivebase::lock, drivebase).repeatedly());
   }
 
+  /*
+   * This returns which autonomous routine we chose. 
+   */
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
 
-
-  public void setDriveMode() {
-    //drivebase.setDefaultCommand();
-  }
-
+  /*
+   * This sets our motors to brake mode. It is used in Robot.java. 
+   */
   public void setMotorBrake(boolean brake) {
     drivebase.setMotorBrake(brake);
   }

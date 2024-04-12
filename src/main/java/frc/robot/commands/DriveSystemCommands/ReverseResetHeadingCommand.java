@@ -1,3 +1,10 @@
+/*
+ * This does the same thing as ResetHeadingCommand.java but reverse.
+ * Refer to ResetHeadingCommand.java for comments about how it works. 
+ * 
+ * The robot's current heading becomes the backwards direction.
+ * We never used this (plus I didn't want more buttons for the drivers). I just felt like adding it. 
+ */
 package frc.robot.commands.DriveSystemCommands;
 
 import edu.wpi.first.math.geometry.Pose2d;

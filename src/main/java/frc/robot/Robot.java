@@ -2,6 +2,11 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/*
+ * THIS IS ALSO FULLY COPY PASTED FROM THE YAGSL EXAMPLE CODE.
+ * When you work on code for future seasons, you should not have to add many things here. 
+ */
+
 package frc.robot;
 
 import edu.wpi.first.cameraserver.CameraServer;
@@ -130,7 +135,6 @@ public class Robot extends TimedRobot
     {
       m_autonomousCommand.cancel();
     }
-    m_robotContainer.setDriveMode();
     m_robotContainer.setMotorBrake(true);
   }
 

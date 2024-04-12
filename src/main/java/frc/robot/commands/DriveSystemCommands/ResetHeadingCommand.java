@@ -19,9 +19,6 @@ public class ResetHeadingCommand extends Command {
     private final SwerveSubsystem drivebase;
 
     public ResetHeadingCommand (SwerveSubsystem drivebase) {
-        /*
-         * This command does not 
-         */
         this.drivebase = drivebase;
     }
 
@@ -47,7 +44,7 @@ public class ResetHeadingCommand extends Command {
 
     /*
      * Make isFinished always return true, so the command only runs once.
-     * Creating an "InstantCommand" instead of a standard "Command" would also work. 
+     * Using an "InstantCommand" instead of a standard "Command" would also work. 
      */
     @Override
     public boolean isFinished() {

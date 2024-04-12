@@ -1,3 +1,7 @@
+/*
+ * This command resets the encoder value for moving the intake system in/out. 
+ * Refer to ResetHeadingCommand.java for comments about how it works. 
+ */
 package frc.robot.commands.IntakeSystemCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;

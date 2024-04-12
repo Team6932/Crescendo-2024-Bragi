@@ -1,5 +1,7 @@
 /*
  * This is a command used for shooting towards the speaker. 
+ * PassCommand and AmpCommand are the exact same (same comments and criticisms).
+ * There should definitely be a better way to program this (it worked, and I didn't want to change it).
  */
 
 package frc.robot.commands.ShootingSystemCommands;
@@ -25,9 +27,10 @@ public class SpeakerCommand extends Command{
 
     /*
      * The inputs for this command include the required subsystems and the power settings.
+     * 
      * This was a bad choice because this command is specifically for the speaker.
      * The doubles (motor power settings) do not need to be input parameters. 
-     * You can simply use the constants from the Constants.java file. 
+     * You can use the constants from Constants.java directly in this command. 
      */
     public SpeakerCommand(IntakeSubsystem intakeSubsystem, ShootSubsystem shootSubsystem, 
             double leftShoot, double rightShoot, double leftFeed, double rightFeed) {
