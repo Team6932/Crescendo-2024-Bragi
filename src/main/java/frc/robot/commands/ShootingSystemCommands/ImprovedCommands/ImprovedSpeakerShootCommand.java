@@ -1,8 +1,12 @@
 /*
  * This is one better way of programming a command designed to shoot for the speaker. 
+ * Instead of having motor powers as an input parameter, they are directly set in this file. 
+ * This can greatly reduce the amount of inefficient text in RobotContainer.java. 
+ * 
+ * The functionality of the command is not changed. 
  */
 
-package frc.robot.commands.ImprovedCommands;
+package frc.robot.commands.ShootingSystemCommands.ImprovedCommands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;

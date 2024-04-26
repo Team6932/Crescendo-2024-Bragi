@@ -1,7 +1,10 @@
 /*
  * This is a command used for shooting towards the speaker. 
  * PassCommand and AmpCommand are the exact same (same comments and criticisms).
- * There should definitely be a better way to program this (it worked, and I didn't want to change it).
+ * 
+ * I have created two improved versions of shooting commands. They are under the ImprovedCommands folder. 
+ * ImprovedSpeakerShootCommand.java provides a better way for programming a command that only shoots at the speaker.
+ * ImprovedGeneralShootCommand.java provides a better way for programming a command that can shoot at multiple settings.
  */
 
 package frc.robot.commands.ShootingSystemCommands;
