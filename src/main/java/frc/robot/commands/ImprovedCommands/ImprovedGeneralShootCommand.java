@@ -4,8 +4,8 @@
 
 package frc.robot.commands.ImprovedCommands;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.PieceConstants;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -13,7 +13,7 @@ import frc.robot.subsystems.ShootSubsystem;
 
 public class ImprovedGeneralShootCommand extends Command{
     /*
-     * This commmand uses two subsystems, a lot of doubles, three double arrays, a boolean, a string and a timer. 
+     * This commmand uses two subsystems, a lot of doubles, three double arrays, two booleans, a string and a timer. 
      */
     private final IntakeSubsystem intakeSubsystem;
     private final ShootSubsystem shootSubsystem;
@@ -30,6 +30,8 @@ public class ImprovedGeneralShootCommand extends Command{
 
     private boolean spaghettiIfStatement;
     private Timer time = new Timer();
+
+    private boolean shootModeIssue;
 
     private String shootMode;
 
@@ -50,6 +52,7 @@ public class ImprovedGeneralShootCommand extends Command{
     public void initialize() {
         spaghettiIfStatement = true;
         time.reset();
+        shootModeIssue = false;
         
         if (shootMode == "speaker") {
             leftShoot = speakerPowers[0];
@@ -73,7 +76,7 @@ public class ImprovedGeneralShootCommand extends Command{
             rightShoot = 0.0;
             leftFeed = 0.0;
             rightFeed = 0.0;
-            SmartDashboard.putBoolean("InvalidShootMode", true);
+            shootModeIssue = true;
         }
 
         leftShoot *= PieceConstants.signLeftShoot;
@@ -109,6 +112,10 @@ public class ImprovedGeneralShootCommand extends Command{
 
         } else {
             intakeSubsystem.intake(0, 0);
+        }
+
+        if (shootModeIssue) {
+            DriverStation.reportWarning("InvalidShootMode", false);
         }
     }
 

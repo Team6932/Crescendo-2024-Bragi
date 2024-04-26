@@ -200,11 +200,13 @@ public class RobotContainer {
     Trigger testAmp = new Trigger(() -> driveController.getCrossButton());
     Trigger testPass = new Trigger(() -> driveController.getTriangleButton());
     Trigger testImprovedSpeaker = new Trigger(() -> driveController.getSquareButton());
+    Trigger testShootModeError = new Trigger(() -> driveController.getR2Button());
 
     testSpeaker.whileTrue(new ImprovedGeneralShootCommand(intakeSubsystem, shootSubsystem, "speaker"));
     testAmp.whileTrue(new ImprovedGeneralShootCommand(intakeSubsystem, shootSubsystem, "amp"));
     testPass.whileTrue(new ImprovedGeneralShootCommand(intakeSubsystem, shootSubsystem, "pass"));
     testImprovedSpeaker.whileTrue(new ImprovedSpeakerShootCommand(intakeSubsystem, shootSubsystem));
+    testShootModeError.whileTrue(new ImprovedGeneralShootCommand(intakeSubsystem, shootSubsystem, "hello"));
 
 
     //Trigger climbUp = new Trigger(() -> driveController.getTriangleButton()); // if Triangle on drive, move climber up
