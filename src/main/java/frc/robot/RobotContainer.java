@@ -26,6 +26,8 @@ import frc.robot.Constants.PieceConstants;
 //import frc.robot.commands.ClimbSystemCommands.ClimbCommand;
 import frc.robot.commands.DriveSystemCommands.ResetHeadingCommand;
 import frc.robot.commands.DriveSystemCommands.ReverseResetHeadingCommand;
+import frc.robot.commands.ImprovedCommands.ImprovedGeneralShootCommand;
+import frc.robot.commands.ImprovedCommands.ImprovedSpeakerShootCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeInCommand;
 import frc.robot.commands.IntakeSystemCommands.IntakeOutCommand;
@@ -192,6 +194,17 @@ public class RobotContainer {
 
     // drive controller - PS4 Button, Options, Share, L1, R1
     // piece controller - PS4 Button, Options, L1, R1, L2, R2, D-Up, D-Down, D-Left, Triangle, Square, Cross
+
+
+    Trigger testSpeaker = new Trigger(() -> driveController.getCircleButton());
+    Trigger testAmp = new Trigger(() -> driveController.getCrossButton());
+    Trigger testPass = new Trigger(() -> driveController.getTriangleButton());
+    Trigger testImprovedSpeaker = new Trigger(() -> driveController.getSquareButton());
+
+    testSpeaker.whileTrue(new ImprovedGeneralShootCommand(intakeSubsystem, shootSubsystem, "speaker"));
+    testAmp.whileTrue(new ImprovedGeneralShootCommand(intakeSubsystem, shootSubsystem, "amp"));
+    testPass.whileTrue(new ImprovedGeneralShootCommand(intakeSubsystem, shootSubsystem, "pass"));
+    testImprovedSpeaker.whileTrue(new ImprovedSpeakerShootCommand(intakeSubsystem, shootSubsystem));
 
 
     //Trigger climbUp = new Trigger(() -> driveController.getTriangleButton()); // if Triangle on drive, move climber up
