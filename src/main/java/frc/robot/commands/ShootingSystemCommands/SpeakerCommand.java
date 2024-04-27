@@ -45,6 +45,16 @@ public class SpeakerCommand extends Command{
         this.rightFeed = rightFeed;
         addRequirements(intakeSubsystem, shootSubsystem);
     }
+    /*
+     * Explanation of "this.variable = variable;"
+     * 
+     * "this" refers to this SpeakerCommand.java file. 
+     * "this.leftShoot" refers to the "private double leftShoot" I established at the top of this file.
+     * " = leftshoot;" refers to the "double leftShoot" in the class constructor (one of the input parameters).
+     * 
+     * "this.leftShoot = leftShoot;" means that the "leftShoot" value used in this file will be set
+     * to whatever value is inputted for "leftShoot" in RobotContainer.java. 
+     */
 
     /*
      * This resets the timer and sets the boolean to be true.

@@ -16,7 +16,7 @@ public class IntakeInCommand extends Command {
 
     /* 
      * The input parameters include the subsystem and the PID constants. 
-     * The parameters have the same flaw as SpeakerCommand.java. 
+     * The parameters have the same flaw as SpeakerCommand.java (I don't know why I really liked having inefficient inputs). 
      * Since this is specifically for moving the intake system out, we can directly call the PID settings from Constants.java. 
      */
     public IntakeInCommand(IntakeMoveSubsystem intakeMoveSubsystem, double angle, double P, double I, double D) {
