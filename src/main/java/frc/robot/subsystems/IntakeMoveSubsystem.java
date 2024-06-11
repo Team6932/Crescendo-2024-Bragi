@@ -94,7 +94,7 @@ public class IntakeMoveSubsystem extends SubsystemBase {
      * This returns a boolean that says if the encoder value is getting off. 
      */
     public boolean getNeedReset() {
-        if (getIntakeEncoder() > 0.8) { // arbitrary encoder value I believe will cause issues
+        if (getIntakeEncoder() > 0.8 || getIntakeEncoder() < -35.0) { // arbitrary encoder value I believe will cause issues
             return true;
         } else {
             return false;
