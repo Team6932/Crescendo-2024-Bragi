@@ -10,15 +10,15 @@ I began the season by trying to understand how programming in Java worked for FR
 
 Starting off, I knew about updating VS Code and Driver Station. I had no idea what other software I would need to use or download. 
 
-- When the copy-pasted code wasn't working, I had to manage vendor libraries in VS Code. 
+- Copy-psated code wasn't working: managed vendor libraries in VS Code. 
 
-- When the robot didn't seem to be working at all, I imaged the roboRIO with the roboRIO Imaging Tool. 
+- Robot didn't seem to be working: imaged the roboRIO with the roboRIO Imaging Tool. 
 
-- When the SPARK MAX Motor Controllers weren't connecting, I used the REV Hardware Client to configure all of the CAN IDs. That took quite a long time since I was using some bad-quality cables that didn't always connect properly. I also had to deal with reconfiguring motor controllers with the same ID stuck underneath the robot. 
+- SPARK MAX Motor Controllers weren't connecting: used the REV Hardware Client to configure all of the CAN IDs. That took quite a long time since I was using some bad-quality cables that didn't always connect properly. I also had to deal with reconfiguring motor controllers with the same ID stuck underneath the robot. 
 
-- When the radio wasn't connecting, I reconfigured it with the FRC Radio Configuration Utility. 
+- Radio wasn't connecting: reconfigured it with the FRC Radio Configuration Utility. 
 
-- When the LimeLight wasn't connecting, I tried to set static IPs to everything. The static IPs were working, but the Limelight still wasn't working. I didn't want to accidentally mess something else up while working on the LimeLight, so I stopped trying to make a vision system (I was also doing this while we were in the pits at our State Competition). 
+- LimeLight wasn't connecting: set static IPs to everything. The static IPs were working, but the Limelight still wasn't working. I didn't want to accidentally mess something else up while working on the LimeLight, so I stopped trying to make a vision system (I was also doing this while we were in the pits at our State Competition). 
 
 # Swerve Drive
 
