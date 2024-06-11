@@ -10,7 +10,7 @@ I began the season by trying to understand how programming in Java worked for FR
 
 Starting off, I knew about updating VS Code and Driver Station. I had no idea what other software I would need to use or download. 
 
-- Copy-psated code wasn't working: managed vendor libraries in VS Code. 
+- Copy-pasted code wasn't working: managed vendor libraries in VS Code. 
 
 - Robot didn't seem to be working: imaged the roboRIO with the roboRIO Imaging Tool. 
 
