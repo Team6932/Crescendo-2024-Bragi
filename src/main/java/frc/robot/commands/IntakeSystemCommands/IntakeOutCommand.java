@@ -34,7 +34,7 @@ public class IntakeOutCommand extends Command{
 
     @Override
     public void end (boolean interrupted) {
-        intakeMoveSubsystem.simpleIntakeMove(0);
+        intakeMoveSubsystem.simpleIntakeMove(0.0);
     }
 
     @Override 

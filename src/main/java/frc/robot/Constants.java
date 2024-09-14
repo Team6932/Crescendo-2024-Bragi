@@ -70,7 +70,7 @@ public final class Constants {
     public static final double RIGHT_Y_DEADBAND = 0.15;
     public static final double TURN_CONSTANT    = 6;
 
-    public static final double drivePowerPercent = 1.00;
+    public static final double drivePowerPercent = 0.75;
     public static final double turnPowerPercent = 0.85;
   }
 
