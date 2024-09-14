@@ -1,8 +1,17 @@
 /*
  * This is another way of programming the robot to shoot.
+ * This one command can be used for all of our shooting purposes. 
+ * This can greatly reduce the amount of inefficient text in RobotContainer.java. 
+ * 
+ * There are multiple arrays that contain information about each power setting we want to shoot at. 
+ * The power settings are from Constants.java. 
+ * Currently, Pass is full power, Speaker is high power, and Amp is low power
+ * If you want to add more power settings, simply create more arrays. 
+ * 
+ * The functionality of the command is not changed. 
  */
 
-package frc.robot.commands.ImprovedCommands;
+package frc.robot.commands.ShootingSystemCommands.ImprovedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
@@ -36,7 +45,7 @@ public class ImprovedGeneralShootCommand extends Command{
     private String shootMode;
 
     /*
-     * The inputs for this command only include the required subsystems.
+     * The inputs for this command include the required subsystems and a string.
      */
     public ImprovedGeneralShootCommand(IntakeSubsystem intakeSubsystem, ShootSubsystem shootSubsystem, String shootMode) {
         this.intakeSubsystem = intakeSubsystem;
@@ -47,6 +56,13 @@ public class ImprovedGeneralShootCommand extends Command{
 
     /*
      * This resets the timer and sets the boolean to be true.
+     * Depending on the input string, the power settings used in this command will be set to one of the double arrays. 
+     * 
+     * If the input string is not valid (not speaker, amp, or pass), set all power settings to 0 and shootModeIssue to true. 
+     * 
+     * Multiply the power settings by 1 or -1.
+     * Since we changed how we mounted our motors relatively frequently, I had to invert/uninvert motors a lot. 
+     * Changing a constant from (1 to -1) or (-1 to 1) is a lot easier than adding/removing negatives everywhere. 
      */
     @Override
     public void initialize() {
@@ -93,6 +109,8 @@ public class ImprovedGeneralShootCommand extends Command{
      * When the boolean is false, the motors on the intake will start running and feed the note into the shooter wheels.
      * 
      * If the shooter wheels have been running for a while and have not reached the desired speed, the intake will start running.
+     * 
+     * If we did not receive a valid input string (shootModeIssue), display a warning to DriverStation. 
      */
     @Override
     public void execute() {

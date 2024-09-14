@@ -1,115 +1,65 @@
-# Yet Another Generic Swerve Library (YAGSL) Example project
+# Development of the FRC 6932 BRAGI robot during 2024 Crescendo
 
-YAGSL is intended to be an easy implementation of a generic swerve drive that should work for most
-square swerve drives. The project is documented
-on [here](https://github.com/BroncBotz3481/YAGSL/wiki). The JSON documentation can also be
-found [here](docs/START.md)
+This is the code written for the 2024 FRC Crescendo season by FRC 6932 SMART Sylva, NC. The code for this season was written by one person (not a good idea). The steps I took are explained below. 
 
-This example is intended to be a starting place on how to use YAGSL. By no means is this intended to
-be the base of your robot project. YAGSL provides an easy way to generate a SwerveDrive which can be
-used in both TimedRobot and Command-Based Robot templates.
+# Learning
 
+I began the season by trying to understand how programming in Java worked for FRC (I had no clue what I was doing). I went through our team's old robot code for previous seasons (none were command-based). I also went through our one command-based robot, a small robot from our most recent summer camp. With help from YouTube videos, official APIs, and code from other teams, I started to understand what I was doing. I tried to rewrite the swerve drive code from that summer camp. 
 
-# Overview
+# Robot and Laptop Setup
 
-### Installation
+Starting off, I knew about updating VS Code and Driver Station. I had no idea what other software I would need to use or download. 
 
-Vendor URL:
+- Copy-pasted code wasn't working: managed vendor libraries in VS Code. 
 
-```
-https://broncbotz3481.github.io/YAGSL-Lib/yagsl/yagsl.json
-```
+- Robot didn't seem to be working: imaged the roboRIO with the roboRIO Imaging Tool. 
 
-[Javadocs here](https://broncbotz3481.github.io/YAGSL/)  
-[Library here](https://github.com/BroncBotz3481/YAGSL/)  
-[Code here](https://github.com/BroncBotz3481/YAGSL/tree/main/swervelib)  
-[WIKI](https://github.com/BroncBotz3481/YAGSL/wiki)  
-[Config Generation](https://broncbotz3481.github.io/YAGSL-Example/)
+- SPARK MAX Motor Controllers weren't connecting: used the REV Hardware Client to configure all of the CAN IDs. That took quite a long time since I was using some bad-quality cables that didn't always connect properly. I also had to deal with reconfiguring motor controllers with the same ID stuck underneath the robot. 
 
-# Create an issue if there is any errors you find!
+- Radio wasn't connecting: reconfigured it with the FRC Radio Configuration Utility. 
 
-We will be actively montoring this and fix any issues when we can!
+- LimeLight wasn't connecting: set static IPs to everything. The static IPs were working, but the Limelight still wasn't working. I didn't want to accidentally mess something else up while working on the LimeLight, so I stopped trying to make a vision system (I was also doing this while we were in the pits at our State Competition). 
 
-## Development
+# Swerve Drive
 
-* Development happens here on `YAGSL-Example`. `YAGSL` and `YAGSL-Lib` are updated on a nightly
-  basis.
+The first project was getting swerve drive to work. I figured our summer camp code would work, so I basically copy-pasted a lot of it into the 2024 WPILib version of VS Code. After the robot frame came together, I started testing. They did not go successfully. Either the robot would only go forward/backward or only spin in place. 
 
-# Support our developers!
-<a href='https://ko-fi.com/yagsl' target='_blank'><img height='35' style='border:0px;height:46px;' src='https://az743702.vo.msecnd.net/cdn/kofi3.png?v=0' border='0' alt='Buy Me a Robot at ko-fi.com'></a>
+With help from our mentors, we started working with the YAGSL template and resources from FRC 3481 Bronc Botz. It still didn't work, but at least it could move and turn simultaneously. At this point, we started working on setting angle offsets for each swerve module. This ended up being a long struggle. Our mentors and I spent quite a long time reading Shuffleboard and Phoenix Tuner X (CANCoder) values while trying to establish offsets and inversions. When one of our mentors discovered Advantage Scope, we could easily visualize what our robot was doing compared to what it thought it was doing. Afterward, swerve drive finally worked. 
 
-### TL;DR Generate and download your configuration [here](https://broncbotz3481.github.io/YAGSL-Example/) and unzip it so that it follows structure below:
+# Shooting Mechanism and Command-Based Programming
 
-```text
-deploy
-└── swerve
-    ├── controllerproperties.json
-    ├── modules
-    │   ├── backleft.json
-    │   ├── backright.json
-    │   ├── frontleft.json
-    │   ├── frontright.json
-    │   ├── physicalproperties.json
-    │   └── pidfproperties.json
-    └── swervedrive.json
-```
+The second project was working on our simple shooting mechanism (it was the second thing we finished building). While working with swerve drive, I didn't really learn much about command-based programming since it was just a lot of copy-pasting. I started with programming a timed-based shoot command (deleted). 
 
-### Then create your SwerveDrive object like this.
+In an effort to figure out command-based programming, I watched more YouTube videos and copy-pasted a simple example. I understood the basics, so I created ShootSubsystem.java and ShootCommand.java. These started off being very simple. The subsystem only created the motor controllers and included a method that set the motors to input power levels. The command turned the motors on or off depending on if a button was pressed. 
 
-```java
-import java.io.File;
-import edu.wpi.first.wpilibj.Filesystem;
-import swervelib.parser.SwerveParser;
-import swervelib.SwerveDrive;
-import edu.wpi.first.math.util.Units;
+As I got better at programming for FRC, I started working with encoders. The subsystem was modified to include methods that got encoder values and showed if the motor speed was fast enough for a desired action. 
 
+# Intake Mechanism and Climb Mechanism
 
-SwerveDrive swerveDrive=new SwerveParser(new File(Filesystem.getDeployDirectory(),"swerve")).createSwerveDrive(Units.feetToMeters(14.5));
-```
+The development of these two mechanisms was similar to the shooter. I started off with very simple commands that turned on and off depending on whether a button was held or released. The climb mechanism was scrapped when our team had mechanical failures. The intake mechanism is comprised of two parts. One part spins the wheels that suck up the game piece, and the other moves the entire intake over the bumper. 
 
-# Migrating Old Configuration Files
+The part that spun the wheels remained relatively unchanged. The main additions were getting the encoder and limit switch values. 
 
-1. Delete `wheelDiamter`, `gearRatio`, `encoderPulsePerRotation` from `physicalproperties.json`
-2. Add `optimalVoltage` to `physicalproperties.json`
-3. Delete `maxSpeed` and `optimalVoltage` from `swervedrive.json`
-4. **IF** a swerve module doesn't have the same drive motor or steering motor as the rest of the
-   swerve drive you **MUST** specify a `conversionFactor` for BOTH the drive and steering motor in
-   the modules configuration JSON file. IF one of the motors is the same as the rest of the swerve
-   drive and you want to use that `conversionFactor`, set the `conversionFactor` in the module JSON
-   configuration to 0.
-5. You MUST specify the maximum speed when creating a `SwerveDrive`
-   through `new SwerveParser(directory).createSwerveDrive(maximumSpeed);`
-6. IF you do not want to set `conversionFactor` in `swervedrive.json`. You can pass it into the
-   constructor as a parameter like this
+Moving the intake in/out was a larger challenge. Initially, one button made it move out, and the other made it move in. It was fully manual, resulting in slow and inconsistent movement. The next step was making it move automatically with PID controls. One accident happened when I extremely stretched the chain during testing. I also set the PID to move to the wrong setpoint since I did not read the encoder values. After I determined the correct setpoints and learned about end conditions for commands, the PID controls began to work. Later in the season, I kept increasing the max speed so we could be even faster. 
 
-```java
-double DriveConversionFactor = SwerveMath.calculateMetersPerRotation(Units.inchesToMeters(WHEEL_DIAMETER), GEAR_RATIO, ENCODER_RESOLUTION);
-double SteeringConversionFactor = SwerveMath.calculateDegreesPerSteeringRotation(GEAR_RATIO, ENCODER_RESOLUTION);
-SwerveDrive swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, SteeringConversionFactor, DriveConversionFactor);
-```
+# Autonomous Programming
 
-### Falcon Support would not have been possible without support from Team 1466 Webb Robotics!
+Our coach gave me the idea to use PathWeaver, a program that creates trajectories for the robot to follow. As I did more research, I found that PathPlanner would be more effective since it had support for swerve drive. When I installed PathPlanner, I had no idea what I was doing. 
 
-# Configuration Tips
+Luckily, the basic setup was already completed in the code I copy-pasted for swerve drive. Then, I registered the commands for the shooting and intake mechanisms. I started with very simple Paths and Autos. Over time, I got more experience and started working with end states, rotation targets, event markers, speed constraints, and starting state previews. 
 
-### My Robot Spins around uncontrollably during autonomous or when attempting to set the heading!
+# Vision
 
-* Invert the gyro scope.
-* Invert the drive motors for every module. (If front and back become reversed when turning)
+At the beginning of the season, one of the goals was to automatically get and shoot game pieces. This would be done through a vision system (LimeLight). I only began working on vision later on in the season when the code was working. I had fun messing around with vision for like a day, but we had higher priorities (the robot was falling apart). In the end, vision never became a reality. 
 
-### Angle motors are erratic.
+# Competition Developments
 
-* Invert the angle motor.
+The first iteration of our shooting procedure was to turn the shooter motors on, wait for one second, and then feed the piece to the shooter motors by reversing the intake motors. This felt very inefficient, so I built off of ShootCommand.java and made SpeakerCommand.java. When the shooter motors got up to speed, the intake motors would feed the piece. This made shooting much faster. I created separate files for SpeakerCommand, AmpCommand, and PassCommand because I wanted RobotContainer.java to be more organized. However, these commands still had power settings as inputs (very inefficient use of text space). As I wrote my Programming Tips/Guide document, I wrote improved versions of these commands that are more efficient with space. 
 
-### My robot is heavy.
+Field-oriented drive was a major priority because it would allow us to control the robot much more effectively. At our first competition, we had lots of issues. We had a broken intake, metal shavings in the roboRIO, navX sensor connection issues, and the battery was sliding around like crazy (enough for the safety inspectors to become our besties). To allow the drivers to reset the heading in case errors got too extreme, I made ResetHeadingCommand.java. This malfunctioned at our first competition because the command never ended. After getting a better understanding of end conditions, this worked as intended. 
 
-* Implement momentum velocity limitations in SwerveMath.
+At our State Competition, our drivers were slow to react whenever something malfunctioned. I made additions to the intake and shoot subsystems that would allow our drivers to know if there were issues with the motors. This was done by using encoder values. 
 
-### Ensure the IMU is centered on the robot
+# Final Thoughts
 
-# Maintainers
-- @thenetworkgrinch
-- @Technologyman00 
-
-# Special Thanks to Team 7900! Trial N' Terror
-Without the debugging and aid of Team 7900 the project could never be as stable or active as it is. 
+During the season, my team definitely put too much faith in me. While there were fewer programming errors compared to mechanical failures or design oversights, many issues could have been avoided with more testing. They could have also been avoided if there was more than one person working on the code. Some mistakes were made because I simply did not have enough experience. I had prior coding experience (MATLAB, R, Python) but had no idea what I was doing with Java. Other mistakes were made because there was no one to peer review my inefficient or flawed code. 

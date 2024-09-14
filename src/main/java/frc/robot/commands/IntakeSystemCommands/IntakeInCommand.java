@@ -1,5 +1,11 @@
 /*
  * This automatically moves our intake system out using PID. 
+ * 
+ * This command is not dummy proof if you try to run it without properly resetting the encoder value.
+ * The encoder value should be 0 when the intake is retracted. 
+ * 
+ * Mechanical switches are the best way to make this safer. The encoder values could also be set to specific values 
+ * when switches are triggered. This way, the human drivers do not have to worry about resetting values. 
  */
 package frc.robot.commands.IntakeSystemCommands;
 
@@ -16,7 +22,7 @@ public class IntakeInCommand extends Command {
 
     /* 
      * The input parameters include the subsystem and the PID constants. 
-     * The parameters have the same flaw as SpeakerCommand.java. 
+     * The parameters have the same flaw as SpeakerCommand.java (I don't know why I really liked having inefficient inputs). 
      * Since this is specifically for moving the intake system out, we can directly call the PID settings from Constants.java. 
      */
     public IntakeInCommand(IntakeMoveSubsystem intakeMoveSubsystem, double angle, double P, double I, double D) {

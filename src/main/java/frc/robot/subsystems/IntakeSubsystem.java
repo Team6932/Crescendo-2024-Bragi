@@ -17,7 +17,7 @@ import frc.robot.Constants.PieceConstants;
 public class IntakeSubsystem extends SubsystemBase{
 
     /*
-     * This uses two SparkMAX Motor Controllers, two encoders, and a limit switch. 
+     * This uses two SparkMAX Motor Controllers, two encoders, and a limit switch (digital input). 
      */
     private final CANSparkMax leftIntakeMotor = new CANSparkMax(PieceConstants.intakeLeftUpId, MotorType.kBrushless);
     private final CANSparkMax rightIntakeMotor = new CANSparkMax(PieceConstants.intakeRightDownId, MotorType.kBrushless);
