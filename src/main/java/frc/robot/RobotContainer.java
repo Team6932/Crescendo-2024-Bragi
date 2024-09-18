@@ -251,34 +251,34 @@ public class RobotContainer {
       PieceConstants.rightPassFeedPower * PieceConstants.signRightDownFeed));
 
     // if L1 on piece, automatically intake a piece
-    /*Trigger intake = new Trigger(() -> pieceController.getL1Button()); 
+    Trigger intake = new Trigger(() -> pieceController.getL1Button()); 
     intake.onTrue(new ParallelCommandGroup(
       new ManualIntakeCommand(intakeSubsystem, PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
         PieceConstants.rightDownIntakePower * PieceConstants.signRightDownIntake), 
       new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
         PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD)));
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
-      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));*/
-    /*intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
+      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));
+    intake.whileTrue(new ManualIntakeCommand(intakeSubsystem, -PieceConstants.leftUpIntakePower, PieceConstants.rightDownIntakePower));
     intake.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
     intake.onFalse(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
-      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));*/
+      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));
 
     // if D-Pad up on piece, auto move intake out; if D-Pad down on piece, auto move intake in
-    /*Trigger autoIntakeOut = new Trigger (() -> pieceController.getPOV() == 0); 
+    Trigger autoIntakeOut = new Trigger (() -> pieceController.getPOV() == 0); 
     Trigger autoIntakeIn = new Trigger (() -> pieceController.getPOV() == 180); 
     autoIntakeOut.onTrue(new IntakeOutCommand(intakeMoveSubsystem, PieceConstants.intakeOutAngle, 
       PieceConstants.intakeOutP, PieceConstants.intakeOutI, PieceConstants.intakeOutD));
     autoIntakeIn.onTrue(new IntakeInCommand(intakeMoveSubsystem, PieceConstants.intakeInAngle, 
-      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD)); */
+      PieceConstants.IntakeInP, PieceConstants.intakeInI, PieceConstants.intakeInD));
 
     // manual intake system
     Trigger manualIntake = new Trigger(() -> pieceController.getTriangleButton()); // if Triangle on piece, turn on intake
-    /*Trigger manualIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, manually move intake out
+    Trigger manualIntakeOut = new Trigger(() -> pieceController.getSquareButton()); // if Square on piece, manually move intake out
     Trigger manualIntakeIn = new Trigger(() -> pieceController.getCrossButton()); // if Cross on piece, manually move intake in
     manualIntakeOut.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, -PieceConstants.intakeMovePower));
-    manualIntakeIn.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));*/
+    manualIntakeIn.whileTrue(new ManualIntakeMoveCommand(intakeMoveSubsystem, PieceConstants.intakeMovePower));
     manualIntake.whileTrue(new ManualIntakeCommand(intakeSubsystem, 
       PieceConstants.leftUpIntakePower * PieceConstants.signLeftUpIntake, 
       PieceConstants.rightDownIntakePower * PieceConstants.signRightDownIntake));
